@@ -1,0 +1,377 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<!-- main主体 -->
+<div id="reservation" class="main">
+  <div class="index" id="index">
+    <!--header-->
+    <div class="header-top textaling">
+      <div @click="changeCity" class="city-position">
+        <dl>
+          <dt class="city-name">{{ cityName }}</dt>
+          <dd class="inverted-triangle"><img src="/wx/static/images/city-position.png" alt="back-img"></dd>
+        </dl>
+      </div>
+      <div class="project-title">
+        <input @click="search" placeholder="请输入搜索内容" class="index-search" type="text" name="search">
+        <i class="search-img"></i>
+      </div>
+    </div>
+    <!--banner-->
+    <div id="mescroll" class="mescroll index-list">
+      <div class="banner">
+        <div class="banner-list">
+          <div id="banner-container" class="swiper-container">
+            <div class="swiper-wrapper">
+              <div v-for="item in bannerImg" class="swiper-slide textaling">
+                <a :href="item.url">
+                  <img :src="item.src" alt="活动">
+                </a>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!--家政服务-->
+      <div class="service-list">
+        <div class="service-detail">
+          <ul>
+            <a v-if="index == 1005" v-for="(index,item) in serviceOptions" :href='"/wx/cleaning-service.html"'>
+              <li class="fl textaling">
+                <img v-if="index == 1005" src="/wx/static/images/baojie-wx.png" alt="item">
+                <img v-if="index == 1006" src="/wx/static/images/zhongdiangong.png" alt="item">
+                <img v-if="index == 1003" src="/wx/static/images/baomu.png" alt="item">
+                <img v-if="index == 1004" src="/wx/static/images/hugong.png" alt="item">
+                <img v-if="index == 1002" src="/wx/static/images/yuyingshi.png" alt="item">
+                <img v-if="index == 1001" src="/wx/static/images/yuesao.png" alt="item">
+                <p class="textaling">{{ item }}</p>
+              </li>
+            </a>
+            <a v-if="index != 1005" v-for="(index,item) in serviceOptions"
+               :href='"/wx/reservation.html?code=" + index'>
+              <li class="fl textaling">
+                <img v-if="index == 1005" src="/wx/static/images/baojie-wx.png" alt="item">
+                <img v-if="index == 1006" src="/wx/static/images/zhongdiangong.png" alt="item">
+                <img v-if="index == 1003" src="/wx/static/images/baomu.png" alt="item">
+                <img v-if="index == 1004" src="/wx/static/images/hugong.png" alt="item">
+                <img v-if="index == 1002" src="/wx/static/images/yuyingshi.png" alt="item">
+                <img v-if="index == 1001" src="/wx/static/images/yuesao.png" alt="item">
+                <p class="textaling">{{ item }}</p>
+              </li>
+            </a>
+            <a href="javascript:void(0);">
+              <li class="fl textaling" @click="shopJump">
+                <img src="/wx/static/images/yiyuanhuli.png" alt="医院护理">
+                <p class="textaling">医院护理</p>
+              </li>
+            </a>
+            <a href="javascript:void(0);">
+              <li class="fl textaling" @click="shopJump">
+                <img src="/wx/static/images/private_order@2x.png" alt="私人订制">
+                <p class="textaling">私人订制</p>
+              </li>
+            </a>
+          </ul>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+      <!--生活服务-->
+      <div v-if="lifeService.length > 0" class="life-service">
+        <div class="title">
+          <dl>
+            <dt><img src="/wx/static/images/home_life@2x.png" alt="生活服务">生活服务</dt>
+          </dl>
+        </div>
+        <div class="service-list">
+          <div id="life-service-swiper" class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="service-list-modular">
+                  <ul>
+                    <li v-for="item in lifeService">
+                      <a :href="'/wx/life-service/move-home.html?id='+ item.id">
+                        <i><img :src="item.image" alt="item.name"></i>
+                        <p>{{ item.name }}</p>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="life-service-pagination swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!--用户评价-->
+      <div v-if="homeServiceEvaluate.length > 0" class="user-evaluate-index">
+        <div class="evaluate-title">
+          <dl>
+            <dt><img src="/wx/static/images/home_evaluation@2x.png" alt="今日推荐">用户评价</dt>
+            <dd><a href="/wx/domestic-service-evaluate.html">更多<img src="/wx/static/images/home_right.png" alt="更多"></a>
+            </dd>
+          </dl>
+        </div>
+        <div v-if="outerIndex == 0" v-for="(item,outerIndex) in homeServiceEvaluate" class="user-info">
+          <div class="user-evaluate-detail">
+            <div class="user-avatar">
+              <img @click="imgPreview(outerIndex,0,'openHeadImg')" :preview="outerIndex" class="openHeadImg"
+                   :src="item.head_image ? item.head_image : '/wx/static/images/commodity_shopping_loading@2x.png'"
+                   alt="用户头像">
+            </div>
+            <div class="service-type">
+              <p class="user-name">{{ item.username }}</p>
+              <p class="service-detail"><span class="service">服务</span><span
+                class="type">{{ item.service_name }}</span><span class="time">{{ setDate(item.created_at) }}</span></p>
+            </div>
+          </div>
+          <div class="evaluate-detail">
+            <p>{{ item.evaluate }}</p>
+            <div class="tar">
+              <img v-for="val in star[item.stars].options" class="fl" :src="val" alt="星级">
+            </div>
+            <div class="domestic-evaluate">
+              <img @click="imgPreview(outerIndex,index,'openImgs')" v-for="(val,index) in item.photos"
+                   :preview="outerIndex" class="openImgs" :src="val"
+                   alt="评价">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--惠生活-->
+      <div v-if="benefitLife.length > 0" class="recommend">
+        <div class="recommend-top">
+          <dl>
+            <dt>惠生活<span>HUISHENGHUO</span></dt>
+            <!--<dd><a href="javascript:void(0);">更多<img src="/wx/static/images/home_right.png" alt="更多"></a></dd>-->
+          </dl>
+        </div>
+        <div class="recommend-list">
+          <div class="recommend-list-img">
+            <ul>
+              <li @click="jumpBenefitLifeDetail(item)" v-for="item in benefitLife">
+                <img v-lazy="item.cover" src="" alt=""></li>
+            </ul>
+            <div class="clear"></div>
+          </div>
+        </div>
+        <!--<template v-if="isShowBenefitLife">-->
+        <!--<div @click="getBenefitLife" class="see-more">点击查看更多</div>-->
+        <!--</template>-->
+        <!--<template v-else>-->
+        <!--<div class="see-more">&#45;&#45;我是有底线的&#45;&#45;</div>-->
+        <!--</template>-->
+      </div>
+
+      <div class="company-slogan">
+        <img src="/wx/static/images/home_word@2x.png" alt="公司口号">
+      </div>
+    </div>
+  </div>
+</div>
+<!--footer-->
+<link rel="import" href="/wx/components/common/footer.html?__inline">
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/blank.png',
+    loading: '/wx/static/images/blank.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#index',
+    data: {
+      mescroll: null,
+      serviceOptions: SERVICE_CODE,
+      longitude: '',
+      latitude: '',
+      cityName: stores.getCityObj().name,
+      bannerImg: [],
+      activityUrl: '',
+      // 生活服务
+      lifeService: [],
+      // 惠生活
+      benefitLife: [],
+      // 惠生活分页
+      benefitLifePage: 0,
+      // 是否显示惠生活点击查看更多
+      isShowBenefitLife: true,
+      // 家政评价
+      homeServiceEvaluate: [],
+      // 星级评价
+      star: tools.starLever.star
+    },
+    methods: {
+      search: function () {
+        window.location.href = window.location.origin + '/wx/search/search.html';
+      },
+      changeCity: function () {
+        window.location.href = window.location.origin + '/wx/city.html';
+      },
+      judgmentBrowser: function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      saleDetail: function () {
+        var accessToken = stores.getValue('accessToken');
+        if (this.judgmentBrowser()) {
+          tools.alert('当前不支持微信浏览器支付，请点击右上方使用外部浏览器打开！', 'warning');
+          return false;
+        } else if (!accessToken) {
+          // 是否登录
+          redirect.remember();
+          window.location.href = window.location.origin + '/wx/login.html';
+          return false;
+        }
+        window.location.href = window.location.origin + '/wx/sale.html';
+      },
+      shopJump: function () {
+        tools.alert('功能尚在开发中！', 'warning');
+      },
+      // 获取首页banner
+      getBannerImg: function () {
+        var vm = this;
+        http.get('home-page/banner', {
+          type: 30
+        }, function (data) {
+          stores.setIndexBanner(data.values);
+          // 获取 banner
+          vm.bannerImg = stores.getIndexBanner();
+          vm.$nextTick(function () {
+            vm.bannerScroll();
+          });
+        })
+      },
+      bannerScroll: function () {
+        var mySwiper = new Swiper('#banner-container', {
+          direction: 'horizontal',
+          loop: false,
+          speed: 500,
+          autoplay: 3000,
+          // 用户操作 swiper 之后，是否禁止 autoplay 。默认为 true：停止。
+          autoplayDisableOnInteraction: false,
+          // 如果需要分页器
+          pagination: '.swiper-pagination',
+          // paginationType : 'custom',
+          // 如果需要前进后退按钮
+          nextButton: '.swiper-button-next',
+          prevButton: '.swiper-button-prev'
+          // 如果需要滚动条
+          // scrollbar: '.swiper-scrollbar',
+        })
+      },
+      // 生活服务 Swiper
+      lifeServiceSwiper: function () {
+        var mySwiper = new Swiper('#life-service-swiper', {
+          direction: 'horizontal',
+          loop: false,
+          speed: 500,
+          autoplay: 3000,
+          // 如果需要分页器
+          pagination: '.swiper-pagination',
+          //paginationType : 'custom',
+          // 如果需要前进后退按钮
+          nextButton: '.swiper-button-next',
+          prevButton: '.swiper-button-prev'
+          // 如果需要滚动条
+          //scrollbar: '.swiper-scrollbar',
+        })
+      },
+      // 获取生活服务列表
+      getLifeService: function () {
+        var vm = this;
+        http.get('life-type/list', {}, function (data) {
+          vm.lifeService = data;
+          vm.$nextTick(function () {
+            vm.lifeServiceSwiper();
+          });
+        })
+      },
+      // 获取惠生活列表
+      getBenefitLife: function () {
+        var vm = this;
+        vm.benefitLifePage++;
+        http.get('today-recommend/list', {
+          page: vm.benefitLifePage,
+          per_page: 3,
+        }, function (data) {
+          if (data.items.length <= 0) {
+            vm.isShowBenefitLife = false;
+          } else {
+            vm.benefitLife = vm.benefitLife.concat(data.items);
+          }
+        })
+      },
+      // 跳转到今日推荐详情
+      jumpBenefitLifeDetail: function (item) {
+        window.location.href = window.location.origin + '/wx/benefit-life/benefit-life-detail.html?id=' + item.id;
+      },
+      // 获取家政服务评价
+      getHomeServiceEvaluate: function () {
+        var vm = this;
+        http.get('home-page/evaluate-list', {
+          fields: 'username,head_image,evaluate,score,photos,created_at,stars',
+          expand: 'service_name,stars'
+        }, function (data) {
+          vm.homeServiceEvaluate = data.items;
+        })
+      },
+      setDate: function (timestamp) {
+        return tools.timestamp(timestamp);
+      },
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        // 获取生活服务列表
+        http.get('today-recommend/list', {
+          per_page: page.size,
+          page: page.num
+        }, function (data) {
+          // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+          // 设置列表数据
+          _this.setListData(data, page.num, true);
+        }, function () {
+          // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endErr();
+        });
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        if (isAppend && pageNum == 1) {
+          this.getLifeService();
+          this.getHomeServiceEvaluate();
+          this.benefitLife = data.items;
+        } else if (isAppend && pageNum > 1) {
+          this.benefitLife = this.benefitLife.concat(data.items);
+        }
+      },
+      // 图片预览
+      imgPreview: function (outerIndex, index, bindClass) {
+        tools.openPhotoSwipe(outerIndex, index, bindClass);
+      },
+      meScroll: function (_this, empty) {
+        _this = this;
+        empty = {
+          warpId: "mescroll",
+          icon: '/wx/static/images/blank_no_service@2x.png',
+          tip: "",
+          btntext: ""
+        };
+        tools.myScroll(_this, 5, false, false, false, empty);
+      }
+    },
+    mounted: function () {
+      this.getBannerImg();
+      // this.getBenefitLife();
+      this.meScroll();
+    }
+  });
+</script>

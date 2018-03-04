@@ -1,0 +1,144 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="evaluation" class="view" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">待评价</div>
+    <img src="/wx/static/images/back.png" class="setback" @click="back">
+    <div class="preserve color-2" @click="evaluate">发表</div>
+  </div>
+  <div class="evaluation">
+    <div class="evaluate-l">
+      <div class="shop clearfix">
+        <div class="shop-img fl">
+          <img :src="evaluation.life_goods.cover_photo">
+        </div>
+        <div class="shop-detail fl">
+          <div class="tit color-8">{{ evaluation.life_goods.name }}</div>
+          <div class="many color-h">￥{{ evaluation.life_goods.sale_price }}</div>
+        </div>
+      </div>
+      <div class="star">
+        <span class="font-3 color-8 mark">评分：</span>
+        <img @click="remark(index)" v-for="(i,index) in star" :src="i" alt="星级">
+      </div>
+      <div class="iframe">
+        <textarea placeholder="请输入您对商品的评价" v-model="text" @input="descInput"></textarea>
+        <span class="con-total color-99 fr font-4" v-if="total<201">{{ total }}/200</span>
+        <span class="con-total color-h fr font-4" v-if="total>200">评价内容不能超过200字</span>
+      </div>
+      <div class="pic-list">
+        <div class="info-pic" v-for="(item,index) in images">
+          <img :src="item">
+          <div class="delete" v-if="images.length>0" @click="deleteImg(index)">
+            <img src="/wx/static/images/suggest_del@2x.png">
+          </div>
+        </div>
+        <div class="info-pic">
+          <label style="display: block">
+            <img src="/wx/static/images/suggest_picture@2x.png">
+            <input @change="addImg()" type="file" accept="image/jpg,image/jpeg,image/png" hidden>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var lifeOrderId = http.getQuery('life_order_id');
+  new Vue({
+    el: '#evaluation',
+    data: {
+      text: '',
+      total: 0,
+      evaluation: {},
+      starAll: [
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png'
+      ],
+      star: [
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png'
+      ],
+      score: 0,
+      images: []
+    },
+    methods: {
+      // 返回上一页
+      back: function () {
+        tools.goBack();
+      },
+      // 五星评价
+      remark: function (index) {
+        this.star = this.starAll.slice(4 - index, 9 - index);
+        this.score = (index + 1) * 20
+      },
+      // 上传图片
+      addImg: function () {
+        var _this = this;
+        var file = event.target.files[0];
+        http.uploadFile('upload/upload-photos', {
+          prefix: 'avatar_url',
+          name: 'avatar',
+          'avatar[]': file
+        }, function (data) {
+          _this.images.push(data.filenames[0])
+        })
+      },
+      // 删除图片
+      deleteImg: function (index) {
+        this.images.splice(index, 1);
+      },
+      evaluate: function () {
+        if (!this.score) {
+          tools.alert('请给服务评分', 'warning');
+          return
+        }
+        if ( this.images && this.images.length > 8) {
+          tools.alert('上传图片总数不能超过8张', 'warning');
+          return
+        }
+        if (this.total > 200) {
+          tools.alert('评价字数超过最大限制', 'warning');
+          return
+        }
+        http.post('life-evaluate/add-evaluate', {
+          order_id: lifeOrderId,
+          evaluate: this.text,
+          score: this.score,
+          photos: this.images.join(',')
+        }, function () {
+          tools.confirm('发表成功', 'success', false, function () {
+            tools.goBack();
+          })
+        });
+      },
+      descInput: function () {
+        this.total = this.text.length;
+      },
+      // 获取订单信息
+      getOrder: function () {
+        var _this = this;
+        http.get('life-order/view', {
+          id: lifeOrderId,
+          expand: 'life_goods',
+          fields: 'id,pay_money,status,remark,created_at'
+        }, function (data) {
+          _this.evaluation = data
+        })
+      }
+    },
+    mounted: function () {
+      this.getOrder();
+    }
+  })
+</script>

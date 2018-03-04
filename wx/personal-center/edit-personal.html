@@ -1,0 +1,236 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="edit-personal" id="user" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">个人资料</div>
+    <img src="/wx/static/images/back.png" class="setback" @click="back">
+  </div>
+  <div class="content-con">
+    <div class="head-picture" @click="showHead">
+      <img :src="userInfo.head_url" class="head" id="" v-if="userInfo.head_url">
+      <img src="/wx/static/images/default_avatar.png" class="head" v-if="!userInfo.head_url">
+      <img src="/wx/static/images/arrow.png" class="link">
+    </div>
+    <div class="data-list" @click="turnEditUser">
+      <span class="title">姓名</span>
+      <img src="/wx/static/images/arrow.png" class="link">
+      <span class="edit">{{ userInfo.real_name }}</span>
+    </div>
+    <div class="data-list" @click="turnEditReal">
+      <span class="title">昵称</span>
+      <img src="/wx/static/images/arrow.png" class="link">
+      <span class="edit">{{ userInfo.username }}</span>
+    </div>
+    <div class="data-list" @click="showSex">
+      <span class="title">性别</span>
+      <img src="../static/images/arrow.png" class="link">
+      <span class="edit" v-if="userInfo.sex == 1">男</span>
+      <span class="edit" v-else-if="userInfo.sex == 2">女</span>
+      <span class="edit" v-else>未知</span>
+    </div>
+    <div class="data-list" @click="getProvince">
+      <span class="title">所在地</span>
+      <img src="/wx/static/images/arrow.png" class="link">
+      <span class="edit" v-if="userInfo.current_address">{{ userInfo.current_address }}</span>
+      <span class="edit" v-if="!userInfo.current_address">未知</span>
+    </div>
+    <div class="data-list">
+      <span class="title">生日</span>
+      <img src="/wx/static/images/arrow.png" class="link">
+      <input id="date" type="text" :placeholder="userInfo.birthday" readonly="readonly" class="edit day">
+    </div>
+    <div class="data-list">
+      <a @click="turnSetting">
+        <span class="title">设置密码</span>
+        <img src="/wx/static/images/arrow.png" class="link">
+      </a>
+    </div>
+  </div>
+  <!--修改性别-->
+  <div class="edit-sex" v-if="popSex" @click="cancel">
+    <div class="pop">
+      <div class="tittle">修改性别</div>
+      <div class="choose-sex" v-for="item in sex" @click="editSex(item)">
+        <input type="radio" hidden value="item.id">
+        {{item.label}}
+      </div>
+      <div class="cancel" @click="cancel">取消</div>
+    </div>
+  </div>
+  <!--修改头像-->
+  <div class="edit-head" v-if="popHead">
+    <div class="pop-header" @click="cancel"></div>
+    <div class="pop">
+      <div class="choose-head">
+        <label class="label-photo">
+          图片选择
+          <input type="file" @change="headChange" hidden name="head_url" accept="image/*">
+        </label>
+      </div>
+      <div class="cancel" @click="cancel">取消</div>
+    </div>
+  </div>
+  <!--修改所在地-->
+  <div class="edit-area" v-if="popArea">
+    <div class="pop-area" @click="cancel"></div>
+    <div class="pop">
+      <div class="choose-head">
+        <img src="/wx/static/images/back.png" @click="goBack" v-if="city">
+        选择地区
+        <div class="cancel" @click="cancel">取消</div>
+      </div>
+      <div class="areaList">
+        <div class="area-item" v-for="item in provincesList" @click="selectProvinces(item)" v-if="provinces">{{
+          item.name
+          }}
+        </div>
+        <div class="area-item" v-for="item in city" v-if="city" @click="selectCity(item)">{{ item.name }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#user',
+    data: {
+      name: '',
+      sex: [
+        {
+          label: '男',
+          id: '1'
+        },
+        {
+          label: '女',
+          id: '2'
+        }
+      ],
+      popSex: false,
+      birthday: '',
+      userInfo: {},
+      popHead: false,
+      popArea: false,
+      provincesList: [],
+      provinces: true,
+      city: false
+    },
+    methods: {
+      back: function () {
+        window.location.href = 'personal.html';
+      },
+      // 跳转到设置密码页面
+      turnSetting: function () {
+        window.location.href = 'set-password.html';
+      },
+      //修改性别
+      showSex: function () {
+        this.popSex = true
+      },
+      editSex: function (item) {
+        var _this = this;
+        http.post('user-center/update-info', {
+          sex: item.id
+        }, function () {
+          _this.getData();
+          _this.cancel();
+          tools.alert('修改成功');
+        })
+      },
+      //修改头像
+      showHead: function () {
+        this.popHead = true
+      },
+      headChange: function (e) {
+        var _this = this;
+        var file = e.target.files[0];
+        var mpImg = new MegaPixImage(file);
+        var resImg = document.getElementById('img');
+        mpImg.render(resImg, {maxWidth: 200, maxHeight: 200});
+        // 图片头像上传
+        http.uploadFile('upload/upload-photos', {
+          prefix: 'avatar_url',
+          name: 'avatar',
+          'avatar[]': file
+        }, function (data) {
+          var head_url = data.filenames[0];
+          _this.cancel();
+          if (!head_url) {
+            return alert('稍后再试');
+          }
+          // 设置头像地址
+          http.post('user-center/update-avatar', {
+            head_url: head_url
+          }, function () {
+            _this.getData();
+            tools.alert('修改成功');
+          })
+        })
+      },
+      cancel: function () {
+        this.popSex = false;
+        this.popHead = false;
+        this.popArea = false;
+        this.city = false;
+      },
+      turnEditUser: function () {
+        window.location.href = 'edit-name.html?type=1';
+      },
+      turnEditReal: function () {
+        window.location.href = 'edit-name.html?type=2';
+      },
+      // 获取个人信息
+      getData: function () {
+        var access = stores.getAccessToken();
+        var _this = this;
+        http.get('user-center/self-data', {token: access, expand: 'current_address'}, function (data) {
+          _this.userInfo = data;
+        });
+      },
+      // 获取省份
+      getProvince: function () {
+        var _this = this;
+        _this.popArea = true;
+        http.get('area/provinces', {}, function (data) {
+          _this.provincesList = data;
+          _this.provinces = true;
+        })
+      },
+      // 选择省份，获取城市
+      selectProvinces: function (item) {
+        var _this = this;
+        _this.provinces = false;
+        _this.city = true;
+        http.get('area/cities', {province_code: item.ad_code}, function (data) {
+          _this.city = data;
+        })
+      },
+      goBack: function () {
+        var _this = this;
+        _this.provinces = true;
+        _this.getProvince();
+        this.city = false;
+      },
+      // 选择城市
+      selectCity: function (item) {
+        var _this = this;
+        http.post('user-center/update-info', {ad_code: item.ad_code}, function () {
+          _this.getData();
+          _this.cancel();
+          tools.alert('修改成功');
+        });
+      }
+    },
+    mounted: function () {
+      this.getData();
+    }
+  });
+  // 生日选择
+  $('#date').jeDate({
+    format: 'YYYY-MM-DD',
+    minDate: '1700-06-16',
+    maxDate: '2099-06-16',
+    okfun: function (obj) {
+      http.post('user-center/update-info', {birthday: obj.val}, function () {
+        tools.alert('修改成功');
+      })
+    }
+  })
+</script>

@@ -1,0 +1,197 @@
+<link rel="import" href="components/common/header.html?__inline">
+<div class="pay-choice" id="pay" v-cloak>
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="pay-con">
+    <div class="price h">
+      <span class="color-8 font-3 fl">价格：</span>
+      <span class="color-h font-3 fr">￥{{ payType.money }}</span>
+    </div>
+    <div class="pay-title h font-3 color-8">选择支付方式</div>
+    <div class="list-pop" @click="choosePay(item)" v-for="item in payStyle">
+      <img :src="item.img" class="payBg">
+      <div class="pop-style wei color-8 font-3">{{ item.name }}</div>
+      <img
+        :src="item.payType == chosePayType ? '/wx/static/images/pay_circle@2x.png' : '/wx/static/images/pay_circle_grey@2x.png'"
+        class="pop-img fr">
+    </div>
+    <div class="pay-h">
+      <div class="pay color-4 font-3" @click="payMoney">确定</div>
+    </div>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#pay',
+    data: {
+      navTitle: '选择支付方式',
+      isShow: true,
+      payStyle: [
+        {
+          payType: 21,
+          img: '/wx/static/images/pay_zhifubao@2x.png',
+          name: '支付宝支付'
+        },
+        {
+          payType: 12,
+          img: '/wx/static/images/pay_weixin@2x.png',
+          name: '微信支付'
+        }
+      ],
+      // 构造付款参数
+      payType: {
+        orderId: stores.getValue('payType').orderId, // 设置需要付款的id
+        money: stores.getValue('payType').money, // 设置需要付款的金额
+        type: stores.getValue('payType').type // 设置付款类型为
+      },
+      // 选择支付方式，21是支付宝。12是微信
+      chosePayType: '',
+      // 付款成功后返回的页面
+      return_url: ''
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      // 选择支付方式
+      choosePay: function (item) {
+        this.chosePayType = item.payType
+      },
+      payMoney: function () {
+        // 判断是否登录
+        var accessToken = stores.getValue('accessToken');
+        if (!accessToken) {
+          tools.confirm('请先登录', 'warning', false, function () {
+            window.location.href = '/wx/login.html';
+          });
+          return false;
+        }
+        if (!vm.chosePayType) {
+          tools.alert('请选择付款方式', 'warning');
+          return false;
+        }
+        // 选择了微信支付直接发起微信支付
+        if (vm.chosePayType == 12) {
+          this.weChatPay();
+        } else if (vm.chosePayType == 21) {
+          // 选择了支付宝支付直接发起支付宝支付
+          this.aLiPay();
+        }
+      },
+      // 微信支付
+      weChatPay: function () {
+        // 如果是家政服务
+        if (this.payType.type == 'domestic') {
+          http.post('pay/clean-order', {
+            order_id: this.payType.orderId,
+            pay_type: 12
+          }, function (data) {
+            window.location.href = data;
+          });
+        } else if (this.payType.type == 'goods') {
+          // 如果是商品服务
+          http.post('pay/shop-order', {
+            shop_order_id: this.payType.orderId,
+            pay_type: 12
+          }, function (data) {
+            window.location.href = data;
+          });
+        } else if (this.payType.type == 'lifeService') {
+          // 如果是生活服务
+          http.post('pay/life-order', {
+            life_order_id: this.payType.orderId,
+            pay_type: 12
+          }, function (data) {
+            window.location.href = data;
+          });
+        } else if (this.payType.type == 'benefitLife') {
+          // 如果是惠生活服务
+          http.post('pay/today-recommend-order', {
+            recommend_order_id: this.payType.orderId,
+            pay_type: 12
+          }, function (data) {
+            stores.setPayStatus(true);
+            window.location.href = data;
+          });
+        } else {
+          tools.alert('未知的付款类型', error)
+        }
+      },
+      // 支付宝支付
+      aLiPay: function () {
+        if (this.payType.type == 'domestic') {
+          // 如果是家政服务
+          http.post('pay/clean-order', {
+            order_id: this.payType.orderId,
+            pay_type: 21,
+            return_url: vm.return_url
+          }, function (data) {
+            http.payFormSubmit(data);
+          });
+        } else if (this.payType.type == 'goods') {
+          // 如果是商品服务
+          http.post('pay/shop-order', {
+            shop_order_id: this.payType.orderId,
+            pay_type: 21,
+            return_url: vm.return_url
+          }, function (data) {
+            http.payFormSubmit(data);
+          });
+        } else if (this.payType.type == 'lifeService') {
+          // 如果是生活服务
+          http.post('pay/life-order', {
+            life_order_id: this.payType.orderId,
+            pay_type: 21,
+            return_url: vm.return_url
+          }, function (data) {
+            http.payFormSubmit(data);
+          });
+        } else if (this.payType.type == 'benefitLife') {
+          // 如果是惠生活服务
+          http.post('pay/today-recommend-order', {
+            recommend_order_id: this.payType.orderId,
+            pay_type: 21,
+            return_url: vm.return_url
+          }, function (data) {
+            http.payFormSubmit(data);
+          });
+        } else {
+          tools.alert('未知的付款类型', error)
+        }
+      },
+      // 检查惠生活支付状态
+      checkIsPay: function (trueCallback, falseCallback) {
+        http.post('pay/pay-success', {
+          recommend_order_id: stores.getPayOrderId()
+        }, function (data) {
+          if (data) {
+            trueCallback();
+          } else {
+            falseCallback();
+          }
+        });
+      }
+    },
+    mounted: function () {
+      var _this = this;
+      var payStatus = stores.getPayStatus();
+      if (payStatus) {
+        tools.confirm('是否已经支付完成', 'warning', true, function () {
+          stores.setPayStatus(false);
+          _this.checkIsPay(function () {
+            stores.removePayOrderId();
+            setTimeout(function () {
+              tools.confirm('支付成功，苏州蚕食智能生活服务客服会在两小时内与您联系，请保持电话畅通，谢谢！', 'success', false, function () {
+                window.location.href = window.location.origin + '/wx/pay-success.html';
+              })
+            }, 300)
+          }, function () {
+            tools.alert('暂未查询到您已支付完成，请再次确认', 'warning', 300);
+          });
+        }, function () {
+          stores.setPayStatus(false);
+        });
+      }
+      _this.return_url = window.location.origin + '/wx/pay-success.html';
+    }
+  })
+</script>

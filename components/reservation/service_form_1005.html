@@ -1,0 +1,635 @@
+<div class="row clearfix">
+  <div class="title">
+    <img src="/wx/static/images/service_frequency.png" alt="">服务选择
+  </div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1005].serviceType" value="开荒保洁" type="checkbox"/>
+          开荒保洁
+        </label>
+      </a>
+      <a style="border: none;">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1005].serviceType" value="专业擦玻璃" type="checkbox"/>
+          专业擦玻璃
+        </label>
+      </a>
+      <a style="border: none;">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1005].serviceType" value="日常保洁" type="checkbox"/>
+          日常保洁
+        </label>
+      </a>
+      <a style="border: none;">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1005].serviceType" value="空调清洗" type="checkbox"/>
+          空调清洗
+        </label>
+      </a>
+      <a style="border: none;">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1005].serviceType" value="洗衣机清洗" type="checkbox"/>
+          洗衣机清洗
+        </label>
+      </a>
+      <a style="border: none;">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1005].serviceType" value="冰箱清洗" type="checkbox"/>
+          冰箱清洗
+        </label>
+      </a>
+      <a style="border: none;">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1005].serviceType" value="油烟机清洗" type="checkbox"/>
+          油烟机清洗
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!--<div class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/ser_choice.png" alt="">服务选择</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a-->
+<!--@click="otherFormAttributes[1005].serviceType='开荒保洁';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"-->
+<!--:class="{on:otherFormAttributes[1005].serviceType=='开荒保洁'}"-->
+<!--href="javascript:void(0);">开荒保洁</a>-->
+
+<!--&lt;!&ndash;<a @click="otherFormAttributes[1005].serviceType='深度保洁';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"&ndash;&gt;-->
+<!--&lt;!&ndash;:class="{on:otherFormAttributes[1005].serviceType=='深度保洁'}"&ndash;&gt;-->
+<!--&lt;!&ndash;href="javascript:void(0);">深度保洁</a>&ndash;&gt;-->
+
+<!--<a-->
+<!--@click="otherFormAttributes[1005].serviceType='专业擦玻璃';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"-->
+<!--:class="{on:otherFormAttributes[1005].serviceType=='专业擦玻璃'}"-->
+<!--href="javascript:void(0);">专业擦玻璃</a>-->
+
+<!--<a-->
+<!--@click="otherFormAttributes[1005].serviceType='日常保洁';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"-->
+<!--:class="{on:otherFormAttributes[1005].serviceType=='日常保洁'}"-->
+<!--href="javascript:void(0);">日常保洁</a>-->
+
+<!--<a-->
+<!--@click="otherFormAttributes[1005].serviceType='空调清洗';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"-->
+<!--:class="{on:otherFormAttributes[1005].serviceType=='空调清洗'}"-->
+<!--href="javascript:void(0);">空调清洗</a>-->
+
+<!--<a-->
+<!--@click="otherFormAttributes[1005].serviceType='洗衣机清洗';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"-->
+<!--:class="{on:otherFormAttributes[1005].serviceType=='洗衣机清洗'}"-->
+<!--href="javascript:void(0);">洗衣机清洗</a>-->
+
+<!--<a-->
+<!--@click="otherFormAttributes[1005].serviceType='专业擦玻璃';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"-->
+<!--:class="{on:otherFormAttributes[1005].serviceType=='专业擦玻璃'}"-->
+<!--href="javascript:void(0);">专业擦玻璃</a>-->
+
+<!--<a-->
+<!--@click="otherFormAttributes[1005].serviceType='企业保洁面议';otherFormAttributes[1005].hours='';otherFormAttributes[1005].area='';otherFormAttributes[1005].housingType='';otherFormAttributes[1005].cleaningRange='';otherFormAttributes[1005].wax='';otherFormAttributes[1005].showerRoom='';otherFormAttributes[1005].sunRoom=[];otherFormAttributes[1005].sunRoomArea='';"-->
+<!--:class="{on:otherFormAttributes[1005].serviceType=='企业保洁面议'}"-->
+<!--href="javascript:void(0);">企业保洁面议</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--钟点家务保洁-->
+<!--<div v-if="otherFormAttributes[1005].serviceType=='钟点家务保洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/time.png" alt="">服务时长</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;">-->
+<!--<label>-->
+<!--<input @keyup="otherFormAttributes[1005].hours=otherFormAttributes[1005].hours.replace(/[^0-9]+/g,'')"-->
+<!--@input="otherFormAttributes[1005].hours=otherFormAttributes[1005].hours.replace(/[^0-9]+/g,'')"-->
+<!--@change="otherFormAttributes[1005].hours=otherFormAttributes[1005].hours.replace(/[^0-9]+/g,'')"-->
+<!--v-model.trim="otherFormAttributes[1005].hours" placeholder="正整数" class="f16 c666" type="number"-->
+<!--value="">小时-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].hours && otherFormAttributes[1005].serviceType=='钟点家务保洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a class="on">{{ cleanPrice }}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--深度保洁-->
+<!--<div v-if="otherFormAttributes[1005].serviceType=='深度保洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">服务时长</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;" href="javascript:void(0);">-->
+<!--<label>-->
+<!--<input @keyup="otherFormAttributes[1005].hours=otherFormAttributes[1005].hours.replace(/[^0-9]+/g,'')" @input="otherFormAttributes[1005].hours=otherFormAttributes[1005].hours.replace(/[^0-9]+/g,'')" v-model.trim="otherFormAttributes[1005].hours"  class="f16 c666" type="text" value="">小时-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].hours && otherFormAttributes[1005].serviceType=='深度保洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a class="on" href="javascript:void(0);">{{ cleanPrice }}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--日常专业保洁-->
+<!--<div v-if="otherFormAttributes[1005].serviceType=='日常专业保洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/house_area.png" alt="">服务面积</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;">-->
+<!--<label>-->
+<!--<input @keyup="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@input="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@change="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--v-model.trim="otherFormAttributes[1005].area" placeholder="正整数" class="f16 c666" type="number"-->
+<!--value="">平方-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].area && otherFormAttributes[1005].serviceType=='日常专业保洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a class="on">{{ cleanPrice }}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--开荒专业保洁-->
+<!--<div v-if="otherFormAttributes[1005].serviceType=='开荒专业保洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/residential_types.png" alt="">住宅种类</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a @click="otherFormAttributes[1005].housingType='普通住宅';otherFormAttributes[1005].furniture=''"-->
+<!--:class="{on:otherFormAttributes[1005].housingType=='普通住宅'}"-->
+<!--href="javascript:void(0);">普通住宅</a>-->
+
+<!--<a @click="otherFormAttributes[1005].housingType='别墅';otherFormAttributes[1005].furniture=''"-->
+<!--:class="{on:otherFormAttributes[1005].housingType=='别墅'}"-->
+<!--href="javascript:void(0);">别墅</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].housingType" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/furniture.png" alt="">有无家具</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a @click="otherFormAttributes[1005].furniture='有家具'"-->
+<!--:class="{on:otherFormAttributes[1005].furniture=='有家具'}"-->
+<!--href="javascript:void(0);">有家具</a>-->
+
+<!--<a @click="otherFormAttributes[1005].furniture='无家具'"-->
+<!--:class="{on:otherFormAttributes[1005].furniture=='无家具'}"-->
+<!--href="javascript:void(0);">无家具</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<!--<div v-if="otherFormAttributes[1005].furniture && otherFormAttributes[1005].housingType" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/house_area.png" alt="">服务面积</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;">-->
+<!--<label>-->
+<!--<input @keyup="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@input="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@change="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--v-model.trim="otherFormAttributes[1005].area" placeholder="正整数" class="f16 c666" type="number"-->
+<!--value="">平方-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div-->
+<!--v-if="otherFormAttributes[1005].area && otherFormAttributes[1005].furniture && otherFormAttributes[1005].serviceType=='开荒专业保洁'"-->
+<!--class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a class="on">{{ cleanPrice }}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--地毯清洁-->
+<!--<div v-if="otherFormAttributes[1005].serviceType=='地毯清洁'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/cleaning_range.png" alt="">清洁范围</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--&lt;!&ndash;<a @click="otherFormAttributes[1005].furniture='100平以内'"&ndash;&gt;-->
+<!--&lt;!&ndash;:class="{on:otherFormAttributes[1005].furniture=='100平以内'}"&ndash;&gt;-->
+<!--&lt;!&ndash;href="javascript:void(0);">100平以内</a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<a @click="otherFormAttributes[1005].furniture='100平以内'"&ndash;&gt;-->
+<!--&lt;!&ndash;:class="{on:otherFormAttributes[1005].furniture=='100平以内'}"&ndash;&gt;-->
+<!--&lt;!&ndash;href="javascript:void(0);">100平以内</a>&ndash;&gt;-->
+
+<!--<a @click="otherFormAttributes[1005].cleaningRange='整屋清洁';otherFormAttributes[1005].carpetMaterial='';"-->
+<!--:class="{on:otherFormAttributes[1005].cleaningRange=='整屋清洁'}"-->
+<!--href="javascript:void(0);">整屋清洁</a>-->
+
+<!--<a @click="otherFormAttributes[1005].cleaningRange='可视范围清洁';otherFormAttributes[1005].carpetMaterial='';"-->
+<!--:class="{on:otherFormAttributes[1005].cleaningRange=='可视范围清洁'}"-->
+<!--href="javascript:void(0);">可视范围清洁</a>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].serviceType=='地毯清洁' && otherFormAttributes[1005].cleaningRange"-->
+<!--class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/carpet_material.png" alt="">地毯材质</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a @click="otherFormAttributes[1005].carpetMaterial='羊毛'"-->
+<!--:class="{on:otherFormAttributes[1005].carpetMaterial=='羊毛'}"-->
+<!--href="javascript:void(0);">羊毛</a>-->
+
+<!--<a @click="otherFormAttributes[1005].carpetMaterial='普通'"-->
+<!--:class="{on:otherFormAttributes[1005].carpetMaterial=='普通'}"-->
+<!--href="javascript:void(0);">普通</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div-->
+<!--v-if="otherFormAttributes[1005].serviceType=='地毯清洁' && otherFormAttributes[1005].cleaningRange && otherFormAttributes[1005].carpetMaterial"-->
+<!--class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/house_area.png" alt="">服务面积</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;">-->
+<!--<label>-->
+<!--<input @keyup="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@input="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@change="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--v-model.trim="otherFormAttributes[1005].area" placeholder="正整数" class="f16 c666" type="number"-->
+<!--value="">平方-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div-->
+<!--v-if="otherFormAttributes[1005].area && otherFormAttributes[1005].cleaningRange && otherFormAttributes[1005].carpetMaterial"-->
+<!--class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a v-if="otherFormAttributes[1005].area && otherFormAttributes[1005].serviceType=='地毯清洁'" class="on">{{ cleanPrice-->
+<!--}}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].furniture=='100平以内' || otherFormAttributes[1005].furniture=='1000平以上'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a v-if="otherFormAttributes[1005].furniture=='100平以内' && otherFormAttributes[1005].serviceType=='地毯清洁'" class="on" href="javascript:void(0);">{{ cleanPrice }}</a>-->
+<!--<a v-if="otherFormAttributes[1005].furniture=='1000平以上' && otherFormAttributes[1005].serviceType=='地毯清洁'" class="on" href="javascript:void(0);">{{ cleanPrice }}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--地毯清洁-->
+<!--<div v-if="otherFormAttributes[1005].serviceType=='地板打蜡'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/wax_types.png" alt="">蜡种类</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a @click="otherFormAttributes[1005].wax='液体蜡'"-->
+<!--:class="{on:otherFormAttributes[1005].wax=='液体蜡'}"-->
+<!--href="javascript:void(0);">液体蜡</a>-->
+
+<!--<a @click="otherFormAttributes[1005].wax='固体蜡'"-->
+<!--:class="{on:otherFormAttributes[1005].wax=='固体蜡'}"-->
+<!--href="javascript:void(0);">固体蜡</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].wax && otherFormAttributes[1005].serviceType=='地板打蜡'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/house_area.png" alt="">服务面积</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;">-->
+<!--<label>-->
+<!--<input @keyup="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@input="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@change="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--v-model.trim="otherFormAttributes[1005].area" placeholder="正整数" class="f16 c666" type="number"-->
+<!--value="">平方-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].area && otherFormAttributes[1005].serviceType=='地板打蜡'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a class="on">{{ cleanPrice }}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--专业擦玻璃-->
+<!--<div v-if="otherFormAttributes[1005].serviceType=='专业擦玻璃'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/house_area.png" alt="">服务面积</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;">-->
+<!--<label>-->
+<!--<input @keyup="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@input="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--@change="otherFormAttributes[1005].area=otherFormAttributes[1005].area.replace(/[^0-9]+/g,'')"-->
+<!--v-model.trim="otherFormAttributes[1005].area" placeholder="正整数" class="f16 c666" type="number"-->
+<!--value="">平方-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div-->
+<!--v-if="otherFormAttributes[1005].area && otherFormAttributes[1005].serviceType=='专业擦玻璃' || otherFormAttributes[1005].showerRoom && otherFormAttributes[1005].serviceType=='专业擦玻璃' || otherFormAttributes[1005].sunRoomArea && otherFormAttributes[1005].serviceType=='专业擦玻璃'"-->
+<!--class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a class="on">{{ cleanPrice }}</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].serviceType=='专业擦玻璃'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/shower_room_clean.png" alt="">淋浴房清洁</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a @click="otherFormAttributes[1005].showerRoom='0'"-->
+<!--:class="{on:otherFormAttributes[1005].showerRoom=='0'}"-->
+<!--href="javascript:void(0);">0</a>-->
+
+<!--<a @click="otherFormAttributes[1005].showerRoom='1'"-->
+<!--:class="{on:otherFormAttributes[1005].showerRoom=='1'}"-->
+<!--href="javascript:void(0);">1</a>-->
+
+<!--<a @click="otherFormAttributes[1005].showerRoom='2'"-->
+<!--:class="{on:otherFormAttributes[1005].showerRoom=='2'}"-->
+<!--href="javascript:void(0);">2</a>-->
+
+<!--<a @click="otherFormAttributes[1005].showerRoom='3'"-->
+<!--:class="{on:otherFormAttributes[1005].showerRoom=='3'}"-->
+<!--href="javascript:void(0);">3</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].serviceType=='专业擦玻璃'" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/sun_room_clean.png" alt="">阳光房清洁</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;" href="javascript:void(0);">-->
+<!--<label>-->
+<!--<input @click="otherFormAttributes[1005].sunRoomArea='';" class="f16 c666"-->
+<!--v-model="otherFormAttributes[1005].sunRoom" value="阳光房" type="checkbox"/>-->
+<!--阳光房-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div v-if="otherFormAttributes[1005].sunRoom.length>0" class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/sun_room_area.png" alt="">阳光房面积</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a style="border: none;">-->
+<!--<label>-->
+<!--<input-->
+<!--@keyup="otherFormAttributes[1005].sunRoomArea=otherFormAttributes[1005].sunRoomArea.replace(/[^0-9]+/g,'')"-->
+<!--@input="otherFormAttributes[1005].sunRoomArea=otherFormAttributes[1005].sunRoomArea.replace(/[^0-9]+/g,'')"-->
+<!--@change="otherFormAttributes[1005].sunRoomArea=otherFormAttributes[1005].sunRoomArea.replace(/[^0-9]+/g,'')"-->
+<!--v-model.trim="otherFormAttributes[1005].sunRoomArea" placeholder="正整数" class="f16 c666" type="number"-->
+<!--value="">平方-->
+<!--</label>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<!--<div class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/charges.png" alt="">收费方式</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a v-if="otherFormAttributes[1005].serviceType=='钟点家务保洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">50元/小时</p>-->
+<!--</a>-->
+
+<!--<a v-if="otherFormAttributes[1005].serviceType=='日常专业保洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">60平方以内300元，超出部分6元/平方</p>-->
+<!--</a>-->
+
+<!--<a v-if="otherFormAttributes[1005].serviceType=='开荒专业保洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">普通住宅有家具，60平方以内450元，超出部门7元/平方</p>-->
+<!--<p class="f16 cbbb">普通住宅无家具，60平方以内400元，超出部门6元/平方</p>-->
+<!--<p class="f16 cbbb">别墅有家具，150平方以内2000元，超出部门12元/平方</p>-->
+<!--<p class="f16 cbbb">别墅无家具，150平方以内1600元，超出部门10元/平方</p>-->
+<!--</a>-->
+
+<!--<a v-if="otherFormAttributes[1005].serviceType=='地毯清洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">整屋清洁,羊毛,100平方以内，按1100元计算，超出100平方部分，按8元/平方计算</p>-->
+<!--<p class="f16 cbbb">整屋清洁,普通,100平方以内，按900元计算，超出100平方部分，按6元/平方计算</p>-->
+<!--<p class="f16 cbbb">可视范围清洁,羊毛,100平方以内，按1000元计算，超出100平方部分，按7元/平方计算</p>-->
+<!--<p class="f16 cbbb">可视范围清洁,普通,100平方以内，按800元计算，超出100平方部分，按5元/平方计算</p>-->
+<!--</a>-->
+
+<!--<a v-if="otherFormAttributes[1005].serviceType=='地板打蜡'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">液体蜡，60平方以内280元，超出60平方液体蜡4元/平方</p>-->
+<!--<p class="f16 cbbb">固体蜡，60平方以内500元，超出60平方液体蜡7元/平方</p>-->
+<!--</a>-->
+
+<!--<a v-if="otherFormAttributes[1005].serviceType=='专业擦玻璃'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">300元/100平方内，超出部分7元/平方</p>-->
+<!--<p class="f16 cbbb">淋浴房清洁另加30元，按个数</p>-->
+<!--<p class="f16 cbbb">阳光房12元/平方</p>-->
+<!--</a>-->
+
+<!--<a v-if="otherFormAttributes[1005].serviceType=='企业保洁面议'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">企业保洁面议</p>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="row clearfix">-->
+<!--<div class="title"><img src="/wx/static/images/service_content.png" alt="">服务内容</div>-->
+<!--<div class="content clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a v-if="otherFormAttributes[1005].serviceType=='钟点家务保洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">厨卫、客厅、餐厅、卧室、阳台灯区域的台面、墙角、桌椅、门、地面、家具表面、家电表面清洁；居家物品的整理、收纳；洗衣（机洗）、晾晒、垃圾清理。</p>-->
+<!--</a>-->
+
+<!--<a v-if="otherFormAttributes[1005].serviceType=='日常专业保洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">深度清洁，适用于长期未打扫的居家住宅</p>-->
+<!--</a>-->
+<!--<a v-if="otherFormAttributes[1005].serviceType=='开荒专业保洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">装修后的首次保洁，包含擦玻璃、除尘、地面清洁、厨卫除污，装修痕迹清理；（如需除甲醛另外单独议价）</p>-->
+<!--</a>-->
+<!--<a v-if="otherFormAttributes[1005].serviceType=='地毯清洁'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">地毯表面清洗、清洁</p>-->
+<!--</a>-->
+<!--<a v-if="otherFormAttributes[1005].serviceType=='地板打蜡'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">地板除尘、打蜡、养护</p>-->
+<!--</a>-->
+<!--<a v-if="otherFormAttributes[1005].serviceType=='专业擦玻璃'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">内外都清理，人工清理不到的地方除外</p>-->
+<!--</a>-->
+<!--<a v-if="otherFormAttributes[1005].serviceType=='企业保洁面议'" href="javascript:void(0);" style="border: none;">-->
+<!--<p class="f16 cbbb">企业保洁面议</p>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/home_time.png" alt="">服务时间</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;">
+        <label>开始日期
+          <input class="f16 c666" id="date" type="text" placeholder="开始时间" readonly>
+        </label>
+      </a>
+      <!--<a href="javascript:void(0);">-->
+      <!--<label>结束日期-->
+      <!--<input class="f16 c666" id="inpend" type="text" placeholder="请选服务结束时间" readonly>-->
+      <!--</label>-->
+      <!--</a>-->
+      <a style="border: none;">
+        <label>上门时间
+          <select v-model="otherFormAttributes[1005].visitingTime" class="c666 f16" style="border: 1px solid #ccc;"
+                  name="" id="">
+            <option v-for="item in selectTime" :value="item">{{ item }}</option>
+          </select>
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!--地址-->
+<div v-if="form.service_code">
+  <link rel="import" href="/components/reservation/service_address.html?__inline">
+</div>
+
+<!--<div v-if="otherFormAttributes[1005].serviceType.length > 0" class="row clearfix" style="display: table;width: 100%;">-->
+<!--<div class="title">-->
+<!--<img src="/wx/static/images/charges.png" alt="">收费方式-->
+<!--<div @click="isHidden = false" class="charge-mode">点击查看</div>-->
+<!--</div>-->
+<!--<div class="content see-most clearfix showHeight">-->
+<!--<div class="contentInner">-->
+<!--<a @click="isHidden = false">点击查看</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<div @click="tabToggle();" class="tabToggle">其它可选</div>
+<div class="houseKeepingToggle hide">
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/pet.png" alt="">是否有宠物</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1005].pet" value="大型犬" type="checkbox"/>
+            大型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1005].pet" value="小型犬" type="checkbox"/>
+            小型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1005].pet" value="猫" type="checkbox"/>
+            猫
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1005].pet" value="其它" type="checkbox"/>
+            其它
+          </label>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其它备注</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1005].petRemarks"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其他需求</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1005].told"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="requirement">家政员要求</div>
+  <div v-if="form.service_code">
+    <link rel="import" href="/components/reservation/common-form-attributes.html?__inline">
+  </div>
+</div>
+
+<div v-if="!isHidden" class="wx-price-mask"></div>
+<div v-if="!isHidden" class="wx-price-mask-content">
+  <div class="close-service-mask">
+    <img @click="isHidden = true" src="/wx/static/images/submit_order_close@2x.png" alt="">
+  </div>
+  <div class="pay-way">
+    <p>收费方式</p>
+    <p>收费方式</p>
+    <p>收费方式</p>
+    <p>收费方式</p>
+  </div>
+</div>

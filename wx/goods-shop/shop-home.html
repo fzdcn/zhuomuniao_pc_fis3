@@ -1,0 +1,320 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<!-- main主体 -->
+<div class="main" id="index" v-cloak>
+  <div class="shop-index">
+    <!--header-->
+    <div class="shop-head">
+      <input @click="search" placeholder="请输入搜索内容" class="sou" type="text" name="search">
+      <img src="/wx/static/images/home_search@2x.png" class="search-image">
+      <a @click="toCart"><img src="/wx/static/images/shop_shopping@2x.png" class="shop-image"></a>
+    </div>
+    <!--banner-->
+    <div class="banner">
+      <div class="banner-list">
+        <div id="banner-container" class="swiper-container">
+          <div class="swiper-wrapper">
+            <div v-for="item in bannerImg" class="swiper-slide textaling">
+              <a :href="item.url">
+                <img :src="item.src">
+              </a>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+    <div class="example">
+      <a class="example-list" v-for="item in Navigation" @click="jumpToSecond(item)">
+        <img :src="item.img">
+        <div class="font-4 ex-tittle">{{item.name}}</div>
+      </a>
+    </div>
+    <!--新品上线,小鸟到家，品牌时尚-->
+    <div class="new-goods" v-for="item in goodsList" v-if="item.hot_goods_list.length>0">
+      <div class="shop">
+        <img class="fl hot" :src="item.image" alt="">
+        <div class="fl color-1 hot-shop">{{ item.name }}</div>
+        <a @click="toMore(item)">
+          <img class="more-go fr" src="/wx/static/images/personal_information_back@2x.png" alt="">
+          <div class="fr more">更多</div>
+        </a>
+      </div>
+      <div class="shopCart" v-for="i in item.hot_goods_list" @click="toDetail(i)">
+        <div class="shop-detail">
+          <div class="one-col fl">
+            <img class="shop-img" src="" v-lazy="i.cover_photo">
+            <div class="goods-status" v-if="i.status==20">已下架</div>
+          </div>
+          <div class="one-special fl">
+            <div class="fl detail-l">
+              <div class="tit color-8">{{ i.name }}</div>
+              <div class="price clearfix">
+                <div class="fl">
+                  <div class="now-price color-h">￥{{ i.price }}</div>
+                  <div class="sold">已售 {{ i.sale_number }}</div>
+                </div>
+                <div class="cart fr">
+                  <a @click="showCart(i)">
+                    <img src="/wx/static/images/shop_shopping_cart_normal@2x.png">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--猜你喜欢-->
+    <!--<div class="like">
+      <div class="shop-tittle">
+        <img src="/wx/static/images/shop_like@2x.png">
+      </div>
+      <div class="shopCart">
+        <div class="shop-detail">
+          <div class="one-col fl">
+            <img class="shop-img" src="/wx/static/images/shop_banner@2x.png">
+          </div>
+          <div class="one-special fl">
+            <div class="fl">
+              <div class="tit color-8">
+                妈妈壹选机洗手洗无荧光剂洗 皂液2kgx4+300gx2
+              </div>
+              <div class="price clearfix">
+                <div class="fl">
+                  <div class="now-price color-h">￥144</div>
+                  <div class="sold">已售100</div>
+                </div>
+                <div class="cart fr">
+                  <img src="/wx/static/images/shop_shopping_cart_normal@2x.png">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="shopCart">
+        <div class="shop-detail">
+          <div class="one-col fl">
+            <img class="shop-img" src="/wx/static/images/shop_banner@2x.png">
+          </div>
+          <div class="one-special fl">
+            <div class="fl">
+              <div class="tit color-8">
+                妈妈壹选机洗手洗无荧光剂洗 皂液2kgx4+300gx2
+              </div>
+              <div class="price clearfix">
+                <div class="fl">
+                  <div class="now-price color-h">￥144</div>
+                  <div class="sold">已售100</div>
+                </div>
+                <div class="cart fr">
+                  <img src="/wx/static/images/shop_shopping_cart_normal@2x.png">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+  </div>
+  <!--加入购物车-->
+  <div v-if="cartShow">
+    <link rel="import" href="add-cart.html?__inline">
+  </div>
+</div>
+<!--footer-->
+<link rel="import" href="/wx/components/common/footer.html?__inline">
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3, // 预加载的宽高
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3 //尝试加载的次数
+  });
+  var vm = new Vue({
+    el: '#index',
+    data: {
+      Navigation: [
+        {
+          name: '限时折扣',
+          url: '',
+          img: '/wx/static/images/shop_icon_one@2x.png'
+        },
+        {
+          name: 'Cans定制',
+           url: '',
+          img: '/wx/static/images/shop_cans@2x.png'
+        },
+        {
+          name: '节日促销',
+           url: '',
+          img: '/wx/static/images/shop_festival@2x.png'
+        },
+        {
+          name: 'VIP专享',
+           url: '',
+          img: '/wx/static/images/shop_vip@2x.png'
+        },
+        {
+          name: '全部分类',
+          url: 'all-classification.html',
+          img: '/wx/static/images/shop_all@2x.png'
+        }
+      ],
+      goodsList: [],
+      // 加入购物车
+      cartShow: false,
+      propertyList: [],
+      currentName: '',
+      currentPrice: '',
+      photo: '',
+      number: 1,
+      maxNum: '',
+      choice: false, // 商品分类默认不选
+      bannerImg: []
+    },
+    methods: {
+      search: function () {
+        window.location.href = window.location.origin + '/wx/search/goods-search.html';
+      },
+      // 中间导航跳转到二级页面
+      jumpToSecond: function (item) {
+        if(item.url){
+          window.location.href = item.url;
+        } else {
+          tools.alert('尚在开发中')
+        }
+      },
+      // 跳转到商品列表页面
+      toMore: function (item) {
+        window.location.href = 'goods-list.html?type_id=' + item.id;
+      },
+      // 跳转到购物车页面，并记住页面
+      toCart: function () {
+        window.location.href = 'shopping-cart.html';
+      },
+      // 获取首页 banner
+      getBannerImg: function () {
+        var vm = this;
+        http.get('home-page/banner', {
+          type: 40
+        }, function (data) {
+          stores.setShopBanner(data.values);
+          vm.bannerImg = data.values;
+          vm.$nextTick(function () {
+            vm.bannerScroll();
+          });
+        })
+      },
+      bannerScroll: function () {
+        var mySwiper = new Swiper('#banner-container', {
+          direction: 'horizontal',
+          loop: true,
+          speed: 500,
+          autoplay: 3000,
+          // 用户操作 swiper 之后，是否禁止 autoplay 。默认为 true：停止。
+          autoplayDisableOnInteraction: false,
+          // 如果需要分页器
+          pagination: '.swiper-pagination',
+          // paginationType : 'custom',
+          // 如果需要前进后退按钮
+          nextButton: '.swiper-button-next',
+          prevButton: '.swiper-button-prev'
+          // 如果需要滚动条
+          // scrollbar: '.swiper-scrollbar',
+        })
+      },
+      // 商品列表
+      getList: function () {
+        http.get('shop-recommend-type/list', {fields: 'id,name,image', expand: 'hot_goods_list'}, function (data) {
+          vm.goodsList = data
+        })
+      },
+      // 进入商品详情页,并记住页面
+      toDetail: function (i) {
+        window.location.href = 'goods-detail.html?goods_id=' + i.id;
+      },
+      // 弹出加入购物车窗口,获取商品属性
+      showCart: function (i) {
+        event.cancelBubble = true;
+        this.getProperty(i.id);
+        this.currentName = i.name;
+        this.currentPrice = i.price;
+        this.photo = i.cover_photo;
+      },
+      // 选择商品分类
+      chooseType: function (item) {
+        if (item.status == 10) {
+          if (item.quantity > 0) {
+            this.choice = item.id;
+            this.currentPrice = item.sale_price;
+            stores.setGoodsType(item.id);
+            stores.setGoodsNum(item.quantity);
+            this.maxNum = stores.getGoodsNum();
+          } else {
+            tools.alert('该商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('商品已下架', 'warning');
+        }
+      },
+      // 加入购物车
+      addGoods: function () {
+        var _this = this;
+        if (!stores.getGoodsType()) {
+          tools.alert('请选择一个商品分类加入购物车', 'warning');
+        } else {
+          http.post('shop-cart/add', {property_id: stores.getGoodsType(), number: this.number}, function (data) {
+            tools.alert(data, 'success');
+            // 关闭加入购物车窗口和初始化数据
+            _this.closeShow();
+          });
+        }
+      },
+      // 关闭加入购物车窗口和初始化数据
+      closeShow: function () {
+        this.cartShow = false;
+        this.choice = false;
+        this.number = 1;
+        this.maxNum = '';
+        stores.removeGoodsType();
+        stores.removeGoodsNum();
+      },
+      getProperty: function (id) {
+        var _this = this;
+        http.get('shop-property/all', {goods_id: id}, function (data) {
+          _this.propertyList = data;
+          if(_this.propertyList && _this.propertyList.length < 1){
+            tools.alert('商品已下架');
+            return
+          } else{
+            _this.cartShow = true
+          }
+        });
+      },
+      addQuantity: function () {
+        if (stores.getGoodsNum()) {
+          this.number += 1;
+          if (this.number > stores.getGoodsNum()) {
+            this.number = stores.getGoodsNum();
+            tools.alert('商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('请先选择一个商品分类', 'warning');
+        }
+      },
+      reduceQuantity: function () {
+        this.number -= 1;
+        if (this.number < 1) {
+          this.number = 1;
+          tools.alert('商品数量不能小于1', 'warning');
+        }
+      }
+    },
+    created: function () {
+      this.bannerImg = stores.getShopBanner();
+      this.getBannerImg();
+      this.getList();
+    }
+  })
+</script>

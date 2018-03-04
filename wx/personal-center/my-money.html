@@ -1,0 +1,54 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="my-money" id="money" v-cloak>
+  <div class="top-total">
+    <div class="tittle">
+      <div class="color-4 font-0">我的资产</div>
+      <img src="/wx/static/images/purse_back@2x.png" class="setback" @click="back">
+      <div class="color-4 font-3 detail" @click="toDetails">收支明细</div>
+    </div>
+    <div class="total-money font-1 color-4">总金额</div>
+    <div class="color-4 all">3000.00</div>
+  </div>
+  <div class="lately font-3">最近三笔交易</div>
+  <div class="deal">
+    <div class="deal-list">
+      <div class="date-pro">
+        <div class="deal-name">周日</div>
+        <div class="deal-name-2">08/20</div>
+      </div>
+      <div class="deal-pro">
+        <div class="deal-name">提现</div>
+        <div class="deal-name-2">提现到银行卡</div>
+      </div>
+      <div class="mun-pro color-7 font-1">-4,000</div>
+    </div>
+    <div class="deal-list">
+      <div class="date-pro">
+        <div class="deal-name">周日</div>
+        <div class="deal-name-2">08/20</div>
+      </div>
+      <div class="deal-pro">
+        <div class="deal-name">充值</div>
+        <div class="deal-name-2">充值到余额</div>
+      </div>
+      <div class="mun-pro color-2 font-1">+4,000</div>
+    </div>
+  </div>
+  <div class="ti">
+    <div class="recharge color-4">充值</div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#money',
+    data: {},
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      toDetails: function () {
+        window.location.href = 'my-money-details.html'
+      }
+    }
+  })
+</script>

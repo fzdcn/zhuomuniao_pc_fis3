@@ -1,0 +1,43 @@
+<!--右边浮动-->
+<div id="consultation" class="right_consultation">
+  <div class="consultation_input">
+    <div class="fork_right">
+      <img src="/static/images/fork_right.png">
+    </div>
+    <div class="tel_input">
+      <input v-model="consultCellphone" type="tel" name="tel">
+      <button @click="consultSubmit" class="f16 textaling">提交</button>
+    </div>
+  </div>
+</div>
+<div class="right-consultation-btn">
+  <img src="/static/images/tel-contact.png" alt="咨询按钮">
+</div>
+
+<script>
+  // 咨询
+  new Vue({
+    el: '#consultation',
+    data: {
+      // 咨询
+      consultCellphone: ''
+    },
+    methods: {
+      // 咨询
+      consultSubmit: function () {
+        if (!this.consultCellphone) {
+          tools.pcAlert('电话不能为空', 'warning');
+          return false;
+        }
+        var vm = this;
+        http.post('basic/consult', {
+          cellphone: this.consultCellphone
+        }, function () {
+          tools.confirm('提交成功','success',false,function () {
+            vm.consultCellphone = null;
+          })
+        })
+      }
+    }
+  })
+</script>

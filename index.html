@@ -1,0 +1,232 @@
+<link rel="import" href="/components/common/header.html?__inline">
+<!-- main主体 -->
+<div class="main" id="index" v-cloak>
+  <div class="main clear">
+    <!--主页内容区banner图，随实际需要而定-->
+    <div class="indexBanner">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <template v-if="bannerImg.length > 0">
+            <div v-for="item in bannerImg" class="swiper-slide textaling">
+              <a :href="item.url ? item.url : 'javascript:void(0);'">
+                <img :src="item.src" alt="首页">
+              </a>
+            </div>
+          </template>
+          <template v-else>
+            <div class="swiper-slide textaling"><img src="/static/images/banner.png" alt="首页"></div>
+          </template>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+        <div class="swiper-button-next swiper-button-white"></div>
+      </div>
+    </div>
+    <div class="content_service">
+      <!-- 预约服务 -->
+      <div class="appointment_content">
+        <div class="appointment_service">
+          <h1>预约服务</h1>
+          <i></i>
+        </div>
+        <div class="service_details">
+          <ul>
+            <li>
+              <div>
+                <a href="./reservation.html?code=1005"><img src="/static/images/baojie.png"></a>
+                <h3 class="p1">保洁</h3>
+                <p class="p1">家清净，人舒心</p>
+                <a class="service_href" href="./reservation.html?code=1005">立即预约</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="./reservation.html?code=1006"><img src="/static/images/zhongdiangong.png"></a>
+                <h3 class="p1">钟点工</h3>
+                <p class="p1">品质生活，清洁有道</p>
+                <a class="service_href" href="./reservation.html?code=1006">立即预约</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="./reservation.html?code=1003"><img src="/static/images/baomu.png"></a>
+                <h3 class="p1">保姆</h3>
+                <p class="p1">安心托付，妥帖照顾</p>
+                <a class="service_href" href="./reservation.html?code=1003">立即预约</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="./reservation.html?code=1004"><img src="/static/images/yanglaohuli.png"></a>
+                <h3 class="p1">护工</h3>
+                <p class="p1">敬爱老人是传统美德</p>
+                <a class="service_href" href="./reservation.html?code=1004">立即预约</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="./reservation.html?code=1002"><img src="/static/images/yuyingshi.png"></a>
+                <h3 class="p1">育婴师</h3>
+                <p class="p1">育儿没烦恼</p>
+                <a class="service_href" href="./reservation.html?code=1002">立即预约</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                <a href="./reservation.html?code=1001"><img src="/static/images/yuesao.png"></a>
+                <h3 class="p1">月嫂</h3>
+                <p class="p1">把月子中心带回家</p>
+                <a class="service_href" href="./reservation.html?code=1001">立即预约</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 客户评价 -->
+    <div class="evaluate_content clear">
+      <div class="evaluate_service">
+        <h1>客户评价</h1>
+        <div class="evaluate_list">
+          <ul>
+            <li>
+              <a href="javascript:void(0)"><img src="/static/images/customer_reviews_one.png"></a>
+              <div class="per_info">
+                <p class="personal_detail p1">林小姐&nbsp35岁&nbsp家庭主妇</p>
+                <h3 class="p1">体验过啄木鸟的<b>保洁</b>服务</h3>
+                <p class="introduce p3">“保洁师很专业，态度非常好，像我家有养狗狗，会非常贴心的帮我清理掉地上的狗毛，使用的工具也很卫生，值得推荐。”</p>
+              </div>
+            </li>
+            <li>
+              <a href="javascript:void(0)"><img src="/static/images/customer_reviews_two.png"></a>
+              <div class="per_info">
+                <p class="personal_detail p1">顾女士&nbsp27岁&nbsp企业员工</p>
+                <h3 class="p1">体验过啄木鸟的<b>月嫂</b>服务</h3>
+                <p class="introduce p3">“在照顾产妇上悉心周到。宝宝的日常护理同
+                  样做的很好。每天一次洗澡抚触、观察宝宝
+                  的发育情况，并教授我们宝宝的日常护理方法”</p>
+              </div>
+            </li>
+            <li>
+              <a href="javascript:void(0)"><img src="/static/images/customer_reviews_three.png"></a>
+              <div class="per_info">
+                <p class="personal_detail p1">陈先生&nbsp52岁&nbsp外企高管</p>
+                <h3 class="p1">体验过啄木鸟的<b>养老护理</b>服务</h3>
+                <p class="introduce p3">“长期出差，很少有时间照顾爸妈，啄木鸟的
+                  保姆能帮我把他们照顾的妥妥的，感谢啄木鸟
+                  让我能放心拼搏，用心生活。”</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 第三方合作单位运营产品 -->
+    <div class="partner clear">
+      <div class="partner_content">
+        <h1 class="textaling f50 c4c4c4c">第三方合作单位运营产品</h1>
+        <div class="partner_img">
+          <div class="advantage row rowE">
+            <div class="bd mt20">
+              <div id="sca1" class="warp-pic-list">
+                <div id="wrap-box" class="wrapBox">
+                  <ul class="count" class="count clearfix">
+                    <li><a href="http://www.bidanet.com/" target="_blank"><img src="/static/images/bida.png" alt="必答网络"></a>
+                    </li>
+                    <li><a href="http://www.yf-jt.com" target="_blank"><img src="/static/images/yinfeng.png" alt="银凤科技"></a>
+                    </li>
+                    <li><a href="#"><img src="/static/images/wentiniao.png" alt="闻啼鸟"></a></li>
+                    <li><a href="http://www.bidanet.com/" target="_blank"><img src="/static/images/bida.png" alt="必答网络"></a>
+                    </li>
+                    <li><a href="http://www.yf-jt.com" target="_blank"><img src="/static/images/yinfeng.png" alt="银凤科技"></a>
+                    </li>
+                    <li><a href="#"><img src="/static/images/wentiniao.png" alt="闻啼鸟"></a></li>
+                    <li><a href="http://www.bidanet.com/" target="_blank"><img src="/static/images/bida.png" alt="必答网络"></a>
+                    </li>
+                    <li><a href="http://www.yf-jt.com" target="_blank"><img src="/static/images/yinfeng.png" alt="银凤科技"></a>
+                    </li>
+                    <li><a href="#"><img src="/static/images/wentiniao.png" alt="闻啼鸟"></a></li>
+                    <li><a href="http://www.bidanet.com/" target="_blank"><img src="/static/images/bida.png" alt="必答网络"></a>
+                    </li>
+                    <li><a href="http://www.yf-jt.com" target="_blank"><img src="/static/images/yinfeng.png" alt="银凤科技"></a>
+                    </li>
+                    <li><a href="#"><img src="/static/images/wentiniao.png" alt="闻啼鸟"></a></li>
+                    <li><a href="http://www.bidanet.com/" target="_blank"><img src="/static/images/bida.png" alt="必答网络"></a>
+                    </li>
+                    <li><a href="http://www.yf-jt.com" target="_blank"><img src="/static/images/yinfeng.png" alt="银凤科技"></a>
+                    </li>
+                    <li><a href="#"><img src="/static/images/wentiniao.png" alt="闻啼鸟"></a></li>
+                    <li><a href="http://www.bidanet.com/" target="_blank"><img src="/static/images/bida.png" alt="必答网络"></a>
+                    </li>
+                    <li><a href="http://www.yf-jt.com" target="_blank"><img src="/static/images/yinfeng.png" alt="银凤科技"></a>
+                    </li>
+                    <li><a href="#"><img src="/static/images/wentiniao.png" alt="闻啼鸟"></a></li>
+                  </ul>
+                </div>
+                <a id="right" class="prev icon btn"></a>
+                <a id="left" class="next icon btn"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="import" href="/components/common/footer.html?__inline">
+
+<script>
+  var vm = new Vue({
+    el: '#index',
+    data: {
+      bannerImg: []
+    },
+    methods: {
+      // 定位
+      getLocation: function () {
+        http.get('basic/get-city-from-ip', {}, function (data) {
+          stores.setCityObj(data);
+        })
+      },
+      // 获取首页banner
+      getBannerImg: function () {
+        var vm = this;
+        http.get('home-page/banner', {
+          type: 10,
+        }, function (data) {
+          vm.bannerImg = data.values;
+          vm.$nextTick(function () {
+            vm.bannerScroll();
+          });
+        })
+      },
+      bannerScroll: function () {
+        var mySwiper = new Swiper('.swiper-container', {
+          direction: 'horizontal',
+          loop: true,
+          speed: 500,
+          autoplay: 2000,
+          // 用户操作 swiper 之后，是否禁止 autoplay 。默认为 true：停止。
+          autoplayDisableOnInteraction: false,
+          // 设置为 true 时，鼠标覆盖 Swiper 时指针会变成手掌形状，拖动时指针会变成抓手形状。（根据浏览器形状有所不同）
+          grabCursor: true,
+          // 如果需要分页器
+          pagination: '.swiper-pagination',
+          // paginationType : 'custom',
+
+          // 如果需要前进后退按钮
+          nextButton: '.swiper-button-next',
+          prevButton: '.swiper-button-prev',
+
+          // 如果需要滚动条
+          // scrollbar: '.swiper-scrollbar',
+        })
+      }
+
+    },
+    created: function () {
+      this.getLocation();
+      this.getBannerImg();
+    }
+  })
+</script>

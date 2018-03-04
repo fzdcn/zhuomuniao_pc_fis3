@@ -1,0 +1,50 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="my-detail" id="details" v-cloak>
+  <div class="set">
+    <div class="set-on color-8">收支明细</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+  </div>
+  <div class="detail-list">
+    <div class="detail-item">
+      <div class="item-up">
+        <div class="color-8 zuo">充值余额</div>
+        <div class="color-2 you">+12121212元</div>
+      </div>
+      <div class="item-down">
+        <div class="color-9 zuo">2017-02-03 11:00</div>
+        <div class="color-9 you">总金额：100000元</div>
+      </div>
+    </div>
+    <div class="detail-item">
+      <div class="item-up">
+        <div class="color-8 zuo">提现到银行卡</div>
+        <div class="color-7 you">-12121212元</div>
+      </div>
+      <div class="item-down">
+        <div class="color-9 zuo">2017-02-03 11:00</div>
+        <div class="color-9 you">总金额：100000元</div>
+      </div>
+    </div>
+    <div class="detail-item">
+      <div class="item-up">
+        <div class="color-8 zuo">提现到账</div>
+        <div class="color-7 you">-12121212元</div>
+      </div>
+      <div class="item-down">
+        <div class="color-9 zuo">2017-02-03 11:00</div>
+        <div class="color-9 you">总金额：100000元</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#details',
+    data: {},
+    methods: {
+      back: function () {
+        tools.goBack();
+      }
+    }
+  })
+</script>

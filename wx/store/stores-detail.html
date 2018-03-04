@@ -1,0 +1,280 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="stores-detail" class="stores-detail" v-cloak>
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="stores-cover">
+    <img :src="storesDetail.cover_photo ? storesDetail.cover_photo : '/wx/static/images/store_details_picture@2x.png'"
+         alt="门店详情封面">
+    <div class="stores-time">
+      <div class="p2 stores-name">{{ storesDetail.name }}</div>
+      <template v-if="storesDetail.shop_hours">
+        <div class="time">{{ storesDetail.shop_hours }}</div>
+      </template>
+      <template v-else>
+        <div class="time">8:00~20:00</div>
+      </template>
+    </div>
+  </div>
+  <div class="clear-fix address-list">
+    <img class="fl address-img" src="/wx/static/images/store_details_adress@2x.png" alt="地址">
+    <div class="address-detail">{{ storesDetail.address }}</div>
+  </div>
+  <div class="stores-service-list">
+    <div class="clear-fix list-detail">
+      <div class="fl tel-img">
+        <a :href="'tel:' + storesDetail.telephone">
+          <img src="/wx/static/images/store_details_phone@2x.png" alt="电话">
+          <p>电话</p>
+        </a>
+      </div>
+      <div @click="isShowServiceMask = true;" class="fl service-img">
+        <img src="/wx/static/images/store_details_service@2x.png" alt="服务">
+        <p>服务</p>
+      </div>
+      <div @click="appointmentJump" class="fl service-img">
+        <img src="/wx/static/images/store_details_reservation@2x.png" alt="预约">
+        <p>预约</p>
+      </div>
+    </div>
+  </div>
+  <!--活动预留-->
+  <!--<div @click="isShowMask = true" class="stores-activity">-->
+  <!--<div class="activity-detail">-->
+  <!--<img class="fl activity-img" src="/wx/static/images/store_details_activity@2x.png" alt="活动封面">-->
+  <!--<div class="fl title">双人成团立减500</div>-->
+  <!--<img class="fr right-arrow" src="/wx/static/images/reservation_details_right@2x.png" alt="右箭头">-->
+  <!--<div class="fr activity-num">共2个活动</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <div class="service-personal">
+    <div class="fl service-personal-cover">
+      <img src="/wx/static/images/store_details_service_personnel@2x.png" alt="服务人员">
+    </div>
+    <div class="fl title">服务人员</div>
+  </div>
+  <div class="personal-list">
+    <div v-for="(item,outerIndex) in servicePersonal" class="personal-list-detail">
+      <div class="moving-services-cover">
+        <img @click="imgPreview(outerIndex,0,'openHeadImg')" v-lazy="item.photo_url" src="" alt="头像"
+             :preview="outerIndex" class="openHeadImg">
+      </div>
+      <div class="moving-services-detail">
+        <h3 class="fl p1">{{ item.name }}</h3>
+        <img v-if="item.sex == 1" class="fl sex" src="/wx/static/images/store_details_man@2x.png" alt="男">
+        <img v-else class="fl sex" src="/wx/static/images/store_details_female@2x.png" alt="女">
+        <div class="lever-info">
+          <div class="fl lever-number">{{ item.age }}岁</div>
+          <div v-if="item.sex == 1" class="fl gender">男</div>
+          <div v-else class="fl gender">女</div>
+          <div class="fl liner"></div>
+          <div class="fl sold">{{ item.person_address }}</div>
+        </div>
+        <div class="discount">
+          <div v-for="val in item.services" class="fl promotion">{{ val }}</div>
+          <div class="fl coupon">{{ item.work_life }}年工作经验</div>
+        </div>
+        <div class="fl lever">
+          <img v-for="val in star[item.person_star].options" :src="val" alt="评价">
+        </div>
+      </div>
+    </div>
+    <template v-if="isShowServicePersonal">
+      <div @click="getServicePersonal" class="see-more">点击查看更多</div>
+    </template>
+    <template v-else>
+      <div class="see-more">--我是有底线的--</div>
+    </template>
+  </div>
+  <div class="stores-list">
+    <img src="/wx/static/images/store_details_near_the_store@2x.png" alt="附近门店">
+  </div>
+  <div class="stores-detail-list">
+    <div v-for="(item,outerIndex) in nearbyStoresList" class="stores-list-content">
+      <div class="stores-list-img">
+        <img @click="imgPreview(outerIndex,0,'openStoresHeadImg')" v-lazy="item.cover_photo" src="" alt="门店"
+             :preview="outerIndex" class="openStoresHeadImg">
+      </div>
+      <div @click="getNearbyStoresDetail(item)" class="stores-list-info">
+        <div class="p1 stores-name">{{ item.name }}</div>
+        <div class="p2 stores-address">{{ item.address }}</div>
+        <div class="time-distance">
+          <template v-if="item.shop_hours">
+            <div class="fl time">{{ item.shop_hours }}</div>
+          </template>
+          <template v-else>
+            <div class="fl time">8:00~20:00</div>
+          </template>
+        </div>
+      </div>
+    </div>
+    <template v-if="isShowNearbyStores">
+      <div @click="getNearbyStores" class="see-more">点击查看更多</div>
+    </template>
+    <template v-else>
+      <div class="see-more">--我是有底线的--</div>
+    </template>
+  </div>
+  <!--门店活动-->
+  <div v-if="isShowMask" class="mask-bg"></div>
+  <div v-if="isShowMask" class="mask-content">
+    <div class="stores-activity-list">
+      <div class="activity-detail">
+        <div class="activity-detail-info">
+          <div class="fl activity-cover">
+            <img src="/wx/static/images/stores-activity-cover.png" alt="活动封面">
+          </div>
+          <div class="fl fc-28 activity-title">双人成团立减500</div>
+          <div class="fl fc-20 activity-num">活动1</div>
+        </div>
+      </div>
+      <div class="activity-detail">
+        <div class="activity-detail-info">
+          <div class="fl activity-cover">
+            <img src="/wx/static/images/stores-activity-cover.png" alt="活动封面">
+          </div>
+          <div class="fl fc-28 activity-title">双人成团立减500</div>
+          <div class="fl fc-20 activity-num">活动1</div>
+        </div>
+      </div>
+    </div>
+    <div @click="isShowMask = false" class="close-mask">完成</div>
+  </div>
+  <!--门店预约-->
+  <div v-if="isShowServiceMask" class="stores-appointment-mask"></div>
+  <div v-if="isShowServiceMask" class="stores-appointment-type">
+    <div class="service-type-num">
+      <ul>
+        <a v-for="(index,item) in serviceOptions" :href='"/wx/reservation.html?code=" + index'>
+          <li class="fl textaling">
+            <img v-if="index == 1005" src="/wx/static/images/baojie-wx.png" alt="item">
+            <img v-if="index == 1006" src="/wx/static/images/zhongdiangong.png" alt="item">
+            <img v-if="index == 1003" src="/wx/static/images/baomu.png" alt="item">
+            <img v-if="index == 1004" src="/wx/static/images/hugong.png" alt="item">
+            <img v-if="index == 1002" src="/wx/static/images/yuyingshi.png" alt="item">
+            <img v-if="index == 1001" src="/wx/static/images/yuesao.png" alt="item">
+            <p class="textaling">{{ item }}</p>
+          </li>
+        </a>
+        <a href="javascript:void(0);">
+          <li class="fl textaling" @click="shopJump">
+            <img src="/wx/static/images/yiyuanhuli.png" alt="医院护理">
+            <p class="textaling">医院护理</p>
+          </li>
+        </a>
+        <a href="javascript:void(0);">
+          <li class="fl textaling" @click="shopJump">
+            <img src="/wx/static/images/private_order@2x.png" alt="商城">
+            <p class="textaling">私人订制</p>
+          </li>
+        </a>
+      </ul>
+    </div>
+    <div class="close-service-mask">
+      <img @click="isShowServiceMask = false;" src="/wx/static/images/store_service_close@2x.png" alt="">
+    </div>
+  </div>
+</div>
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/store_loading@2x.png',
+    loading: '/wx/static/images/store_loading@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#stores-detail',
+    data: {
+      navTitle: '门店详情',
+      serviceOptions: SERVICE_CODE,
+      // 星级显示,暂时星级显示为3、4、5
+      star: tools.starLever.star,
+      // 是否显示门店活动遮罩
+      isShowMask: false,
+      // 是否显示服务遮罩
+      isShowServiceMask: false,
+      // 服务人员分页
+      servicePersonalPage: 0,
+      // 门店列表分页
+      nearbyStoresPage: 0,
+      // 是否显示点击查看服务人员更多
+      isShowServicePersonal: true,
+      // 是否显示点击查看附近门店更多
+      isShowNearbyStores: true,
+      storesDetail: {},
+      servicePersonal: [],
+      nearbyStoresList: []
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      shopJump: function () {
+        tools.alert('功能尚在开发中！', 'warning');
+      },
+      /*toShop: function () {
+       window.location.href = '/wx/goods-shop/shop-home.html'
+       },*/
+      appointmentJump: function () {
+        tools.alert('功能尚在开发中！', 'warning');
+      },
+      getStoresDetail: function () {
+        var vm = this;
+        http.get('store/view', {
+          id: http.getQuery('id'),
+          fields: 'name,telephone,cover_photo,shop_hours,sex',
+          expand: 'address,services'
+        }, function (data) {
+          vm.storesDetail = data;
+        })
+      },
+      getServicePersonal: function () {
+        var vm = this;
+        vm.servicePersonalPage++;
+        http.get('person/list', {
+          page: vm.servicePersonalPage,
+          per_page: 5,
+          store_id: http.getQuery('id'),
+          fields: 'name,photo_url,age,sex,work_life',
+          expand: 'services,person_star,person_address'
+        }, function (data) {
+          if (data.items.length <= 0) {
+            vm.isShowServicePersonal = false;
+          } else {
+            vm.servicePersonal = vm.servicePersonal.concat(data.items);
+          }
+        })
+      },
+      getNearbyStores: function () {
+        var vm = this;
+        vm.nearbyStoresPage++;
+        http.get('store/list', {
+          page: vm.nearbyStoresPage,
+          per_page: 5,
+          id: http.getQuery('id'),
+          ad_code: http.getQuery('ad_code'),
+          nearby_stores: '1',
+          fields: 'id,name,telephone,description,ad_code,cover_photo,location,shop_hours,service_ids',
+          expand: 'address'
+        }, function (data) {
+          if (data.items.length <= 0) {
+            vm.isShowNearbyStores = false;
+          } else {
+            vm.nearbyStoresList = vm.nearbyStoresList.concat(data.items);
+          }
+        })
+      },
+      getNearbyStoresDetail: function (item) {
+        window.location.href = window.location.origin + '/wx/store/stores-detail.html?id=' + item.id + '&ad_code=' + item.ad_code;
+        stores.addGoBackLevel();
+      },
+      // 图片预览
+      imgPreview: function (outerIndex, index, bindClass) {
+        tools.openPhotoSwipe(outerIndex, index, bindClass);
+      }
+    },
+    mounted: function () {
+      this.getStoresDetail();
+      this.getServicePersonal();
+      this.getNearbyStores();
+    }
+  })
+</script>

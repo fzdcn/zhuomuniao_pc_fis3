@@ -1,0 +1,188 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="customized-service" class="customized-service">
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="service-selected">
+    <div class="service-nav">
+      <div class="head-title">
+        <img class="fl" src="/wx/static/images/custom_service_chose@2x.png" alt="服务选择">
+        <div class="fl service-type">服务选择</div>
+        <select v-model="customizedServiceId" class="fr select">
+          <option v-for="(item,index) in customizedServiceDetail" :value="item.id">{{ item.name }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="cover-img">
+    <img :src="customizedServiceDetail[customizedServiceId - 1].image" alt="定制服务封面">
+  </div>
+  <div class="service-introduce">
+    <div class="title">服务说明</div>
+    <div class="introduce-detail">
+      <p>{{ customizedServiceDetail[customizedServiceId - 1].explain }}</p>
+    </div>
+  </div>
+  <div class="customer-demand">
+    <div class="title">客户需求</div>
+    <div class="introduce-detail">
+      <textarea v-model.trim="demand" placeholder="请具体描述需求，越详细越好哦！"></textarea>
+    </div>
+  </div>
+  <div class="personal-info">
+    <div class="info-list">
+      <div @click="showAddressList" class="address-detail">
+        <div class="fl address-img"><img src="/wx/static/images/reservation_details_adress@2x.png" alt="地址"></div>
+        <div class="fl p2 address-info">{{ defaultAddress.address ? defaultAddress.address :
+          '请选择服务地址' }}
+        </div>
+        <div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>
+      </div>
+    </div>
+    <div class="date-list">
+      <div class="date-detail">
+        <div class="fl date-img"><img src="/wx/static/images/reservation_details_time@2x.png" alt="日期"></div>
+        <input id="date" class="fl date-info" type="text" placeholder="请选择具体日期！" readonly>
+        <div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="personal-name">-->
+  <!--<div class="name-list">-->
+  <!--<div class="name-detail">-->
+  <!--<div class="fl name-img"><img src="/wx/static/images/reservation_details_name@2x.png" alt="姓名"></div>-->
+  <!--<input class="fl name-info" type="text" placeholder="联系人姓名">-->
+  <!--<div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--<div class="tel-list">-->
+  <!--<div class="tel-detail">-->
+  <!--<div class="fl tel-img"><img src="/wx/static/images/reservation_details_phone@2x.png" alt="手机号"></div>-->
+  <!--<input class="fl tel-info" type="text" placeholder="联系人手机号">-->
+  <!--<div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <div class="submit-button">
+    <div @click="submitOrder" class="submit-info">提交</div>
+  </div>
+  <!--弹出窗口地址选择-->
+  <template v-if="isAddress">
+    <link rel="import" href="/wx/goods-shop/choose-address.html?__inline">
+  </template>
+</div>
+<script>
+  new Vue({
+    el: '#customized-service',
+    data: {
+      navTitle: '定制服务',
+      customizedServiceDetail: [],
+      // 是否显示地址
+      isAddress: false,
+      addressList: [],
+      defaultAddress: {},
+      // 定制服务 id
+      customizedServiceId: 1,
+      demand: ''
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      // 字符串日期转时间戳
+      setDate: function (date) {
+        return tools.dateToTimestamp(date);
+      },
+      // 打开地址选择窗口
+      showAddressList: function () {
+        this.isAddress = true;
+        this.getDefaultAddress();
+        this.getAddressList();
+      },
+      // 获取我的地址列表
+      getAddressList: function () {
+        var vm = this;
+        http.get('user-address/list', {
+          expand: 'address'
+        }, function (data) {
+          vm.addressList = data.items
+        })
+      },
+      // 选择下单地址
+      selectAddress: function (item) {
+        this.defaultAddress.address = item.address;
+        this.defaultAddress.id = item.id;
+        this.isAddress = false;
+      },
+      // 获取默认地址,若获取不到则进入增加地址页面
+      getDefaultAddress: function () {
+        var vm = this;
+        http.get('user-address/get-default', {expand: 'address'},
+          function (data) {
+            vm.defaultAddress = data;
+          },
+          function (data) {
+            if (data.status === 422) {
+              tools.confirm("请先添加收货地址！", 'warning', false, function () {
+                window.location.href = '/wx/personal-center/add-address.html';
+              });
+            }
+          })
+      },
+      // 判断参数是否为空
+      judgeParameter: function () {
+        if (!this.demand) {
+          tools.alert('需求不能为空', 'warning');
+          return false;
+        }
+        if (!this.defaultAddress.id) {
+          tools.alert('服务地址不能为空', 'warning');
+          return false;
+        }
+        if (!$('#date').val().trim()) {
+          tools.alert('服务日期不能为空', 'warning');
+          return false;
+        }
+        return true;
+      },
+      // 提交订单
+      submitOrder: function () {
+        var vm = this;
+        if (vm.judgeParameter()) {
+          // 判断是否登录
+          var accessToken = stores.getValue('accessToken');
+          if (!accessToken) {
+            tools.confirm('请先登录', 'warning', false, function () {
+              window.location.href = '/wx/login.html';
+            });
+            return false;
+          }
+          http.post('life-custom-need/custom', {
+            custom_type_id: vm.customizedServiceId,
+            address_id: vm.defaultAddress.id,
+            need: vm.demand,
+            start_at: vm.setDate($('#date').val().trim())
+          }, function () {
+            tools.alert('订单提交成功', 'success');
+          })
+        }
+      },
+      // 获取定制服务详情
+      getCustomizedServiceDetail: function () {
+        var vm = this;
+        http.get('life-custom-type/views', {}, function (data) {
+          vm.customizedServiceDetail = data;
+          vm.$nextTick(function () {
+            $('#date').jeDate({
+              isinitVal: true,
+              format: 'YYYY-MM-DD hh:mm:ss',
+              minDate: "2014-06-16 00:00:00",
+              maxDate: '2099-06-16 23:59:59' // 最大日期
+            });
+          });
+        })
+      }
+    },
+    mounted: function () {
+      this.getCustomizedServiceDetail();
+    }
+  });
+</script>

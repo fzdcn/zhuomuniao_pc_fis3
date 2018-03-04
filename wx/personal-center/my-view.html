@@ -1,0 +1,343 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="evaluate-list" class="evaluate-list" v-cloak>
+  <div class="set">
+    <!--<div class="head-tittle">-->
+    <!--<div :class="this.cartType==3 ? 'chose-set-1' : 'set-on'" @click="changeBox">家政评价</div>-->
+    <!--<div :class="this.cartType==2 ? 'chose-set-2' : 'set-on-2'" @click="changeVan">服务评价</div>-->
+    <!--<div :class="this.cartType==1 ? 'chose-set' : 'set-on-1'" @click="changeTab">商品评价</div>-->
+    <!--<img class="setback" src="/wx/static/images/back_black@2x.png" @click="back">-->
+    <!--</div>-->
+    <div class="head-tittle" style="width: 4.1rem;">
+      <div :class="this.cartType==3 ? 'chose-set-1' : 'set-on'" @click="changeBox">保洁评价</div>
+      <div :class="this.cartType==1 ? 'chose-set' : 'set-on-1'" @click="changeTab">商品评价</div>
+      <img class="setback" src="/wx/static/images/back_black@2x.png" @click="back">
+    </div>
+    <div class="ev clearfix">
+      <div class="all-ev fl"><a class="color-8" :class="{ active : evaluate_type==1}" @click="showAll">全部评价</a></div>
+      <div class="all-ev fl"><a class="color-8" :class="{ active : evaluate_type==2}" @click="showPicture">有图评价</a>
+      </div>
+    </div>
+  </div>
+  <div id="mescroll" class="mescroll my-evaluation clearfix">
+    <div class="main-o" v-if="this.cartType==1 || this.cartType==2">
+      <div class="list" v-for="(item,outerIndex) in evaluateList">
+        <div class="row clearfix">
+          <div class="color-99 good-p fl">评分</div>
+          <div class="fl star" v-if="item.score==100"><img v-for="item in star_100" :src="item"></div>
+          <div class="fl star" v-if="item.score==80"><img v-for="item in star_80" :src="item"></div>
+          <div class="fl star" v-if="item.score==60"><img v-for="item in star_60" :src="item"></div>
+          <div class="fl star" v-if="item.score==40"><img v-for="item in star_40" :src="item"></div>
+          <div class="fl star" v-if="item.score==20"><img v-for="item in star_20" :src="item"></div>
+          <div class="fr time color-1">{{ setDate(item.created_at) }}</div>
+        </div>
+        <div class="say color-8">{{ item.evaluate }}</div>
+        <div class="list-img clearfix" v-if="item.photos && item.photos.length > 1">
+          <img @click="imgPreview(outerIndex,index,'openImgs')" v-for="(a,index) in item.photos" :preview="outerIndex"
+               class="openImgs" src="" v-lazy="a">
+        </div>
+        <div class="shop-spe" v-if="item.shop_goods">
+          <div class="shop-o clearfix" v-for="i in item.shop_goods">
+            <div class="shop-img fl">
+              <img src="" v-lazy="i.cover_photo">
+            </div>
+            <div class="shop-con fl">
+              <div class="tit color-99">{{ i.name }}</div>
+              <div class="s-tit color-99">{{ item.tag_name }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="shop-spe" v-if="item.life_goods">
+          <div class="shop-o clearfix">
+            <div class="shop-img fl">
+              <img src="" v-lazy="item.life_goods.cover_photo">
+            </div>
+            <div class="shop-con fl">
+              <div class="tit color-99">{{ item.life_goods.name }}</div>
+              <div class="s-tit color-99">{{ item.life_goods.sale_price }}</div>
+            </div>
+          </div>
+        </div>
+        <!--<div class="add-evaluate">
+          <a class="font-4">追加评价</a>
+        </div>-->
+        <div class="kong"></div>
+      </div>
+    </div>
+    <div class="main-o" v-if="this.cartType==3">
+      <div class="list" v-for="(item,outerIndex) in evaluateList">
+        <div class="service-e">
+          <div class="service-name">服务</div>
+          保洁
+        </div>
+        <div class="row clearfix">
+          <div class="color-99 good-p fl">评分</div>
+          <div class="fl star" v-if="item.score==100"><img v-for="item in star_100" :src="item"></div>
+          <div class="fl star" v-if="item.score==80"><img v-for="item in star_80" :src="item"></div>
+          <div class="fl star" v-if="item.score==60"><img v-for="item in star_60" :src="item"></div>
+          <div class="fl star" v-if="item.score==40"><img v-for="item in star_40" :src="item"></div>
+          <div class="fl star" v-if="item.score==20"><img v-for="item in star_20" :src="item"></div>
+          <div class="fr time color-1">{{ setDate(item.created_at) }}</div>
+        </div>
+        <div class="say color-8">{{ item.evaluate }}</div>
+        <div class="list-img clearfix" v-if="item.photos && item.photos.length > 0">
+          <img @click="imgPreview(outerIndex,index,'openImgs')" v-for="(a,index) in item.photos" :preview="outerIndex"
+               class="openImgs" src="" v-lazy="a">
+        </div>
+        <!--<div class="add-evaluate">
+          <a class="font-4">追加评价</a>
+        </div>-->
+        <div class="kong"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#evaluate-list',
+    data: {
+      mescroll: null,
+      evaluateList: [],
+      cartType: 3,
+      evaluate_type: 1,
+      star_100: [
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png'
+      ],
+      star_80: [
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png'
+      ],
+      star_60: [
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png'
+      ],
+      star_40: [
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png'
+      ],
+      star_20: [
+        '/wx/static/images/service_rating_star_green@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png',
+        '/wx/static/images/service_rating_star_grey@2x.png'
+      ]
+    },
+    methods: {
+      // 切换购物车类型
+      changeTab: function () {
+        this.cartType = 1;
+        this.mescroll.resetUpScroll();
+      },
+      changeBox: function () {
+        this.cartType = 3;
+        this.mescroll.resetUpScroll();
+      },
+      changeVan: function () {
+        this.cartType = 2;
+        this.mescroll.resetUpScroll();
+      },
+      showAll: function () {
+        this.evaluate_type = 1;
+        this.mescroll.resetUpScroll();
+      },
+      showPicture: function () {
+        this.evaluate_type = 2;
+        this.mescroll.resetUpScroll();
+      },
+      // 返回上一页
+      back: function () {
+        tools.goBack();
+      },
+      // 图片预览
+      imgPreview: function (outerIndex, index, bindClass) {
+        tools.openPhotoSwipe(outerIndex, index, bindClass);
+      },
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        // 服务全部评价
+        if (_this.cartType == 2 && _this.evaluate_type == 1) {
+          http.get('life-evaluate/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'id,evaluate,created_at,photos,score',
+            expand: 'life_goods',
+            has_photos: 0
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        } else if (this.cartType == 2 && _this.evaluate_type == 2) {
+          // 服务有图评价
+          http.get('life-evaluate/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'id,evaluate,created_at,photos,score',
+            expand: 'life_goods',
+            has_photos: 1
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        }
+        // 家政评价
+        if (_this.cartType == 3 && _this.evaluate_type == 1) {
+          http.get('clean-order-evaluate/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'evaluate,created_at,photos,score',
+            expand: 'service_name,service_code',
+            has_photos: 0
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        } else if (this.cartType == 3 && _this.evaluate_type == 2) {
+          // 服务有图评价
+          http.get('clean-order-evaluate/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'evaluate,created_at,photos,score',
+            expand: 'service_name,service_code',
+            has_photos: 1
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        }
+        else if (_this.cartType == 1 && _this.evaluate_type == 1) {
+          // 商品全部评价
+          http.get('shop-evaluate/list', {
+            per_page: page.size,
+            page: page.num,
+            expand: 'shop_goods,tag_name',
+            has_photos: 0
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        } else if (_this.cartType == 1 && _this.evaluate_type == 2) {
+          // 商品有图评价
+          http.get('shop-evaluate/list', {
+            per_page: page.size,
+            page: page.num,
+            expand: 'shop_goods,tag_name',
+            has_photos: 1
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        }
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        // 家政全部评价
+        if (this.cartType == 3 && this.evaluate_type == 1) {
+          if (isAppend && pageNum == 1) {
+            this.evaluateList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.evaluateList = this.evaluateList.concat(data.items);
+          }
+        } else if (this.cartType == 3 && this.evaluate_type == 2) {
+          // 家政有图评价
+          if (isAppend && pageNum == 1) {
+            this.evaluateList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.evaluateList = this.evaluateList.concat(data.items);
+          }
+        } else if (this.cartType == 1 && this.evaluate_type == 1) {
+          // 商品全部评价
+          if (isAppend && pageNum == 1) {
+            this.evaluateList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.evaluateList = this.evaluateList.concat(data.items);
+          }
+        } else if (this.cartType == 1 && this.evaluate_type == 2) {
+          // 商品有图评价
+          if (isAppend && pageNum == 1) {
+            this.evaluateList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.evaluateList = this.evaluateList.concat(data.items);
+          }
+        } else if (this.cartType == 2 && this.evaluate_type == 1) {
+          // 服务全部评价
+          if (isAppend && pageNum == 1) {
+            this.evaluateList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.evaluateList = this.evaluateList.concat(data.items);
+          }
+        } else if (this.cartType == 2 && this.evaluate_type == 2) {
+          // 服务有图评价
+          if (isAppend && pageNum == 1) {
+            this.evaluateList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.evaluateList = this.evaluateList.concat(data.items);
+          }
+        }
+      },
+      setDate: function (item) {
+        return tools.timestamp(item);
+      },
+      meScroll: function (_this, emptyIcon, htmlNoData) {
+        _this = this;
+        emptyIcon = '/wx/static/images/blank_contact@2x.png';
+        htmlNoData = '<p class="upwarp-nodata" style="color:#00a84c;position: relative;height: 0.5rem;line-height: 0.5rem;">--我是有底线的--</p>';
+        tools.myScroll(_this, false, false, false, emptyIcon, false, htmlNoData);
+      }
+    },
+    mounted: function () {
+      // 创建 MeScroll 对象
+      this.meScroll();
+    }
+  })
+</script>
+

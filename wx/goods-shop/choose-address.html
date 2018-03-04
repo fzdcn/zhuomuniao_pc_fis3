@@ -1,0 +1,24 @@
+<!--地址选择-->
+<div class="select-address-popup" v-cloak>
+  <div class="pop">
+    <div class="top color-8">
+      请选择收货地址
+      <div class="top-img"><img src="/wx/static/images/submit_order_close@2x.png" @click="isAddress=false"></div>
+    </div>
+    <div class="select-detail clearfix" v-for="item in addressList">
+      <div class="box">
+        <div class="contact clearfix">
+          <div class="name fl color-8">收货人：{{ item.contacts }}</div>
+          <div class="phone fr color-8">{{ item.cellphone }}</div>
+        </div>
+        <div class="address">
+          收货地址：{{ item.address }}
+          <div :class="{'color-2': item.is_default}">{{ item.is_default ?'默认地址' :''}}</div>
+        </div>
+      </div>
+      <div class="choice fl" @click="selectAddress(item)">
+        <img :src="defaultAddress.id == item.id ? '/wx/static/images/address_chose@2x.png' : '/wx/static/images/address_no_chose@2x.png'">
+      </div>
+    </div>
+  </div>
+</div>

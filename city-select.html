@@ -1,0 +1,115 @@
+<link rel="import" href="/components/common/header.html?__inline">
+<!-- main主体 -->
+<div id="city-select" class="main" v-cloak>
+  <div class="main_content">
+    <!--显示点击的是哪一个字母-->
+    <div id="showLetter" class="showLetter"><span>A</span></div>
+    <!--城市列表-->
+    <div class="container">
+      <!--城市索引查询-->
+      <div class="letter">
+        <ul>
+          <li v-for="(group, letter) in cityList" @click="selectLetter(letter)"><a href="javascript:;">{{
+            letter }}</a></li>
+        </ul>
+      </div>
+      <div class="city">
+        <!--省市获取-->
+        <div class="provinces">
+          <label for="province-selected">省份：
+            <select v-model="provincesSelected" @change="searchCityNum()" id="province-selected"
+                    class="province-selected" name="province-selected">
+              <option disabled value="">请选择省份</option>
+              <option v-for="item in provincesList" :value="item.ad_code">{{ item.name }}</option>
+            </select>
+          </label>
+          <label for="city-selected">城市：
+            <select v-model="citySelected" @change="changeCity" name="city-selected" id="city-selected"
+                    class="city-selected">
+              <option disabled value="">请选择城市</option>
+              <option v-for="(item,index) in searchCityList" :value="item.ad_code" :name="item.name"
+                      :pinyin="item.pinyin">{{ item.name }}
+              </option>
+            </select>
+          </label>
+          <button @click="submit" value="确定">确定</button>
+        </div>
+        <div v-for="(group, letter) in cityList" class="city-list">
+          <span class="city-letter" :id="'letter-' + letter">{{ letter }}</span>
+          <p v-for="item in group" @click="chooseCity(item)">{{ item.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#city-select',
+    data: {
+      provincesSelected: '',
+      provincesList: [],
+      searchCityList: [],
+      cityList: [],
+      citySelected: '',
+      cityJson: {
+        ad_code: '',
+        name: '',
+        pinyin: '',
+      }
+    },
+    methods: {
+      getProvincesList: function () {
+        var vm = this;
+        http.get('area/provinces', {}, function (data) {
+          vm.provincesList = data;
+        })
+      },
+      searchCityNum: function () {
+        var vm = this;
+        http.get('area/cities', {
+          province_code: vm.provincesSelected,
+        }, function (data) {
+          vm.searchCityList = data;
+        });
+        vm.citySelected = '';
+      },
+      changeCity: function () {
+        this.cityJson.ad_code = this.citySelected;
+        this.cityJson.name = $(".city-selected option:selected").attr("name");
+        this.cityJson.pinyin = $(".city-selected option:selected").attr("pinyin");
+      },
+      submit: function () {
+        var vm = this;
+        if (!this.provincesSelected) {
+          tools.pcAlert('请选择省份', 'warning');
+          return false;
+        } else if (!this.citySelected) {
+          tools.pcAlert('请选择城市', 'warning');
+          return false;
+        }
+        stores.setCityObj(vm.cityJson);
+        redirect.previous();
+      },
+      getCityList: function () {
+        var vm = this;
+        http.get('area/city-list', {
+          group: 1
+        }, function (data) {
+          vm.cityList = data.list;
+        })
+      },
+      selectLetter: function (letter) {
+        window.location.hash = '#letter-' + letter;
+      },
+      chooseCity: function (city) {
+        stores.setCityObj(city);
+        redirect.previous();
+      }
+    },
+    mounted: function () {
+      this.getProvincesList();
+      this.getCityList();
+    }
+  })
+</script>
+<link rel="import" href="/components/common/footer.html?__inline">

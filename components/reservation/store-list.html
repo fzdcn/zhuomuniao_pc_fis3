@@ -1,0 +1,31 @@
+<dd>
+  <div class="stores_title">
+    <i>
+      <img src="/static/images/mendian.png">
+    </i>
+    <span class="f24 c333">附近门店</span>
+  </div>
+  <div class="stores_list">
+    <ul>
+      <li v-for="item in storeList">
+        <a :href="'reservation.html?code=' + form.service_code + '&stores-detail=' + item.id">
+          <h3 class="f20 c0">{{ item.name }}</h3>
+          <div class="stores_detail">
+            <div v-if="item.description" class="stores_address">
+              <span class="f16 c333">描述：</span>
+              <p class="f16 c333">{{ item.description }}</p>
+            </div>
+            <div v-if="item.telephone" class="stores_tel">
+              <span class="f16 c333">电话：</span>
+              <p class="f16 c333">{{ item.telephone }}</p>
+            </div>
+            <div v-if="item.address" class="stores_address">
+              <span class="f16 c333">地址：</span>
+              <p class="f16 c333">{{ item.address }}</p>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</dd>

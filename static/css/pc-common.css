@@ -1,0 +1,367 @@
+@charset "UTF-8";
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2017-07-04 11:14:18
+ * @version $Id$
+ */
+/* CSS Document */
+/*背景色*/
+/*文字颜色*/
+/*边框颜色*/
+html {
+  font: normal 14px "微软雅黑", Arial;
+  line-height: initial; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "\5FAE\8F6F\96C5\9ED1"; }
+
+a {
+  text-decoration: none; }
+
+a:focus {
+  outline: 0; }
+
+ul, ol, li {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+  font-weight: normal; }
+
+[v-cloak] {
+  display: none !important; }
+
+img {
+  max-width: 100%;
+  border: 0px;
+  vertical-align: middle; }
+
+dl {
+  margin: 0; }
+
+dd {
+  margin: 0px; }
+
+input, select, textarea, button {
+  outline: none;
+  border: none; }
+
+textarea {
+  resize: none; }
+
+.clear {
+  clear: both; }
+
+/*文字几行*/
+.p1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p6 {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.fl {
+  float: left; }
+
+.fr {
+  float: right; }
+
+/*字体颜色*/
+.c333 {
+  color: #333; }
+
+.cf {
+  color: #fff; }
+
+.c0 {
+  color: #000; }
+
+.c4c4c4c {
+  color: #4c4c4c; }
+
+.cee6233 {
+  color: #ee6233; }
+
+.cf84423 {
+  color: #f84423; }
+
+.c14A83B {
+  color: #14A83B; }
+
+.c545454 {
+  color: #545454; }
+
+.c9b3912 {
+  color: #9b3912; }
+
+.c00C7C7 {
+  color: #00C7C7; }
+
+.cefe2d4 {
+  color: #efe2d4; }
+
+.c666 {
+  color: #666666; }
+
+.cccc {
+  color: #cccccc; }
+
+.cf37746 {
+  color: #f37746; }
+
+.c999 {
+  color: #999; }
+
+.ce47955 {
+  color: #e47955; }
+
+.cf3470e {
+  color: #f3470e; }
+
+.cff6000 {
+  color: #ff6000; }
+
+.c757575 {
+  color: #757575; }
+
+.caba987 {
+  color: #aba987; }
+
+.c8288a2 {
+  color: #8288a2; }
+
+.cfe5556 {
+  color: #fe5556; }
+
+.cbbb {
+  color: #bbb; }
+
+/*字体大小*/
+.f12 {
+  font-size: 12px; }
+
+.f14 {
+  font-size: 14px; }
+
+.f18 {
+  font-size: 18px; }
+
+.f16 {
+  font-size: 16px; }
+
+.f24 {
+  font-size: 24px; }
+
+.f20 {
+  font-size: 20px; }
+
+.f28 {
+  font-size: 28px; }
+
+.f30 {
+  font-size: 30px; }
+
+.f14 {
+  font-size: 14px; }
+
+.f50 {
+  font-size: 50px; }
+
+.f36 {
+  font-size: 36px; }
+
+/*文字对其*/
+.textaling {
+  text-align: center; }
+
+.textl {
+  text-align: left; }
+
+.textr {
+  text-align: right; }
+
+/*登陆*/
+.head_login {
+  width: 100%;
+  height: 35px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd; }
+
+.login_content {
+  margin: 0px auto;
+  width: 1200px;
+  height: inherit; }
+
+.login_content dt {
+  float: left;
+  font-family: STFangsong;
+  font-size: 16px;
+  color: #878787;
+  width: auto;
+  height: 35px;
+  line-height: 35px;
+  text-align: center; }
+
+.login_content dd {
+  float: right;
+  font-size: 14px;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 20px; }
+
+.login_content dd a:hover {
+  color: #14A83B; }
+
+/*头部导航*/
+.head {
+  width: 1200px;
+  margin: 0px auto;
+  position: relative;
+  height: 120px;
+  top: 0px; }
+
+.index_head {
+  width: 100%;
+  border-bottom: 1px solid #ddd; }
+
+.head .logo {
+  line-height: 120px; }
+
+.head a {
+  color: #333; }
+
+.nav {
+  overflow: hidden; }
+
+.nav li {
+  float: right;
+  width: auto;
+  height: 68px;
+  padding-left: 33px; }
+
+.nav li a {
+  color: #666;
+  display: block;
+  font-size: 20px;
+  text-align: center;
+  padding: 39px 0px 5px;
+  border-top: 3px solid transparent; }
+
+.nav li a:hover, .nav li a.on {
+  border-top: 3px solid #14A83B;
+  color: #14A83B; }
+
+/*HeaderBanner*/
+.indexBanner {
+  width: 100%; }
+
+/* main主体 */
+.main {
+  width: 100%; }
+
+.main_content {
+  width: 100%;
+  height: auto;
+  margin: 0px auto; }
+
+/*footer*/
+.footer {
+  width: 100%;
+  background-color: #f2f2f2; }
+
+.copy_right {
+  text-align: center;
+  color: #333;
+  font-size: 16px;
+  height: 80px;
+  line-height: 80px;
+  width: 1200px;
+  margin: 0px auto;
+  background-color: #f2f2f2; }
+
+@media (max-width: 1200px) {
+  /*foot*/
+  .footer {
+    width: 1200px; }
+
+  .copy_right {
+    width: 1200px; }
+
+  /*head*/
+  .head_login {
+    width: 1200px; }
+
+  /*enrollmentTraining  and  about and investment*/
+  .headTop_bg {
+    width: 1200px; }
+
+  /*enrollmentTraining*/
+  .advantage .prev {
+    left: 0px; }
+
+  .advantage .next {
+    right: 0px; }
+
+  /*.diffrent{
+      width: 1200px;
+   }*/
+  /*index*/
+  .evaluate_content {
+    width: 1200px; }
+
+  .main {
+    /*width: 1200px;*/ }
+
+  /*contact*/
+  .main_content {
+    width: 1200px; } }
+.t-top {
+  padding-left: 44px;
+  line-height: 40px;
+  background: #eee url(/static/images/tishi.png) no-repeat 10px center; }
+
+.t-top a {
+  color: #14A83B; }
+
+/*# sourceMappingURL=pc-common.css.map */

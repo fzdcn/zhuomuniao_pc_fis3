@@ -1,0 +1,67 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<link href="/wx/activity/static/css/double-eleven-activity.css" rel="stylesheet">
+<div id="double-eleven-activity" class="double-eleven-activity" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">双十一活动</div>
+    <img @click="back" src="/wx/static/images/back.png" class="setback">
+  </div>
+  <div class="activity-detail">
+    <a @click="doubleElevenJump" class="activity-img" style="display: block;">
+      <img src="/wx/activity/static/images/double-eleven-partake.png" alt="双十一活动">
+    </a>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#double-eleven-activity',
+    data: {
+      uuid: ''
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      doubleElevenJump: function () {
+        if (tools.isWeChatBroswer()) {
+          tools.alert('当前不支持微信浏览器支付，请点击右上方使用外部浏览器打开！', 'warning');
+        } else if (!stores.getAccessToken()) {
+          tools.confirm('请先登陆', 'warning', false, function () {
+            redirect.remember();
+            window.location.href = '/wx/login.html';
+          });
+        } else {
+          var payUrl = '/wx/activity/double-eleven-pay.html';
+          var uuid = http.getQuery('uuid');
+          if (uuid) {
+            payUrl = http.setQuery(payUrl, 'uuid', uuid);
+          }
+          payUrl = http.setQuery(payUrl, 't', stores.getAccessToken());
+          window.location.href = payUrl;
+        }
+      }
+    },
+    created: function () {
+      tools.setTitle('啄木鸟家政，双十一你消费我买单');
+      var t = http.getQuery('t');
+      if (!t || t === 'undefined') {
+        // 进页面时没有参数 t
+        if (stores.getAccessToken()) {
+          // 用户已登录，重新加载页面，并带上 token
+          var reloadUrl = window.location.href;
+          reloadUrl = http.setQuery(reloadUrl, 't', stores.getAccessToken());
+          // 此处应该要返回两级，但是测试一级也能调回
+          //stores.addGoBackLevel();
+          window.location.href = reloadUrl;
+        }
+        // 用户未登录，不做更改
+      } else {
+        // 进页面时有参数 t
+        if (!stores.getAccessToken()) {
+          // 并且用户未登录，让用户不需要重新登陆
+          stores.setAccessToken(t);
+        }
+        // 如果用户已登录，不改变原来的 token
+      }
+    }
+  })
+</script>

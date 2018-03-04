@@ -1,0 +1,417 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="collection" class="collection" v-cloak>
+  <div class="set">
+    <div class="head-tittle">
+      <div :class="this.collectType==2 ? 'chose-set-1' : 'set-on'" @click="changeBox">服务收藏</div>
+      <div :class="this.collectType==1 ? 'chose-set' : 'set-on-1'" @click="changeTab">商品收藏</div>
+      <!--<div class="font-1 color-8">商品收藏</div>-->
+    </div>
+    <img class="setback" src="/wx/static/images/back_black@2x.png" @click="back">
+    <div class="preserve color-8" @click="edit" v-if="status==1">编辑</div>
+    <div class="preserve color-8" @click="finish" v-if="status==2">完成</div>
+  </div>
+  <!--商品收藏列表-->
+  <div id="mescroll" class="mescroll my-collect-list">
+    <div class="collect-list" v-if="this.collectType==1">
+      <div class="edit-c" v-if="status==2 && collectList && collectList.length > 0" @click="allSelect">
+        <img
+          :src="allSelected ? '/wx/static/images/Product_shopping_cart_chose@2x.png' : '/wx/static/images/Product_shopping_cart_notselected@2x.png'">
+        <span class="color-99 font-3">全选</span>
+      </div>
+      <div class="shopCart" v-for="item in collectList" @click="toDetail(item)">
+        <div class="shop-detail">
+          <div class="choice fl" @click="doSomething(item)">
+            <img
+              :src="item.selected ? '/wx/static/images/Product_shopping_cart_chose@2x.png' : '/wx/static/images/Product_shopping_cart_notselected@2x.png'">
+          </div>
+          <div class="one-col fl">
+            <img class="shop-img" src="" v-lazy="item.shop_goods.cover_photo">
+            <div class="goods-status-o" v-if="item.shop_goods.status==20">已下架</div>
+            <!-- <div class="goods-status" v-else-if="item.goods_property.quantity<1">库存不足</div>-->
+          </div>
+          <div class="one-special fr">
+            <div class="lleft">
+              <div class="tit color-8">
+                {{ item.shop_goods.name }}
+              </div>
+              <div class="price clearfix">
+                <div class="fl">
+                  <div class="now-price color-h">￥{{ item.shop_goods.price }}</div>
+                  <div class="sold">已售 {{ item.shop_goods.sale_number }}</div>
+                </div>
+                <div class="cart fr" @click="showCart(item)">
+                  <img src="/wx/static/images/shop_shopping_cart_normal@2x.png">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="edit-coll-footer" v-if="status==2 && collectList && collectList.length > 0">
+        <a @click="collectDelete">删除</a>
+      </div>
+    </div>
+    <!--服务收藏列表-->
+    <div class="collect-list" v-if="this.collectType==2">
+      <div class="edit-c" v-if="status==2 && serviceCollectList && serviceCollectList.length > 0"
+           @click="serviceAllSelect">
+        <img
+          :src="serviceAllSelected ? '/wx/static/images/Product_shopping_cart_chose@2x.png' : '/wx/static/images/Product_shopping_cart_notselected@2x.png'">
+        <span class="color-99 font-3">全选</span>
+      </div>
+      <div class="shopCart" v-for="item in serviceCollectList" @click="toServiceDetail(item)">
+        <div class="shop-detail">
+          <div class="choice fl" @click="choose(item)">
+            <img
+              :src="item.serviceSelected ? '/wx/static/images/Product_shopping_cart_chose@2x.png' : '/wx/static/images/Product_shopping_cart_notselected@2x.png'">
+          </div>
+          <div class="one-col fl">
+            <img class="shop-img" src="" v-lazy="item.life_goods.cover_photo">
+            <div class="goods-status-o" v-if="item.life_goods.status==20">已下架</div>
+          </div>
+          <div class="one-special fr">
+            <div class="lleft">
+              <div class="tit color-8">
+                {{ item.life_goods.name }}
+              </div>
+              <div class="price clearfix">
+                <div class="fl">
+                  <div class="now-price color-h">￥{{ item.life_goods.sale_price }}</div>
+                  <div class="sold">已售 {{ item.life_goods.sale_number }}</div>
+                </div>
+                <!--<div class="cart fr">
+                  <img src="/wx/static/images/shop_shopping_cart_normal@2x.png">
+                </div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="edit-coll-footer" v-if="status==2 && serviceCollectList && serviceCollectList.length > 0">
+        <a @click="collectDelete">删除</a>
+      </div>
+    </div>
+  </div>
+  <!--加入购物车-->
+  <div v-if="cartShow">
+    <link rel="import" href="/wx/goods-shop/add-cart.html?__inline">
+  </div>
+</div>
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3
+  });
+  var vm = new Vue({
+    el: '#collection',
+    data: {
+      mescroll: null,
+      // collectType: 2,
+      collectType: 2,
+      collectList: [],
+      serviceCollectList: [],
+      status: 1,
+      allSelected: false,
+      serviceAllSelected: false,
+      cartShow: false,
+      propertyList: [],
+      currentName: '',
+      currentPrice: '',
+      photo: '',
+      number: 1,
+      maxNum: '',
+      choice: false,// 商品分类默认不选
+    },
+    methods: {
+      // 切换收藏夹类型
+      changeTab: function () {
+        this.collectType = 1;
+        this.finish();
+        this.mescroll.resetUpScroll();
+      },
+      changeBox: function () {
+        this.collectType = 2;
+        this.finish();
+        this.mescroll.resetUpScroll();
+      },
+      // 返回上一页
+      back: function () {
+        window.location.href = 'personal.html';
+      },
+      // 进入商品详情页
+      toDetail: function (item) {
+        window.location.href = '/wx/goods-shop/goods-detail.html?goods_id=' + item.goods_id;
+      },
+      // 进入生活服务详情页
+      toServiceDetail: function (item) {
+        window.location.href = '/wx/life-service/move-detail.html?id=' + item.life_goods.id;
+      },
+      // 编辑
+      edit: function () {
+        if (this.collectType == 2) {
+          if (this.serviceCollectList.length <= 0) {
+            tools.alert('收藏夹为空，请先添加商品', 'warning')
+          } else {
+            document.getElementsByClassName('collection')[0].style.overflow = 'hidden';
+            document.getElementsByClassName('mescroll-upwarp')[0].style.marginBottom = '1rem';
+            $('.shopCart').animate({marginLeft: '14%'});
+            this.status = 2;
+          }
+          return false;
+        }
+        if (this.collectType == 1) {
+          if (this.collectList.length <= 0) {
+            tools.alert('收藏夹为空，请先添加商品', 'warning')
+          } else {
+            document.getElementsByClassName('collection')[0].style.overflow = 'hidden';
+            document.getElementsByClassName('mescroll-upwarp')[0].style.marginBottom = '1rem';
+            $('.shopCart').animate({marginLeft: '14%'});
+            this.status = 2;
+          }
+          return false;
+        }
+      },
+      // 完成
+      finish: function () {
+        document.getElementsByClassName('collection')[0].style.overflow = '';
+        document.getElementsByClassName('mescroll-upwarp')[0].style.marginBottom = '0rem';
+        $('.shopCart').animate({marginLeft: '0%'});
+        this.status = 1;
+      },
+      // 选择商品
+      doSomething: function (item) {
+        var _this = this;
+        event.cancelBubble = true;
+        item.selected = !item.selected;
+        if (!item.selected) {
+          _this.allSelected = false;
+        }
+      },
+      // 选择生活服务
+      choose: function (item) {
+        var _this = this;
+        event.cancelBubble = true;
+        item.serviceSelected = !item.serviceSelected;
+        if (!item.serviceSelected) {
+          _this.serviceAllSelected = false;
+        }
+      },
+      // 全选商品
+      allSelect: function () {
+        var _this = this;
+        var setToSelected = true;
+        if (_this.allSelected) {
+          setToSelected = false;
+        }
+        _this.collectList.forEach(function (item) {
+          item.selected = setToSelected;
+        });
+        _this.allSelected = !_this.allSelected;
+      },
+      // 全选服务
+      serviceAllSelect: function () {
+        var _this = this;
+        var setToSelected = true;
+        if (_this.serviceAllSelected) {
+          setToSelected = false;
+        }
+        _this.serviceCollectList.forEach(function (item) {
+          item.serviceSelected = setToSelected;
+        });
+        _this.serviceAllSelected = !_this.serviceAllSelected;
+      },
+      // 删除商品收藏
+      collectDelete: function () {
+        var needDeleteIds = [];
+        var _this = this;
+        if (_this.collectType == 1) {
+          _this.collectList = _this.collectList.filter(function (item) {
+            if (item.selected) {
+              needDeleteIds.push(item.id);
+            }
+            return !item.selected
+          });
+          if (needDeleteIds.length < 1) {
+            tools.alert('请先选择一个收藏商品')
+            return
+          }
+          http.post('shop-collect/delete', {
+            ids: needDeleteIds.join(',')
+          }, function (data) {
+            _this.allSelected = false;
+            tools.alert(data);
+            _this.mescroll.resetUpScroll();
+          });
+        } else {
+          _this.serviceCollectList = _this.serviceCollectList.filter(function (item) {
+            if (item.serviceSelected) {
+              needDeleteIds.push(item.id);
+            }
+            return !item.serviceSelected
+          });
+          if (needDeleteIds.length < 1) {
+            tools.alert('请先选择一个收藏商品')
+            return
+          }
+          http.post('life-collect/delete', {
+            ids: needDeleteIds.join(',')
+          }, function (data) {
+            _this.serviceAllSelected = false;
+            tools.alert(data);
+            _this.mescroll.resetUpScroll();
+          });
+        }
+      },
+      // 弹出加入购物车窗口,获取商品属性
+      showCart: function (item) {
+        event.cancelBubble = true;
+        if(item.shop_goods.status==20){
+          tools.alert('商品已下架')
+          return
+        }
+        this.cartShow = true;
+        this.getProperty(item.goods_id);
+        this.currentName = item.shop_goods.name;
+        this.currentPrice = item.shop_goods.price;
+        this.photo = item.shop_goods.cover_photo;
+      },
+      // 选择商品分类
+      chooseType: function (item) {
+        if (item.status == 10) {
+          if (item.quantity > 0) {
+            this.choice = item.id;
+            this.currentPrice = item.sale_price;
+            stores.setGoodsType(item.id);
+            stores.setGoodsNum(item.quantity);
+            this.maxNum = stores.getGoodsNum();
+          } else {
+            tools.alert('该商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('商品已下架', 'warning');
+        }
+      },
+      // 加入购物车
+      addGoods: function () {
+        var _this = this;
+        if (!stores.getGoodsType()) {
+          tools.alert('请选择一个商品分类加入购物车', 'warning');
+        } else {
+          http.post('shop-cart/add', {property_id: stores.getGoodsType(), number: this.number}, function (data) {
+            tools.alert(data, 'success');
+            // 关闭加入购物车窗口和初始化数据
+            _this.closeShow();
+          });
+        }
+      },
+      // 关闭加入购物车窗口和初始化数据
+      closeShow: function () {
+        this.cartShow = false;
+        this.choice = false;
+        this.number = 1;
+        this.maxNum = '';
+        stores.removeGoodsType();
+        stores.removeGoodsNum();
+      },
+      getProperty: function (id) {
+        http.get('shop-property/all', {goods_id: id}, function (data) {
+          vm.propertyList = data
+        });
+      },
+      addQuantity: function () {
+        if (stores.getGoodsNum()) {
+          this.number += 1;
+          if (this.number > stores.getGoodsNum()) {
+            this.number = stores.getGoodsNum();
+            tools.alert('商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('请先选择一个商品分类', 'warning');
+        }
+      },
+      reduceQuantity: function () {
+        this.number -= 1;
+        if (this.number < 1) {
+          this.number = 1;
+          tools.alert('商品数量不能小于1', 'warning');
+        }
+      },
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        // 服务收藏
+        if (_this.collectType == 2) {
+          http.get('life-collect/list', {
+            per_page: page.size,
+            page: page.num,
+            expand: 'life_goods',
+            fields: 'id'
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        } else if (_this.collectType == 1) {
+          // 商品收藏
+          http.get('shop-collect/list', {
+            per_page: page.size,
+            page: page.num,
+            expand: 'shop_goods'
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        }
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        if (this.collectType == 2) {
+          if (isAppend && pageNum == 1) {
+            for (var key in Object.keys(data.items)) {
+              data.items[key]['serviceSelected'] = false;
+            }
+            this.serviceCollectList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            for (var key in Object.keys(data.items)) {
+              data.items[key]['serviceSelected'] = false;
+            }
+            this.serviceCollectList = this.serviceCollectList.concat(data.items);
+          }
+        } else if (this.collectType == 1) {
+          if (isAppend && pageNum == 1) {
+            for (var key in Object.keys(data.items)) {
+              data.items[key]['selected'] = false;
+            }
+            this.collectList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            for (var key in Object.keys(data.items)) {
+              data.items[key]['selected'] = false;
+            }
+            this.collectList = this.collectList.concat(data.items);
+          }
+        }
+      },
+      meScroll: function (_this, emptyIcon, htmlNoData) {
+        _this = this;
+        emptyIcon = '/wx/static/images/blank_collect@2x.png';
+        htmlNoData = '<p class="upwarp-nodata" style="color:#00a84c;position: relative;height: 0.5rem;line-height: 0.5rem;">--我是有底线的--</p>';
+        tools.myScroll(_this, false, false, false, emptyIcon, false, htmlNoData);
+      }
+    },
+    mounted: function () {
+      // 创建 MeScroll 对象
+      this.meScroll();
+    }
+  })
+</script>

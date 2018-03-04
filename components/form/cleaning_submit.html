@@ -1,0 +1,247 @@
+<!-- 城市选择 -->
+<div id="form-submit" class="cityTab" v-cloak>
+  <div class="cityTab_content">
+    <div class="t-top" v-if="isShow">
+      <span class="">提示：您还没有登录，登录后才能下单，</span>
+      <a @click="turnToLogin">去登录</a>
+    </div>
+    <div class="cityList">
+      <div class="selectContainer">
+        <div class="row clearfix">
+          <div class="title"><img src="/wx/static/images/city.png" alt="">城市</div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <a href="javascript:void(0);" class="on">{{ cityName }}</a>
+              <a @click="changeCity" class="on" style="background:none;border: none;">【切换】</a>
+            </div>
+          </div>
+        </div>
+        <div class="row clearfix">
+          <div class="title"><img src="/wx/static/images/area.png" alt="">区域</div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <a v-for="item in areaList" @click="form.ad_code=item.ad_code;"
+                 :class="{on:form.ad_code==item.ad_code}"
+                 href="javascript:void(0);">{{ item.name }}</a>
+            </div>
+          </div>
+        </div>
+        <!--保洁-->
+        <div class="row clearfix">
+          <div class="title">
+            <img src="/wx/static/images/service_frequency.png" alt="">服务选择
+          </div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <a style="border: none;">
+                <label>
+                  <input class="f16 c666" v-model="formAttributes.serviceType" value="1001" type="checkbox"/>
+                  开荒保洁
+                </label>
+              </a>
+              <a style="border: none;">
+                <label>
+                  <input class="f16 c666" v-model="formAttributes.serviceType" value="1002"
+                         type="checkbox"/>
+                  专业擦玻璃
+                </label>
+              </a>
+              <a style="border: none;">
+                <label>
+                  <input class="f16 c666" v-model="formAttributes.serviceType" value="1003" type="checkbox"/>
+                  日常保洁
+                </label>
+              </a>
+              <a style="border: none;">
+                <label>
+                  <input class="f16 c666" v-model="formAttributes.serviceType" value="1004" type="checkbox"/>
+                  空调清洗
+                </label>
+              </a>
+              <a style="border: none;">
+                <label>
+                  <input class="f16 c666" v-model="formAttributes.serviceType" value="1005"
+                         type="checkbox"/>
+                  洗衣机清洗
+                </label>
+              </a>
+              <a style="border: none;">
+                <label>
+                  <input class="f16 c666" v-model="formAttributes.serviceType" value="1006" type="checkbox"/>
+                  冰箱清洗
+                </label>
+              </a>
+              <a style="border: none;">
+                <label>
+                  <input class="f16 c666" v-model="formAttributes.serviceType" value="1007"
+                         type="checkbox"/>
+                  油烟机清洗
+                </label>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row clearfix">
+          <div class="title"><img src="/wx/static/images/home_time.png" alt="">服务时间</div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <a style="border: none;">
+                <label>开始日期
+                  <input class="f16 c666" id="date" type="text" style="width: 3rem;" placeholder="开始时间" readonly>
+                </label>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!--地址-->
+        <div class="row clearfix">
+          <div class="title"><img src="/wx/static/images/specific_address.png" alt="">具体地址：</div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <div class="region_address">
+                <input class="f16 c666" v-model.trim="form.address_detail" type="text" name="address"
+                       placeholder="请填写具体服务地址">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--<div class="row clearfix"-->
+        <!--style="display: table;width: 100%;">-->
+        <!--<div class="title">-->
+        <!--<img src="/wx/static/images/charges.png" alt="">收费方式-->
+        <!--<div @click="isHidden = false" class="charge-mode">点击查看</div>-->
+        <!--</div>-->
+        <!--<div class="content see-most clearfix showHeight">-->
+        <!--<div class="contentInner">-->
+        <!--<a @click="isHidden = false">点击查看</a>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div v-if="!isHidden" class="wx-price-mask"></div>
+        <div v-if="!isHidden" class="wx-price-mask-content">
+          <div class="close-service-mask">
+            <img @click="isHidden = true" src="/wx/static/images/submit_order_close@2x.png" alt="">
+          </div>
+          <div class="pay-way">
+            <p>收费方式</p>
+            <p>收费方式</p>
+            <p>收费方式</p>
+            <p>收费方式</p>
+          </div>
+        </div>
+      </div>
+      <!-- 按钮提交 -->
+      <div class="order">
+        <button @click="submitForm" class="order_submit f20 cf">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  new Vue({
+    el: '#form-submit',
+    data: {
+      isHidden: true,
+      accessToken: stores.getValue('accessToken'),
+      cityName: stores.getCityObj().name,
+      areaList: [],
+      formAttributes: {
+        // 服务选择
+        serviceType: [],
+        arrayToString: ''
+      },
+      form: {
+        service_code: '',
+        ad_code: '',
+        service_time: '',
+        address_detail: '',
+        origin: 20
+      }
+    },
+    computed: {
+      // 判断是否登陆
+      isShow: function () {
+        var isShow = true;
+        if (!stores.getValue('accessToken')) {
+          return isShow
+        }
+        else {
+          return !isShow
+        }
+      }
+    },
+    methods: {
+      // 下单
+      submitForm: function () {
+        if (!stores.getValue('accessToken')) {
+          redirect.remember();
+          tools.confirm('请先登录', false, true, function () {
+            window.location.href = 'login.html';
+          });
+          return false;
+        }
+        if (!this.form.ad_code) {
+          tools.alert("区域不能为空!", "warning");
+          return false;
+        }
+        if (this.formAttributes.serviceType.length <= 0) {
+          tools.alert("服务选择不能为空!", "warning");
+          return false;
+        }
+        if (!document.getElementById("date").value.replace(/(^\s+)|(\s+$)/g, "")) {
+          tools.alert("服务时间不能为空!", "warning");
+          return false;
+        }
+        if (!this.form.address_detail) {
+          tools.alert("具体地址不能为空!", "warning");
+          return false;
+        }
+        this.submitFormSuccess();
+      },
+      getAreaList: function () {
+        var vm = this;
+        http.get('area/areas', {
+          city_code: stores.getCityObj().ad_code
+        }, function (data) {
+          vm.areaList = data;
+        })
+      },
+      changeCity: function () {
+        window.location.href = window.location.origin + '/wx/city.html';
+      },
+      submitFormSuccess: function () {
+        this.form.service_time = tools.dateToTimestamp(document.getElementById("date").value.replace(/(^\s+)|(\s+$)/g, ""));
+        this.form.service_code = "," + this.formAttributes.serviceType.join(",,") + ",";
+        http.post('clean-order/order', this.form, function () {
+          tools.confirm('感谢您选择苏州蚕食智能生活服务，客服会在2小时之内与您联系，请您保持电话畅通，耐心等待！', 'success', false, function () {
+            if (window.location.href.toLowerCase().indexOf("wx") > 0) {
+              window.location.href = window.location.origin + "/wx/order-list/order-list.html";
+            } else {
+              window.location.href = window.location.origin + "/order.html";
+            }
+          })
+        })
+      },
+      // 未登录页面跳转
+      turnToLogin: function () {
+        redirect.remember();
+        window.location.href = 'login.html';
+      }
+    },
+    mounted: function () {
+      this.getAreaList();
+    }
+  })
+  $('#date').jeDate({
+    isinitVal: true,
+    format: 'YYYY-MM-DD hh:mm:ss',
+    minDate: "2014-06-16 00:00:00",
+    maxDate: '2099-06-16 23:59:59'
+  });
+</script>

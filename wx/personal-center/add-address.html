@@ -1,0 +1,179 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="add-address" id="add" v-cloak>
+  <div class="set">
+    <div class="set-on color-8">添加收货地址</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+    <div class="preserve" @click="submit">保存</div>
+  </div>
+  <div class="sign-up">
+    <div class="sign-name">
+      <span class="sign-phone color-8 font-3">收货人</span>
+      <input class="sign-input" type="text" placeholder="请输入收货人的姓名" v-model="name">
+    </div>
+    <div class="sign-name">
+      <span class="sign-phone color-8 font-3">手机号</span>
+      <input class="sign-input" type="number" placeholder="请输入收货人的手机号码" v-model="phone">
+    </div>
+    <div class="sign-name">
+      <span class="sign-phone color-8 font-3">省市区</span>
+      <div class="address-a color-8 font-3" @click="getProvince">{{ provincesChoseName }} {{ cityChoseName }} {{
+        areaChoseName }}
+      </div>
+    </div>
+    <div class="sign-name underline">
+      <span class="sign-phone color-8 font-3">详细地址</span>
+      <input class="sign-input" type="text" placeholder="请输入收货人的详细地址" v-model="ad_detail">
+    </div>
+    <div class="sign-name yu">
+      <span class="sign-phone color-8 font-3">默认地址</span>
+      <div class="address-d"></div>
+      <div class="isDefault" @click="isChose"><img
+          :src="isSelected == 1 ? '/wx/static/images/add_adress_open@2x.png' : '/wx/static/images/add_adress_close@2x.png'">
+      </div>
+    </div>
+  </div>
+  <!--选择省市区-->
+  <div class="edit-area" v-if="popArea">
+    <div class="pop-area" @click="cancel"></div>
+    <div class="pop">
+      <div class="choose-head">
+        <img src="/wx/static/images/back.png" @click="goBack" v-if="city || area">
+        选择地区
+        <div class="cancel" @click="cancel">取消</div>
+      </div>
+      <div class="areaList">
+        <div class="area-item" v-for="item in provincesList" @click="selectProvinces(item)" v-if="provinces">{{
+          item.name}}
+        </div>
+        <div class="area-item" v-for="item in cityList" v-if="city" @click="selectCity(item)">{{ item.name }}</div>
+        <div class="area-item" v-for="item in areaList" v-if="area" @click="selectArea(item)">{{ item.name }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#add',
+    data: {
+      name: '',
+      phone: '',
+      ad_detail: '',
+      provincesChoseName: '',
+      cityChoseName: '',
+      areaChoseName: '',
+      popArea: false,
+      provincesList: [],
+      provinces: true,
+      city: false,
+      cityList: [],
+      area: false,
+      areaList: [],
+      choseCode: '',
+      isSelected: 0
+    },
+    methods: {
+      // 返回上一级页面
+      back: function () {
+        tools.goBack();
+      },
+      // 关闭省市区选择窗口
+      cancel: function () {
+        var _this = this;
+        _this.popArea = false;
+        _this.provinces = false;
+        _this.city = false;
+        _this.area = false;
+      },
+      // 获取省份
+      getProvince: function () {
+        var _this = this;
+        _this.popArea = true;
+        http.get('area/provinces', {}, function (data) {
+          _this.provincesList = data;
+          _this.provinces = true;
+        })
+      },
+      // 选择省份，获取城市
+      selectProvinces: function (item) {
+        var _this = this;
+        _this.provinces = false;
+        _this.provincesChoseName = item.name;
+        _this.cityChoseName = '';
+        _this.areaChoseName = '';
+        http.get('area/cities', {province_code: item.ad_code}, function (data) {
+          _this.cityList = data;
+          _this.city = true;
+        })
+      },
+      // 选择城市获取区县
+      selectCity: function (item) {
+        var _this = this;
+        _this.provinces = false;
+        _this.city = false;
+        _this.cityChoseName = item.name;
+        _this.areaChoseName = '';
+        http.get('area/areas', {city_code: item.ad_code}, function (data) {
+          _this.areaList = data;
+          _this.area = true;
+        })
+      },
+      // 选定区
+      selectArea: function (item) {
+        var _this = this;
+        _this.areaChoseName = item.name;
+        _this.choseCode = item.ad_code;
+        _this.cancel();
+      },
+      // 地址选择返回
+      goBack: function () {
+        var _this = this;
+        if (this.city) {
+          _this.provinces = true;
+
+          _this.city = false;
+          _this.area = false;
+        } else if (_this.area) {
+          _this.provinces = false;
+          _this.city = true;
+          _this.area = false;
+        }
+
+      },
+      // 是否保存为默认地址
+      isChose: function () {
+        if (this.isSelected == 1) {
+          return this.isSelected = 0
+        } else {
+          return this.isSelected = 1
+        }
+      },
+      // 表单提交
+      submit: function () {
+        var _this = this;
+        if (!_this.name) {
+          tools.alert('收货人不能为空', 'warning');
+        } else if (!_this.phone) {
+          tools.alert('手机号不能为空', 'warning');
+        } else if (!/^1[0-9][0-9]{9}$/.test(_this.phone)) {
+          tools.alert('手机号格式不正确', 'warning');
+        } else if (!_this.choseCode) {
+          tools.alert('省市区不能为空', 'warning');
+        } else if (!_this.ad_detail) {
+          tools.alert('详细地址不能为空', 'warning');
+        } else {
+          http.post('user-address/add', {
+            ad_code: _this.choseCode,
+            area_detail: _this.ad_detail,
+            contacts: _this.name,
+            cellphone: _this.phone,
+            is_default: _this.isSelected
+          }, function () {
+            tools.confirm('地址添加成功', 'success', false, function () {
+              tools.goBack();
+            });
+          })
+        }
+      }
+    }
+  })
+</script>

@@ -1,0 +1,240 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="goods-search" class="goods-search" v-cloak>
+  <div class="search-back">
+    <!--搜索输入框-->
+    <link rel="import" href="/wx/search/search-input.html?__inline">
+  </div>
+  <div id="mescroll" class="mescroll search-result-list">
+    <div>
+      <!--<div class="lately-search">-->
+      <!--<div class="search-title">-->
+      <!--<dl>-->
+      <!--<dt>最近搜索</dt>-->
+      <!--<dd><img src="/wx/static/images/search_del@2x.png" alt="删除"></dd>-->
+      <!--</dl>-->
+      <!--</div>-->
+      <!--<div class="lately-search-list">-->
+      <!--<p>保洁大促</p>-->
+      <!--<p>汽车保养</p>-->
+      <!--<p>保姆</p>-->
+      <!--<p>保洁大促</p>-->
+      <!--<p>汽车保养</p>-->
+      <!--<p>保姆</p>-->
+      <!--<p>保洁大促</p>-->
+      <!--<p>汽车保养</p>-->
+      <!--<p>保姆</p>-->
+      <!--<div class="clear"></div>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="hot-search">-->
+      <!--<div class="hot-search-title">-->
+      <!--<dl>-->
+      <!--<dt>热门搜索</dt>-->
+      <!--</dl>-->
+      <!--</div>-->
+      <!--<div class="hot-search-list">-->
+      <!--<p>月嫂</p>-->
+      <!--<p>育婴师</p>-->
+      <!--<p>保洁</p>-->
+      <!--<p>保姆</p>-->
+      <!--<p>汽车保养</p>-->
+      <!--<p>保姆</p>-->
+      <!--<p>保洁大促</p>-->
+      <!--<p>汽车保养</p>-->
+      <!--<p>保姆</p>-->
+      <!--<div class="clear"></div>-->
+      <!--</div>-->
+      <!--</div>-->
+
+      <!--商品列表-->
+      <link rel="import" href="/wx/goods-shop/shop-goods-list.html?__inline">
+    </div>
+  </div>
+  <!--加入购物车-->
+  <template v-if="cartShow">
+    <link rel="import" href="/wx/goods-shop/add-cart.html?__inline">
+  </template>
+</div>
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#goods-search',
+    data: {
+      mescroll: null,
+      form: {
+        searchContent: '',
+      },
+      // 商城服务列表
+      goodsList: [],
+      propertyList: [],
+      photo: '',
+      currentName: '',
+      currentPrice: '',
+      cartShow: false,
+      number: 1,
+      choice: false, // 商品分类默认不选
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      // 搜索商城服务列表
+      search: function () {
+        this.mescroll.resetUpScroll();
+      },
+      getProperty: function (id) {
+        var vm = this;
+        http.get('shop-property/all', {goods_id: id}, function (data) {
+          vm.propertyList = data
+        });
+      },
+      // 跳转到商品详情页
+      toDetail: function (item) {
+        window.location.href = 'goods-detail.html?goods_id=' + item.id;
+      },
+      // 弹出加入购物车窗口,获取商品属性
+      showCart: function (i) {
+        event.cancelBubble = true;
+        this.cartShow = true;
+        this.getProperty(i.id);
+        this.currentName = i.name;
+        this.currentPrice = i.price;
+        this.photo = i.cover_photo;
+      },
+      addQuantity: function () {
+        if (stores.getGoodsNum()) {
+          this.number += 1;
+          if (this.number > stores.getGoodsNum()) {
+            this.number = stores.getGoodsNum();
+            tools.alert('商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('请先选择一个商品分类', 'warning');
+        }
+      },
+      reduceQuantity: function () {
+        this.number -= 1;
+        if (this.number < 1) {
+          this.number = 1;
+          tools.alert('商品数量不能小于1', 'warning');
+        }
+      },
+      // 加入购物车
+      addGoods: function () {
+        var _this = this;
+        if (!stores.getGoodsType()) {
+          tools.alert('请选择一个商品分类加入购物车', 'warning');
+        } else {
+          http.post('shop-cart/add', {property_id: stores.getGoodsType(), number: this.number}, function (data) {
+            tools.confirm(data, 'success', false, function () {
+              // 关闭加入购物车窗口，初始化数据
+              _this.closeShow();
+            });
+          });
+        }
+      },
+      // 关闭加入购物车窗口，初始化数据
+      closeShow: function () {
+        this.cartShow = false;
+        this.choice = false;
+        this.number = 1;
+        this.maxNum = '';
+        stores.removeGoodsType();
+        stores.removeGoodsNum();
+      },
+      // 选择商品分类
+      chooseType: function (item) {
+        if (item.status == 10) {
+          if (item.quantity > 0) {
+            this.choice = item.id;
+            this.currentPrice = item.sale_price;
+            stores.setGoodsType(item.id);
+            stores.setGoodsNum(item.quantity);
+            this.maxNum = stores.getGoodsNum();
+          } else {
+            tools.alert('该商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('商品已下架', 'warning');
+        }
+      },
+      // 跳转到商品详情页
+      toDetail: function (item) {
+        window.location.href = '/wx/goods-shop/goods-detail.html?goods_id=' + item.id;
+      },
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        if (http.getQuery('type_id')) {
+          // 搜索商城首页更多服务列表
+          http.get('shop-goods/list', {
+            per_page: page.size,
+            page: page.num,
+            recommend_type_id: http.getQuery('type_id'),
+            search: _this.form.searchContent
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        } else if (http.getQuery('type_two_id')) {
+          // 搜索商城首页更多服务列表
+          http.get('shop-goods/list', {
+            per_page: page.size,
+            page: page.num,
+            type_two_id: http.getQuery('type_two_id'),
+            search: _this.form.searchContent
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        } else {
+          // 搜索商城首页服务列表
+          http.get('search/shop-goods', {
+            per_page: page.size,
+            page: page.num,
+            search: _this.form.searchContent
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        }
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        if (isAppend && pageNum == 1) {
+          this.goodsList = data.items;
+        } else if (isAppend && pageNum > 1) {
+          this.goodsList = this.goodsList.concat(data.items);
+        }
+      },
+      meScroll: function (_this) {
+        _this = this;
+        tools.myScroll(_this, false, false, true);
+      }
+    },
+    mounted: function () {
+      // 创建 MeScroll 对象
+      this.meScroll();
+    }
+  })
+</script>

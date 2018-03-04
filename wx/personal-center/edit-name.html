@@ -1,0 +1,54 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="edit-name" id="edit" v-cloak>
+  <div class="set">
+    <div class="set-on color-1" v-if="this.type==1">修改姓名</div>
+    <div class="set-on color-1" v-if="this.type==2">修改昵称</div>
+    <img src="/wx/static/images/back.png" class="setback" @click="back">
+    <div class="preserve" @click="editName">保存</div>
+  </div>
+  <div class="edit-input">
+    <input type="text" v-model="real_name" placeholder="请输入">
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#edit',
+    data: {
+      real_name: ''
+    },
+    computed: {
+      type: function () {
+        return http.getQuery('type');
+      }
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      editName: function () {
+        var _this = this;
+        if(!_this.real_name){
+          tools.alert('修改信息表单不能为空');
+          return
+        }
+        if (_this.type == 2) {
+          http.post('user-center/update-info', {
+            username: _this.real_name
+          }, function () {
+            tools.confirm('修改成功', 'success', false, function () {
+              tools.goBack();
+            });
+          })
+        } else if (_this.type == 1) {
+          http.post('user-center/update-info', {
+            real_name: _this.real_name
+          }, function () {
+            tools.confirm('修改成功', 'success', false, function () {
+              tools.goBack();
+            });
+          })
+        }
+      }
+    }
+  })
+</script>

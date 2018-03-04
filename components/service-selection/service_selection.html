@@ -1,0 +1,36 @@
+<!-- 左边浮动 -->
+<div id="left_service" class="left_service">
+  <div class="suspension">
+    <div class="suspension_detail active">
+      <i><img src="/static/images/service-chose.png"></i>
+      <p class="cf textaling">服务选择</p>
+      <div class="left_list">
+        <ul>
+          <li v-for="(index,item) in serviceOptions" :class="{active:form.service_code==index}">
+            <a :href='"reservation.html?code=" + index'>
+              <dl>
+                <dt class="fl f16 cf">{{ item }}</dt>
+                <dd class="fr"><img src="/static/images/arrow_left.png"></dd>
+              </dl>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#left_service',
+    data: {
+      form: {
+        service_code: http.getQuery('code'),
+        service_storesDetail: http.getQuery('storesDetail'),
+        ad_code: '',
+        detail_json: ''
+      },
+      serviceOptions:SERVICE_CODE
+    }
+  })
+</script>

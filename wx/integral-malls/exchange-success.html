@@ -1,0 +1,25 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="exchange-success" class="exchange-success">
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="integral-success">
+    <img src="/wx/static/images/exchange-success.png" alt="兑换成功">
+  </div>
+  <h3 class="fc-42">兑换信息</h3>
+  <p class="fc-24">24h内发货请至兑换记录中查看快递单号</p>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#exchange-success',
+    data: {
+      navTitle: '兑换成功'
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      }
+    },
+    mounted: function () {
+
+    }
+  })
+</script>

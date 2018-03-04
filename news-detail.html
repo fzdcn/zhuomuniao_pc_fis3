@@ -1,0 +1,35 @@
+<link rel="import" href="/components/common/header.html?__inline">
+<!-- main主体内容 -->
+<div id="news-detail" class="main" v-cloak>
+  <div class="main_content">
+    <div class="news-list">
+      <h3 class="news-title">{{ article.title }}</h3>
+      <div class="content" v-html="article.content">
+
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="import" href="/components/common/footer.html?__inline">
+<script>
+  new Vue({
+    el: '#news-detail',
+    data: {
+      article: {}
+    },
+    methods: {
+      getArticle: function () {
+        var vm = this;
+        http.get('article/get-article', {
+          id: http.getQuery('id'),
+          fields: 'title,content'
+        }, function (data) {
+          vm.article = data;
+        })
+      }
+    },
+    mounted: function () {
+      this.getArticle();
+    }
+  })
+</script>

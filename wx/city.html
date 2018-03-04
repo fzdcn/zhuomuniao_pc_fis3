@@ -1,0 +1,160 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="cities" id="city" v-cloak>
+  <div class="setting">
+    <div class="set-on color-1">城市选择</div>
+    <img src="/wx/static/images/back.png" class="setback" @click="back">
+  </div>
+  <div class="searchLetter touchClass">
+    <div class="letter-ion font-3 color-4" v-for="(group, letter) in cityList" :key="letter"
+         @click="chooseIndex(letter)">{{ letter }}
+    </div>
+  </div>
+  <div class="content-ion">
+    <!--省市获取-->
+    <!-- <div class="provinces">
+       <div>
+         <label for="province-selected">省份：
+           <select v-model="provincesSelected" @change="searchCityNum()" id="province-selected" class="province-selected"
+                   name="province-selected">
+             <option disabled value="">请选择省份</option>
+             <option v-for="item in provincesList" :value="item.ad_code">{{ item.name }}</option>
+           </select>
+         </label>
+       </div>
+       <div>
+         <label for="city-selected">城市：
+           <select v-model="citySelected" @change="changeCity" name="city-selected" id="city-selected"
+                   class="city-selected">
+             <option disabled value="">请选择城市</option>
+             <option v-for="(item,index) in searchCityList" :value="item.ad_code" :name="item.name"
+                     :pinyin="item.pinyin">{{ item.name }}
+             </option>
+           </select>
+         </label>
+       </div>
+       <button @click="submit" value="确定">确定</button>
+     </div>-->
+    <!--预留-->
+    <!--<div class="search-city">-->
+    <!--<div class="city-form">-->
+    <!--<img src="/wx/static/images/search_search@2x.png">-->
+    <!--<input type="text" class="city-search" placeholder="输入城市名称或拼音">-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="current-location">
+      <div class="title">当前定位城市</div>
+      <a @click="changeCurrentCity" class="current-city">{{ currentLocation.name }}</a>
+    </div>
+    <div class="current-location">
+      <div class="title">最近选择城市</div>
+      <a @click="changeLateCity" class="current-city">{{ cityName.name }}</a>
+    </div>
+    <div class="current-location">
+      <div class="title">热门城市</div>
+      <a v-for="item in hotCityJson" @click="changeHotCity(item)" class="current-city">{{ item.name }}</a>
+    </div>
+    <div class="city-item font-3" v-for="(group, letter) in cityList">
+      <div class="letter-city" :id="'letter-' + letter">{{ letter }}</div>
+      <div class="city-name" v-for="item in group" @click="chooseCity(item)">{{ item.name}}</div>
+    </div>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#city',
+    data: {
+      provincesSelected: '',
+      provincesList: [],
+      searchCityList: [],
+      cityList: [],
+      cityName: stores.getCityObj(),
+      citySelected: '',
+      cityJson: {
+        ad_code: '',
+        name: '',
+        pinyin: ''
+      },
+      currentLocation: '',
+      // 热门城市
+      hotCityJson: [
+        {"ad_code": 110100, "name": "北京市", "pinyin": "beijingshi"},
+        {"ad_code": 310100, "name": "上海市", "pinyin": "shanghaishi"},
+        {"ad_code": 440300, "name": "深圳市", "pinyin": "shenzhenshi"},
+        {"ad_code": 440100, "name": "广州市", "pinyin": "guangzhoushi"}
+      ]
+    },
+    methods: {
+      getCurrentLocation: function () {
+        var vm = this;
+        http.get('basic/get-city-from-ip', {}, function (data) {
+          vm.currentLocation = data;
+        })
+      },
+      changeLateCity: function () {
+        stores.setCityObj(this.cityName);
+        tools.goBack();
+      },
+      changeCurrentCity: function () {
+        stores.setCityObj(this.currentLocation);
+        tools.goBack();
+      },
+      changeHotCity: function (city) {
+        stores.setCityObj(city);
+        tools.goBack();
+      },
+      getProvincesList: function () {
+        var vm = this;
+        http.get('area/provinces', {}, function (data) {
+          vm.provincesList = data;
+        })
+      },
+      searchCityNum: function () {
+        var vm = this;
+        http.get('area/cities', {
+          province_code: vm.provincesSelected
+        }, function (data) {
+          vm.searchCityList = data;
+        });
+        vm.citySelected = '';
+      },
+      changeCity: function () {
+        this.cityJson.ad_code = this.citySelected;
+        this.cityJson.name = $(".city-selected option:selected").attr("name");
+        this.cityJson.pinyin = $(".city-selected option:selected").attr("pinyin");
+      },
+      getList: function () {
+        http.get('area/city-list', {group: 1}, function (data) {
+          vm.cityList = data.list
+        })
+      },
+      submit: function () {
+        var vm = this;
+        if (!this.provincesSelected) {
+          tools.alert('请选择省份', 'warning');
+          return false;
+        } else if (!this.citySelected) {
+          tools.alert('请选择城市', 'warning');
+          return false;
+        }
+        stores.setCityObj(vm.cityJson);
+        tools.goBack();
+      },
+      chooseIndex: function (letter) {
+        window.location.hash = '#letter-' + letter;
+        stores.addGoBackLevel();
+      },
+      chooseCity: function (city) {
+        stores.setCityObj(city);
+        tools.goBack();
+      },
+      back: function () {
+        tools.goBack();
+      }
+    },
+    created: function () {
+      this.getCurrentLocation();
+      this.getProvincesList();
+      this.getList();
+    }
+  })
+</script>

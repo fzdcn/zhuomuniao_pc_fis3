@@ -1,0 +1,174 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="evaluation" class="view" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">待评价</div>
+    <img src="/wx/static/images/back.png" class="setback" @click="back">
+    <div class="preserve color-2" @click="evaluate">发表</div>
+  </div>
+  <div class="evaluation">
+    <div class="evaluate-l" v-for="item in evaluation" v-if="item.status==10">
+      <div class="shop clearfix">
+        <div class="shop-img fl">
+          <img :src="item.goods.cover_photo">
+        </div>
+        <div class="shop-detail fl">
+          <div class="tit color-8">{{ item.goods.name }}</div>
+          <div class="many color-h">￥{{ item.goods.sale_price }}</div>
+        </div>
+      </div>
+      <div class="star">
+        <span class="font-3 color-8 mark">评分：</span>
+        <img @click="remark(item,index)" v-for="(i,index) in item.star" :src="i" alt="星级">
+      </div>
+      <div class="iframe">
+        <textarea placeholder="请输入您对商品的评价" v-model="item.text" @input="descInput(item)"></textarea>
+        <span class="con-total color-99 fr font-4" v-if="item.total<201">{{ item.total }}/200</span>
+        <span class="con-total color-h fr font-4" v-if="item.total>200">评价内容不能超过200字</span>
+      </div>
+      <div class="pic-list">
+        <div class="info-pic" v-for="(t,index) in item.images">
+          <img :src="t">
+          <div class="delete" v-if="t.length>0" @click="deleteImg(item,index)">
+            <img src="/wx/static/images/suggest_del@2x.png">
+          </div>
+        </div>
+        <div class="info-pic">
+          <label style="display: block">
+            <img src="/wx/static/images/suggest_picture@2x.png">
+            <input @change="addImg(item)" type="file" accept="image/jpg,image/jpeg,image/png" hidden>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var orderId = http.getQuery('order_id');
+  new Vue({
+    el: '#evaluation',
+    data: {
+      text: '',
+      total: 0,
+      evaluation: [],
+      starAll: [
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_green@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png'
+      ],
+      star: [
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png',
+        '/wx/static/images/service_be_evaluated_star_grey@2x.png'
+      ],
+      score: 0,
+      images: []
+    },
+    methods: {
+      // 五星评价
+      remark: function (item, index) {
+        item.star = item.starAll.slice(4 - index, 9 - index);
+        item.score = (index + 1) * 20
+      },
+      // 上传图片
+      addImg: function (item) {
+        var file = event.target.files[0];
+        http.uploadFile('upload/upload-photos', {
+          prefix: 'avatar_url',
+          name: 'avatar',
+          'avatar[]': file
+        }, function (data) {
+          item.images.push(data.filenames[0])
+        })
+      },
+      // 删除图片
+      deleteImg: function (item,index) {
+        item.images.splice(index,1);
+      },
+      evaluate: function () {
+        var _this = this
+          , canSubmit = true;
+        // 循环判断评论列表商品评分、评价内容是否为空
+        for (var i = 0; i < _this.evaluation.length; i++) {
+          var item = _this.evaluation[i];
+          if(item.status == 10){
+            if (item.score < 1) {
+              tools.alert('商品评分不能为空', 'warning');
+              canSubmit = false;
+              break;
+            }
+            if (item.total > 200) {
+              tools.alert('商品评价字数超过限制', 'warning');
+              canSubmit = false;
+              break;
+            }
+            if ( item.images && item.images.length > 8) {
+              tools.alert('商品评价图片不能超过8张', 'warning');
+              canSubmit = false;
+              break;
+            }
+          }
+        }
+        // 如果不为空则进行循环提交
+        canSubmit && this.loopSubmit();
+      },
+      loopSubmit: function () {
+        var len = this.evaluation.length;
+        for (var i = 0; i < len; i++) {
+          var item = this.evaluation[i];
+          if(item.status==10){
+            http.post('shop-evaluate/add-evaluate', {
+              order_details_id: item.id,
+              evaluate: item.text,
+              score: item.score,
+              photos: item.images.join(',')
+            }, function () {
+              tools.confirm('发表成功', 'success', false, function () {
+                tools.goBack();
+              })
+            });
+          }
+        }
+      },
+      // 返回上一页
+      back: function () {
+        tools.goBack();
+      },
+      descInput: function (item) {
+        item.total = item.text.length;
+      },
+      // 获取订单信息
+      getOrder: function () {
+        var _this = this;
+        http.get('shop-order/view', {
+          id: orderId,
+          expand: 'shop_order_details'
+        }, function (data) {
+          var details = data.shop_order_details;
+          for (var key in Object.keys(details)) {
+            details[key]['starAll'] = _this.starAll;
+            details[key]['star'] = _this.star;
+            details[key]['score'] = 0;
+            details[key]['text'] = '';
+            details[key]['total'] = 0;
+            details[key]['images'] = [];
+          }
+          details.forEach(function (item) {
+            _this.evaluation.push(item);
+          })
+        })
+      }
+    },
+    mounted: function () {
+      this.getOrder();
+    }
+  })
+</script>

@@ -1,0 +1,56 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="sale" id="sale" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">活动</div>
+    <img @click="back" src="/wx/static/images/back.png" class="setback">
+  </div>
+  <div class="activity">
+    <div class="activity-img" @click="sale"><img src="/wx/static/images/activity-img.png" alt="立即预约"></div>
+    <div @click="moreActivity" class="more-activity">查看更多</div>
+    <div class="activity-info">
+      <h3>---------活动详情---------</h3>
+      <p>1.仅需50元即可预定，享受50元2小时保洁一次；</p>
+      <p>2.本服务仅提供可视范围内清洁，家具覆盖的地面、油烟机、空调及其他家电、窗户玻璃等不在保洁服务范围内；</p>
+      <p>3.从客户参与活动当日（不含）起30天内按照客服与您约定的时间上门服务；</p>
+      <p>4.参与优惠名额有限，先到先得，参与活动后不予退款，请客户珍惜名额；</p>
+      <p>5.本活动最终解释权归本公司所有</p>
+    </div>
+    <div class="appointment" @click="sale"><img src="/wx/static/images/yuyue.png" alt="立即预约"></div>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#sale',
+    data: {},
+    methods: {
+      judgmentBrowser: function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      back: function () {
+        window.history.go(-1);
+      },
+      sale: function () {
+        var accessToken = stores.getValue('accessToken');
+        if (this.judgmentBrowser()) {
+          tools.alert('当前不支持微信浏览器支付，请点击右上方使用外部浏览器打开！', 'warning');
+          return false;
+        } else if (!accessToken) {
+          // 是否登录
+          redirect.remember();
+          window.location.href = window.location.origin + '/wx/login.html';
+          return false;
+        }
+        window.location.href = window.location.origin + '/wx/sale-pay.html';
+      },
+      moreActivity: function () {
+        window.location.href = window.location.origin + '/wx/more-activity.html';
+      }
+    }
+  })
+</script>
+

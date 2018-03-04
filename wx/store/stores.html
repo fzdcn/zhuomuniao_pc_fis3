@@ -1,0 +1,225 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+
+<div id="stores" class="stores" v-cloak>
+  <div class="fix-top">
+    <div class="set">
+      <div class="set-on">门店</div>
+    </div>
+    <div class="stores-tab">
+      <div class="tab-choice">
+        <ul>
+          <li @click="tabCity" class="city-name">
+            <p :class="[{'selected-color':isShowRegion == true},{'cancel-color':isShowRegion == false}]">{{
+              regionList.regionName }}</p>
+            <template v-if="isShowRegion">
+              <img src="/wx/static/images/store_up@2x.png" alt="">
+            </template>
+            <template v-else>
+              <img src="/wx/static/images/store_down_grey@2x.png" alt="">
+            </template>
+          </li>
+          <li @click="tabService" class="service-type">
+            <p :class="[{'selected-color':isShowService == true},{'cancel-color':isShowService == false}]">{{
+              serviceList.serviceName }}</p>
+            <template v-if="isShowService">
+              <img src="/wx/static/images/store_up@2x.png" alt="">
+            </template>
+            <template v-else>
+              <img src="/wx/static/images/store_down_grey@2x.png" alt="">
+            </template>
+          </li>
+          <li class="liner"></li>
+        </ul>
+      </div>
+
+      <div class="tab-city-content">
+        <div v-if="isShowRegion" class="region mescroll-touch">
+          <ul>
+            <li v-for="item in regionList.areaList" @click="tabRegionList(item)"
+                :class="[{'selected-color':regionList.selectedCode == item.ad_code},{'cancel-color':regionList.selectedCode != item.ad_code}]">
+              <img v-if="regionList.selectedCode == item.ad_code" src="/wx/static/images/store_chose@2x.png" alt="选中">{{
+              item.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-service-content mescroll-touch-y">
+        <div v-if="isShowService" class="service-content-list">
+          <ul>
+            <li v-for="item in serviceList.serviceType" @click="tabServiceList(item)"
+                :class="[{'selected-color':serviceList.serviceId == item.id},{'cancel-color':serviceList.serviceId != item.id}]">
+              <img v-if="serviceList.serviceId == item.id" src="/wx/static/images/store_chose@2x.png" alt="选中">{{
+              item.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="mescroll" class="mescroll stores-module">
+    <div class="stores-list">
+      <div v-for="(items,outerIndex) in storesList" id="stores-list-content"
+           class="stores-list-content">
+        <div class="stores-list-img">
+          <img @click="imgPreview(outerIndex,0,'openStoresHeadImg')" v-lazy="items.cover_photo" src="" alt="门店"
+               :preview="outerIndex" class="openStoresHeadImg">
+        </div>
+        <div @click="jumpStoresDetail(items)" class="stores-list-info">
+          <div class="p1 stores-name">{{ items.name }}</div>
+          <div class="p2 stores-address">{{ items.address }}</div>
+          <div class="time-distance">
+            <template v-if="items.shop_hours">
+              <div class="fl time">{{ items.shop_hours }}</div>
+            </template>
+            <template v-else>
+              <div class="fl time">8:00~20:00</div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--footer-->
+<link rel="import" href="/wx/components/common/footer.html?__inline">
+
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/store_loading@2x.png',
+    loading: '/wx/static/images/store_loading@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#stores',
+    data: {
+      mescroll: null,
+      // 区域
+      isShowRegion: false,
+      // 服务类型
+      isShowService: false,
+      // 区域列表
+      regionList: {
+        areaList: [
+          {
+            "ad_code": stores.getCityObj().ad_code,
+            "name": "全部"
+          }
+        ],
+        selectedCode: stores.getCityObj().ad_code,
+        regionName: '全部'
+      },
+      // 服务类型列表
+      serviceList: {
+        serviceType: [
+          {
+            "id": "",
+            "name": "全部"
+          }
+        ],
+        serviceId: "",
+        serviceName: '全部'
+      },
+      storesList: []
+
+    },
+    methods: {
+      tabCity: function () {
+        if (this.isShowRegion) {
+          this.isShowRegion = false;
+        } else {
+          this.isShowRegion = true;
+        }
+        if (this.isShowService) {
+          this.isShowService = false;
+        }
+      },
+      tabService: function () {
+        if (this.isShowService) {
+          this.isShowService = false;
+        } else {
+          this.isShowService = true;
+        }
+        if (this.isShowRegion) {
+          this.isShowRegion = false;
+        }
+      },
+      tabRegionList: function (item) {
+        this.regionList.selectedCode = item.ad_code;
+        this.regionList.regionName = item.name;
+        this.isShowRegion = false;
+        this.mescroll.resetUpScroll();
+      },
+      tabServiceList: function (item) {
+        this.serviceList.serviceId = item.id;
+        this.serviceList.serviceName = item.name;
+        this.isShowService = false;
+        this.mescroll.resetUpScroll();
+      },
+      jumpStoresDetail: function (items) {
+        window.location.href = window.location.origin + '/wx/store/stores-detail.html?id=' + items.id + '&ad_code=' + items.ad_code;
+      },
+      getAreaList: function () {
+        var vm = this;
+        http.get('area/areas', {
+          city_code: stores.getCityObj().ad_code
+        }, function (data) {
+          vm.regionList.areaList = vm.regionList.areaList.concat(data);
+        })
+      },
+      getService: function () {
+        var vm = this;
+        http.get('basic/get-service', {
+          map: 0
+        }, function (data) {
+          vm.serviceList.serviceType = vm.serviceList.serviceType.concat(data);
+        })
+      },
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        http.get('store/list', {
+          per_page: page.size,
+          page: page.num,
+          ad_code: _this.regionList.selectedCode,
+          service_ids: _this.serviceList.serviceId,
+          fields: 'id,name,telephone,description,ad_code,cover_photo,location,shop_hours,service_ids',
+          expand: 'address'
+        }, function (data) {
+          // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+          // 设置列表数据
+          _this.setListData(data, page.num, true);
+        }, function () {
+          // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endErr();
+        });
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        if (isAppend && pageNum == 1) {
+          this.storesList = data.items;
+        } else if (isAppend && pageNum > 1) {
+          this.storesList = this.storesList.concat(data.items);
+        }
+      },
+      meScroll: function (_this, htmlNoData) {
+        _this = this;
+        htmlNoData = '<p class="upwarp-nodata" style="color:#00a84c;bottom: 1.15rem;margin-bottom: 1.45rem;position: relative;height: 0.5rem;line-height: 0.5rem;">--我是有底线的--</p>';
+        tools.myScroll(_this, false, false, false, false, false, htmlNoData);
+      },
+      // 图片预览
+      imgPreview: function (outerIndex, index, bindClass) {
+        tools.openPhotoSwipe(outerIndex, index, bindClass);
+      }
+    },
+    mounted: function () {
+      var _this = this;
+      _this.getAreaList();
+      _this.getService();
+      // 创建 MeScroll 对象
+      _this.meScroll();
+    }
+  })
+</script>

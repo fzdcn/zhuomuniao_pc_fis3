@@ -1,0 +1,31 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="contact-us" id="contact">
+  <div class="set">
+    <div class="set-on color-8">联系我们</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+  </div>
+  <div class="contact-head">
+    <div class="contact-ti">Contact Us</div>
+    <div class="slogan">团结奋进 开拓创新 拼搏向上</div>
+  </div>
+  <div class="company-name">苏州蚕食网络科技有限公司</div>
+  <div class="contact-con">
+    <p>客服电话：<a href="tel:400-6868-580">400-6868-580</a> &nbsp;邮箱：<a href="mailto:Service@zmnjz.net">Service@zmnjz.net</a></p>
+    <p>官网网址：http://www.yfcanshi.com</p>
+    <p>地址：苏州市工业园区唯华路5号君风生活广场3幢1102室</p>
+  </div>
+  <div class="picture">
+    <img src="/wx/static/images/contact_picture_two@2x.png">
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#contact',
+    data: {},
+    methods: {
+      back: function () {
+        tools.goBack();
+      }
+    }
+  })
+</script>

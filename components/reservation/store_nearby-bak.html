@@ -1,0 +1,53 @@
+<!-- 附近门店 -->
+<div class="nearbyStores">
+  <div class="nearbyStores_content">
+    <h3 class="f36 c545454 textaling">选择附近门店进行服务</h3>
+    <div class="nearbyStores_search textaling">
+      <input type="search" name="search" placeholder="在此输入服务地址，将自动为您显示附近的门店">
+      <button class="f16 cf"><i><img src="/static/images/01预约服务---月嫂_03.png"></i><span>一键快速定位</span>
+      </button>
+    </div>
+    <!-- showMap -->
+    <div class="storesMap">
+      <div class="storesMap_content">
+        <dl>
+          <dt class="fl">
+            <!-- 预约服务map -->
+          <div id="map">
+            <div id="allmap1">
+
+            </div>
+          </div>
+          </dt>
+          <dd class="fr">
+            <div class="stores_title">
+              <i>
+                <img src="/static/images/01预约服务---月嫂_08.png">
+              </i>
+              <span class="f24 c333">附近门店</span>
+            </div>
+            <div class="stores_list">
+              <ul>
+                <li v-for="item in storeList">
+                  <a :href="'/storesDetail.html?id=' + item.id">
+                    <h3 class="f20 c0">{{ item.name }}</h3>
+                    <div class="stores_detail">
+                      <div class="stores_tel">
+                        <span class="f16 c333">电话：</span>
+                        <p class="f16 c333">{{ item.telephone }}</p>
+                      </div>
+                      <div class="stores_address">
+                        <span class="f16 c333">地址：</span>
+                        <p class="f16 c333">{{ item.address }}</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>

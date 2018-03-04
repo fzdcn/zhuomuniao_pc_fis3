@@ -1,0 +1,73 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<link href="/wx/activity/static/css/double-eleven-activity.css" rel="stylesheet">
+
+<div id="share-qrcode" class="share-qrcode" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">分享二维码</div>
+    <img @click="back" src="/wx/static/images/back.png" class="setback">
+  </div>
+  <div class="activity-detail">
+    <div class="activity-img">
+      <img src="/wx/activity/static/images/double-eleven-activity.png" alt="双十一活动分享二维码">
+      <div class="qrcode-bg">
+        <div @click="jumpActivity" id="qrcode" class="qrcode"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#share-qrcode',
+    data: {
+      uuid: ''
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      getActivityUrl: function () {
+        var activityUrl = window.location.origin + '/wx/activity/double-eleven-activity.html';
+        activityUrl = http.setQuery(activityUrl, 'uuid', this.uuid);
+        return activityUrl;
+      },
+      getQrcode: function () {
+        var getQrcode = document.getElementById("qrcode");
+        var qrcode = new QRCode(getQrcode, {
+          width: 242,
+          height: 242,
+          colorDark: '#6e94ea',
+          //colorLight: '#fff',
+        });
+        qrcode.makeCode(this.getActivityUrl());
+      },
+      jumpActivity: function () {
+        window.location.href = this.getActivityUrl();
+      }
+    },
+    mounted: function () {
+      tools.setTitle('啄木鸟家政，双十一你消费我买单');
+      this.uuid = http.getQuery('uuid');
+      if (!this.uuid) {
+        // 进入页面没有 uuid
+        if (stores.getAccessToken()) {
+          // 用户已登录，重新加载页面，并带上用户的 uuid
+          var vm = this;
+          http.get('activity/get-user-uuid', {}, function (data) {
+            vm.uuid = data;
+            if (vm.uuid) {
+              var reloadUrl = window.location.href;
+              reloadUrl = http.setQuery(reloadUrl, 'uuid', vm.uuid);
+              stores.addGoBackLevel();
+              window.location.href = reloadUrl;
+            } else {
+              alert('接口没返回 uuid');
+            }
+          });
+        }
+      }
+      // 进入页面有 uuid，展示二维码
+      this.getQrcode();
+    }
+  })
+</script>

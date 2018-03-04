@@ -1,0 +1,73 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="my-coupon" id="coupon" v-cloak>
+  <div class="set">
+    <div class="set-on color-8">我的优惠券</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+  </div>
+  <div class="choice">
+    <div class="no-use" :class="{chose : isShowUse}" @click="showUnUse">
+      未使用
+    </div>
+    <div class="no-use" :class="{chose : isShowHistory}" @click="showHistory">
+      历史
+    </div>
+  </div>
+  <div class="coupon-list" v-if="isShowUse">
+    <!--<div class="coupon-item unused">
+      <div class="number">￥200</div>
+      <div class="introduce">
+        <div class="introduce-tittle">单笔订单满199使用</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+      </div>
+    </div>
+    <div class="coupon-item soon">
+      <div class="number">￥200</div>
+      <div class="introduce">
+        <div class="introduce-tittle">单笔订单满199使用</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+      </div>
+    </div>-->
+  </div>
+  <div class="coupon-list" v-if="isShowHistory">
+    <!--<div class="coupon-item used">
+      <div class="number">￥200</div>
+      <div class="introduce">
+        <div class="introduce-tittle">单笔订单满199使用</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+      </div>
+    </div>
+    <div class="coupon-item overdue">
+      <div class="number">￥200</div>
+      <div class="introduce">
+        <div class="introduce-tittle">单笔订单满199使用</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+        <div class="introduce-date">开始时间 2017-02-18 00:00:00</div>
+      </div>
+    </div>-->
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#coupon',
+    data: {
+      isShowHistory: false,
+      isShowUse: true
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      showUnUse: function () {
+        this.isShowUse = true;
+        this.isShowHistory = false;
+      },
+      showHistory: function () {
+        this.isShowUse = false;
+        this.isShowHistory = true;
+      }
+    }
+  })
+</script>

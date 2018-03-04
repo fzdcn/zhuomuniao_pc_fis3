@@ -1,0 +1,11 @@
+<!--学历、年龄、经验-->
+<div v-for="item in commonFormAttributes" class="row clearfix">
+  <div class="title"><img :src="item.image" alt="">{{ item.label }}</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a v-for="value in item.options" @click="item.selected=value"
+         :class="{on:item.selected==value}"
+         href="javascript:void(0);">{{ value }}</a>
+    </div>
+  </div>
+</div>

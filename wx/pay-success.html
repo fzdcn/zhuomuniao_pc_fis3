@@ -1,0 +1,21 @@
+<link rel="import" href="components/common/header.html?__inline">
+<div class="pay-success" id="pay-success" v-cloak>
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="pay-success">
+    <div class="success-img"><img src="/wx/static/images/pay-success.png" alt="支付成功"></div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#pay-success',
+    data: {
+        navTitle:'支付成功'
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      }
+    }
+  })
+</script>
+

@@ -1,0 +1,240 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="reservation-index" class="reservation-index">
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="reservation-info">
+    <div class="detail-info">
+      <div class="fl goods-cover">
+        <img
+          :src="lifeServiceDetail.photos ? lifeServiceDetail.photos[0] : '/wx/static/images/commodity_shopping_loading@2x.png'"
+          :alt="lifeServiceDetail.name">
+      </div>
+      <div class="goods-info">
+        <div class="goods-head">
+          <div class="fl goods-title">{{ lifeServiceDetail.name }}</div>
+        </div>
+        <div class="goods-price">
+          <div class="fl p1 unit-price">￥{{ lifeServiceDetail.sale_price * number }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="goods-list-info">
+    <div class="list-info clearfix">
+      <div class="tit fl"><img src="/wx/static/images/reservation_details_quantity@2x.png" alt="购买数量">购买数量</div>
+      <div class="add fr">
+        <img src="/wx/static/images/Product_shopping_cart_plus@2x.png" @click="addQuantity">
+      </div>
+      <div class="num fr">{{ number }}</div>
+      <div class="reduce fr">
+        <img
+          :src="this.number<2 ? '/wx/static/images/Product_shopping_cart_less_grey@2x.png' : '/wx//static/images/Product_shopping_cart_less@2x.png'"
+          @click="reduceQuantity">
+      </div>
+    </div>
+
+    <div @click="showAddressList" class="address-detail">
+      <div class="fl address-img"><img src="/wx/static/images/reservation_details_adress@2x.png" alt="地址"></div>
+      <div
+        :class="[{'address-selected-color' : defaultAddress.id ? true : false },{'address-cancel-color' : defaultAddress.id ? false : true}]"
+        class="fl p2 address-info">{{
+        defaultAddress.address ? defaultAddress.address : '请选择服务地址' }}
+      </div>
+      <div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>
+    </div>
+
+    <div class="date-detail">
+      <div class="fl date-img"><img src="/wx/static/images/reservation_details_time@2x.png" alt="日期"></div>
+      <input id="date" class="fl date-info" type="text" placeholder="请选择具体日期！" readonly>
+      <div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>
+    </div>
+  </div>
+  <!--预留-->
+  <div class="personal-name">
+    <!--<div class="name-list">-->
+    <!--<div class="name-detail">-->
+    <!--<div class="fl name-img"><img src="/wx/static/images/reservation_details_name@2x.png" alt="姓名"></div>-->
+    <!--<input class="fl name-info" type="text" placeholder="联系人姓名">-->
+    <!--<div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="tel-list">-->
+    <!--<div class="tel-detail">-->
+    <!--<div class="fl tel-img"><img src="/wx/static/images/reservation_details_phone@2x.png" alt="手机号"></div>-->
+    <!--<input class="fl tel-info" type="text" placeholder="联系人手机号">-->
+    <!--<div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="remarks">
+      <div class="remarks-detail">
+        <div class="fl remarks-img"><img src="/wx/static/images/reservation_details_remarks@2x.png" alt="备注"></div>
+        <input v-model.trim="remarks" class="fl remarks-info" type="text" placeholder="备注">
+        <div class="fr tab-img"><img src="/wx/static/images/reservation_details_right@2x.png" alt="箭头"></div>
+      </div>
+    </div>
+    <div class="reminder">
+      <div class="reminder-title">温馨提示</div>
+      <div class="reminder-info">.请提前2小时预约服务</div>
+      <div class="reminder-detail">.请仔细核对手机号，并保持电话通畅，客户会在服务开始前与您联系。</div>
+    </div>
+  </div>
+  <div class="pay-list">
+    <div class="number fl">
+      <div class="number-title">待付款:<span class="money">￥{{ lifeServiceDetail.sale_price * number }}</span></div>
+    </div>
+    <div @click="payMoney" class="pay fr">立即支付</div>
+  </div>
+  <!--弹出窗口地址选择-->
+  <template v-if="isAddress">
+    <link rel="import" href="/wx/goods-shop/choose-address.html?__inline">
+  </template>
+</div>
+<script>
+  new Vue({
+    el: '#reservation-index',
+    data: {
+      navTitle: '预约详情',
+      // 商品数量
+      number: 1,
+      // 是否显示地址
+      isAddress: false,
+      lifeServiceDetail: {},
+      addressList: [],
+      defaultAddress: {},
+      remarks: '',
+      // 构造付款参数
+      payType: {
+        orderId: '', // 设置需要付款的id
+        money: '', // 设置需要付款的金额
+        type: '' // 设置家政服务付款类型为 payType = domestic
+      }
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      // 打开地址选择窗口
+      showAddressList: function () {
+        this.isAddress = true;
+        this.getAddressList();
+      },
+      // 获取我的地址列表
+      getAddressList: function () {
+        var vm = this;
+        http.get('user-address/list', {
+          expand: 'address'
+        }, function (data) {
+          vm.addressList = data.items
+        })
+      },
+      // 选择下单地址
+      selectAddress: function (item) {
+        this.defaultAddress.address = item.address;
+        this.defaultAddress.id = item.id;
+        this.isAddress = false;
+      },
+      // 获取默认地址,若获取不到则进入增加地址页面
+      getDefaultAddress: function () {
+        var vm = this;
+        http.get('user-address/get-default', {expand: 'address'},
+          function (data) {
+            vm.defaultAddress = data;
+          },
+          function (data) {
+            if (data.status === 422) {
+              tools.confirm("请先添加收货地址！", 'warning', false, function () {
+                window.location.href = '../personal-center/add-address.html';
+              });
+            }
+          })
+      },
+      // 增加商品数量
+      addQuantity: function () {
+        this.number += 1;
+      },
+      // 减少商品数量
+      reduceQuantity: function () {
+        this.number -= 1;
+        if (this.number < 1) {
+          this.number = 1;
+          tools.alert('商品数量不能小于1', 'warning');
+        }
+      },
+      // 获取生活服务详情
+      getLifeServiceDetail: function () {
+        var vm = this;
+        http.get('life-goods/view', {
+          id: http.getQuery('id'),
+          fields: 'name,photos,sale_price'
+        }, function (data) {
+          vm.lifeServiceDetail = data;
+        })
+      },
+      // 付款
+      payMoney: function () {
+        var vm = this;
+        // 判断参数是否为空
+        if (this.judgeParameter()) {
+          // 判断是否登录
+          var accessToken = stores.getValue('accessToken');
+          if (!accessToken) {
+            tools.confirm('请先登录', 'warning', false, function () {
+              window.location.href = '/wx/login.html';
+            });
+            return false;
+          }
+          // 先下单
+          http.post('life-order/buy-now', {
+              goods_id: http.getQuery('id'),
+              address_id: this.defaultAddress.id,
+              number: this.number,
+              start_at: this.setDate($('#date').val().trim()),
+              remark: this.remarks
+            }, function (data) {
+              // 下单成功后去支付
+              vm.payType.orderId = data.id;
+              vm.payType.money = data.pay_money;
+              vm.payType.type = 'lifeService';
+              stores.setValue('payType', vm.payType);
+              // 如果是微信浏览器直接发起微信公众号支付
+              if (tools.isWeChatBroswer()) {
+                tools.weChatPublicNumberPay();
+              } else {
+                window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+              }
+            }
+          )
+        }
+      },
+      // 判断参数是否为空
+      judgeParameter: function () {
+        if (this.number < 1) {
+          tools.alert('购买数量不能为空', 'warning');
+          return false;
+        }
+        if (!this.defaultAddress.id) {
+          tools.alert('服务地址不能为空', 'warning');
+          return false;
+        }
+        if (!$('#date').val().trim()) {
+          tools.alert('服务日期不能为空', 'warning');
+          return false;
+        }
+        return true;
+      },
+      // 字符串日期转时间戳
+      setDate: function (date) {
+        return tools.dateToTimestamp(date)
+      }
+    },
+    mounted: function () {
+      this.getLifeServiceDetail();
+      this.getDefaultAddress();
+    }
+  });
+  $('#date').jeDate({
+    isinitVal: true,
+    format: 'YYYY-MM-DD hh:mm:ss',
+    minDate: "2014-06-16 00:00:00",
+    maxDate: '2099-06-16 23:59:59' // 最大日期
+  });
+</script>

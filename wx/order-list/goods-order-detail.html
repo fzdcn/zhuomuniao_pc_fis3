@@ -1,0 +1,195 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="goods-list-detail" class="goods-list-detail" v-cloak>
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="goods-list">
+    <div class="order-info">
+      <div class="order-nav">
+        <div class="fl content"><img src="/wx/static/images/order_details_order@2x.png" alt="订单内容">订单内容</div>
+        <div v-if="goodsOrderDetail.status == 10" class="fr status">待付款</div>
+        <div v-if="goodsOrderDetail.status == 20" class="fr status">待发货</div>
+        <div v-if="goodsOrderDetail.status == 40" class="fr status">待收货</div>
+        <div v-if="goodsOrderDetail.status == 50" class="fr status">待评价</div>
+        <div v-if="goodsOrderDetail.status == 80" class="fr status">已完成</div>
+      </div>
+      <div class="order-number">
+        <div class="fl title">订单编号</div>
+        <div class="fr number">{{ goodsOrderDetail.order_num}}</div>
+      </div>
+      <div class="time-detail">
+        <div class="fl time-title">创建时间</div>
+        <div class="fr time">{{ timestamp(goodsOrderDetail.created_at) }}</div>
+      </div>
+      <div class="order-number" v-if="goodsOrderDetail.remark">
+        <div class="fl title">买家备注</div>
+        <div class="fr number">{{ goodsOrderDetail.remark}}</div>
+      </div>
+    </div>
+    <div v-for="item in goodsOrderDetail.shop_order_details" class="order-detail">
+      <div class="detail-info">
+        <div class="fl goods-cover">
+          <img :src="item.goods.cover_photo ? item.goods.cover_photo : '/wx/static/images/goods-cover.png'" alt="商品封面">
+        </div>
+        <div class="goods-info">
+          <div class="goods-head">
+            <div class="fl p2 goods-title">{{ item.goods.name }}</div>
+          </div>
+          <div class="goods-introduce">
+            <div class="fl p1 goods-describe">{{ item.goods.tag_name }}</div>
+            <div class="fr p1 goods-number">x{{ item.quantity }}</div>
+          </div>
+          <div class="goods-price">
+            <div class="fl p1 unit-price">￥{{ item.goods.sale_price }}</div>
+            <div class="fr p1 all-price-number">￥{{ item.goods.sale_price*item.quantity }}</div>
+            <div class="fr all-price-title">总计:</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="goodsOrderDetail.shop_order_details.length > 1" class="order-total-money">
+      共{{goodsOrderDetail.sum_quantity}}件 合计<span class="color-h">￥{{goodsOrderDetail.pay_money}}</span>
+    </div>
+    <div class="user-info">
+      <div class="user-nav">
+        <div class="fl content"><img src="/wx/static/images/order_details_people@2x.png" alt="用户信息">用户信息</div>
+      </div>
+      <div class="name">
+        <div class="fl name-title">姓名</div>
+        <div class="fr p1 name-detail">{{ goodsOrderDetail.address.contacts }}</div>
+      </div>
+      <div class="telphone">
+        <div class="fl telphone-title">电话</div>
+        <div class="fr p1 telphone-detail">{{ goodsOrderDetail.address.cellphone }}</div>
+      </div>
+      <div class="address">
+        <div class="fl address-title">地址</div>
+        <div class="fr p2 address-detail">{{ goodsOrderDetail.address.area_detail }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="goods-pay">
+    <div class="goods-pay-detail">
+      <template v-if="goodsOrderDetail.status==80">
+        <div class="fr delete-order" @click="deleteOrder">删除订单</div>
+        <div class="fr see-logistics">查看物流</div>
+      </template>
+      <template v-if="goodsOrderDetail.status==10">
+        <div @click="payMoney" class="fr pay">付款</div>
+        <div class="fr cancel-order" @click="cancelOrder">取消订单</div>
+      </template>
+      <div v-if="goodsOrderDetail.status==20" class="fr deliver-goods" @click="remind">提醒发货</div>
+      <div v-if="goodsOrderDetail.status==30" class="fr deliver-goods" @click="deleteOrder">删除订单</div>
+      <template v-if="goodsOrderDetail.status==40">
+        <div class="fr confirm-receipt" @click="sureOrder">确认收货</div>
+        <div class="fr see-logistics">查看物流</div>
+      </template>
+      <template v-if="goodsOrderDetail.status==50">
+        <div class="fr evaluate" @click="toEvaluate">评价</div>
+        <div class="fr see-logistics">查看物流</div>
+      </template>
+    </div>
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#goods-list-detail',
+    data: {
+      navTitle: '商品订单详情',
+      goodsId: http.getQuery('id'),
+      // 构造付款参数
+      payType: {
+        orderId: '', // 设置需要付款的id
+        money: '', // 设置需要付款的金额
+        type: '' // 设置家政服务付款类型为 payType = domestic
+      },
+      goodsOrderDetail: {
+        "id": null,
+        "order_num": null,
+        "pay_money": null,
+        "status": null,
+        "created_at": null,
+        "status_name": null,
+        "shop_order_details": [],
+        "address": {
+          "area_detail": null,
+          "contacts": null,
+          "cellphone": null
+        }
+      }
+    },
+    methods: {
+      getGoodsOrderDetail: function () {
+        var vm = this;
+        http.get('shop-order/view', {
+          id: this.goodsId,
+          fields: 'id,pay_money,status,created_at,order_num,remark',
+          expand: 'status_name,shop_order_details,address,sum_quantity'
+        }, function (data) {
+          vm.goodsOrderDetail = data;
+        })
+      },
+      timestamp: function (timestamp) {
+        return tools.timestamp(timestamp)
+      },
+      back: function () {
+        tools.goBack();
+      },
+      // 去添加商品评价
+      toEvaluate: function () {
+        var _this = this;
+        window.location.href = '../evaluate/goods-evaluate.html?order_id=' + _this.goodsOrderDetail.id;
+      },
+      // 提醒发货
+      remind: function () {
+        tools.alert('提醒成功', 'success');
+      },
+      // 取消订单
+      cancelOrder: function () {
+        var vm = this;
+        if (confirm("是否确认取消该订单？")) {
+          http.post('shop-order/cancel', {order_id: vm.goodsOrderDetail.id}, function (data) {
+            tools.alert(data);
+            window.location.reload();
+          })
+        }
+      },
+      // 删除订单
+      deleteOrder: function () {
+        var vm = this;
+        if (confirm("是否确认删除该订单？")) {
+          http.post('shop-order/delete', {order_id: vm.goodsOrderDetail.id}, function (data) {
+            tools.alert(data);
+            tools.goBack();
+          })
+        }
+      },
+      // 确认收货
+      sureOrder: function () {
+        var vm = this;
+        if (confirm("是否确认收货该订单？")) {
+          http.post('shop-order/confirm-goods', {order_id: vm.goodsOrderDetail.id}, function (data) {
+            tools.alert(data);
+            window.location.reload()
+          })
+        }
+      },
+      payMoney: function () {
+        // 存储订单参数
+        this.payType.orderId = this.goodsOrderDetail.id;
+        this.payType.money = this.goodsOrderDetail.pay_money;
+        this.payType.type = 'goods';
+        stores.setValue('payType', this.payType);
+        // 如果是微信浏览器直接发起微信公众号支付
+        if (tools.isWeChatBroswer()) {
+          tools.weChatPublicNumberPay();
+        } else {
+          window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+        }
+      }
+    },
+    mounted: function () {
+      this.getGoodsOrderDetail();
+    }
+  })
+</script>

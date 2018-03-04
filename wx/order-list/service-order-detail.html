@@ -1,0 +1,148 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="service-order-detail" class="service-order-detail" v-cloak>
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="info-detail-head">
+    <div class="detail-address">
+      <div class="address-show">
+        <img src="/wx/static/images/address.png">
+        <div class="address-position">
+          <div class="right-info">
+            <div class="name color-1 font-1">{{ lifeServiceDetail.address.contacts }}</div>
+            <div class="phone font-3">{{ lifeServiceDetail.address.cellphone }}</div>
+            <div v-if="lifeServiceDetail.status == 10" class="status-num color-1 font-3">待付款</div>
+            <div v-if="lifeServiceDetail.status == 20" class="status-num color-1 font-3">进行中</div>
+            <div v-if="lifeServiceDetail.status == 30" class="status-num color-1 font-3">待评论</div>
+            <div v-if="lifeServiceDetail.status == 40" class="status-num color-1 font-3">已完成</div>
+            <div v-if="lifeServiceDetail.status == 50" class="status-num color-1 font-3">已取消</div>
+          </div>
+          <div class="add">{{ lifeServiceDetail.address.area_detail }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-order-list">
+      <div class="menu">
+        <div class="tittle font-3">订单明细</div>
+        <div class="list-item font-3">
+          服务：<span class="con">{{ lifeServiceDetail.type_name }}</span>
+        </div>
+        <div class="list-item font-3">
+          商品名称：<span class="con">{{ lifeServiceDetail.life_goods.name }}</span>
+        </div>
+        <div class="list-item font-3">
+          数量：<span class="con">{{ lifeServiceDetail.number }}份</span>
+        </div>
+        <div class="list-item font-3">
+          价格：<span class="con">￥{{ lifeServiceDetail.pay_money }}</span>
+        </div>
+        <div class="list-item font-3">
+          服务时间：<span class="con">{{ setDate(lifeServiceDetail.created_at) }}</span>
+        </div>
+        <div class="list-item font-3" v-if="lifeServiceDetail.remark">
+          备注：<span class="con">{{ lifeServiceDetail.remark }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="evaluation-submit">
+    <template v-if="lifeServiceDetail.status == 10">
+      <div @click="lifeServicePayMoney" class="fr pay-submit">立即付款</div>
+      <div class="fr pay-submit" @click="cancelService">取消订单</div>
+    </template>
+    <template v-if="lifeServiceDetail.status == 20">
+      <div class="fr pay-submit">提醒发货</div>
+    </template>
+    <template v-if="lifeServiceDetail.status == 30">
+      <div class="fr pay-submit" @click="toEvaluate">立即评价</div>
+      <div class="fr pay-submit">查看物流</div>
+    </template>
+    <!--<template v-if="lifeServiceDetail.status == 40">-->
+    <!--<div class="fr pay-submit">删除订单</div>-->
+    <!--<div class="fr pay-submit">查看物流</div>-->
+    <!--</template>-->
+    <template v-if="lifeServiceDetail.status == 50">
+      <div class="fr pay-submit" @click="deleteServiceOrder">删除订单</div>
+    </template>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#service-order-detail',
+    data: {
+      navTitle: '生活服务详情',
+      // 构造付款参数
+      payType: {
+        orderId: '', // 设置需要付款的id
+        money: '', // 设置需要付款的金额
+        type: '' // 设置家政服务付款类型为 payType = domestic
+      },
+      lifeServiceDetail: {
+        "address": {
+          "contacts": ""
+        },
+        "life_goods": {
+          "name": ""
+        }
+      }
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      setDate: function (timestamp) {
+        return tools.timestamp(timestamp);
+      },
+      // 去添加生活服务评价
+      toLifeServiceEvaluate: function () {
+        window.location.href = '/wx/evaluate/life-evaluate.html?life_order_id=' + this.lifeServiceDetail.id;
+      },
+      // 服务取消订单
+      cancelService: function () {
+        var vm = this;
+        if (confirm("是否确认取消？")) {
+          http.post('life-order/cancel', {order_id: vm.lifeServiceDetail.id}, function (data) {
+            tools.alert(data);
+            window.location.reload();
+          })
+        }
+      },
+      // 服务删除订单
+      deleteServiceOrder: function () {
+        var vm = this;
+        if (confirm("是否确认删除？")) {
+          http.post('life-order/delete', {order_id: vm.lifeServiceDetail.id}, function (data) {
+            tools.alert(data);
+            tools.goBack();
+          })
+        }
+      },
+      // 获取生活服务详情
+      getLifeServiceDetail: function () {
+        var vm = this;
+        http.get('life-order/view', {
+          id: http.getQuery('id'),
+          fields: 'id,pay_money,status,created_at,sale_number,remark,number',
+          expand: 'address,life_goods,type_name'
+        }, function (data) {
+          vm.lifeServiceDetail = data;
+        })
+      },
+      // 生活服务付款
+      lifeServicePayMoney: function () {
+        // 存储订单参数
+        this.payType.orderId = http.getQuery('id');
+        this.payType.money = this.lifeServiceDetail.pay_money;
+        this.payType.type = 'lifeService';
+        stores.setValue('payType', this.payType);
+        // 如果是微信浏览器直接发起微信公众号支付
+        if (tools.isWeChatBroswer()) {
+          tools.weChatPublicNumberPay();
+        } else {
+          window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+        }
+      }
+    },
+    mounted: function () {
+      this.getLifeServiceDetail();
+    }
+  })
+</script>

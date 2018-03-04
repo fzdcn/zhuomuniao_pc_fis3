@@ -1,0 +1,141 @@
+@charset "UTF-8";
+v-cloak {
+  display: none; }
+
+/*双十一活动页面*/
+.double-eleven-activity .activity-detail {
+  margin: 0.89rem auto 0rem auto;
+  width: 7.5rem; }
+
+/*我的分享*/
+.con-share {
+  margin-top: 0.89rem;
+  width: 100%;
+  height: 12.06rem;
+  background: url(../images/share-bg.png) no-repeat;
+  background-size: cover; }
+  .con-share .share {
+    width: 100%;
+    height: 3.5rem;
+    padding-top: 1.4rem; }
+    .con-share .share img {
+      width: 3.22rem;
+      height: 1.29rem;
+      margin: 0 auto;
+      display: block; }
+  .con-share .total {
+    height: 1rem;
+    line-height: 1rem;
+    width: 100%;
+    text-align: center;
+    color: #fff; }
+  .con-share .share-list {
+    margin: 0 1.2rem;
+    overflow-x: scroll;
+    height: 5.8rem; }
+    .con-share .share-list .share-item {
+      display: table;
+      width: 100%;
+      height: 0.8rem;
+      line-height: 0.8rem;
+      border-bottom: 1px solid #eee; }
+      .con-share .share-list .share-item > div {
+        float: left;
+        color: #fff;
+        margin-right: 0.2rem; }
+      .con-share .share-list .share-item .min-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 2rem; }
+      .con-share .share-list .share-item .min-phone {
+        float: right; }
+
+/*双十一下单页面*/
+.double-eleven-pay .selectContainer .title {
+  line-height: 0.75rem;
+  height: 0.75rem; }
+
+.double-eleven-pay .user-pay-status {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%; }
+  .double-eleven-pay .user-pay-status .pay-status-bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.15); }
+  .double-eleven-pay .user-pay-status .pay-status-judge {
+    position: absolute;
+    bottom: 0.15rem;
+    height: 1.52rem;
+    width: 60%;
+    background: #fff;
+    border-radius: 0.2rem;
+    left: 20%;
+    text-align: center; }
+    .double-eleven-pay .user-pay-status .pay-status-judge .user-judge {
+      height: 0.8rem;
+      line-height: 0.8rem;
+      border-bottom: 1px solid #eee; }
+    .double-eleven-pay .user-pay-status .pay-status-judge .whether {
+      height: 0.7rem;
+      line-height: 0.7rem; }
+      .double-eleven-pay .user-pay-status .pay-status-judge .whether > span {
+        width: 1rem;
+        height: 0.7rem;
+        line-height: 0.7rem;
+        display: inline-block; }
+
+.service-data {
+  background: #fff;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  padding-left: 0.5rem;
+  color: #00a84c; }
+
+.pay-type .list-pop {
+  height: 0.94rem;
+  line-height: 0.94rem;
+  border-bottom: 1px solid #e8e8e8;
+  background: #fff; }
+  .pay-type .list-pop .pop-img {
+    width: 0.28rem;
+    height: 0.28rem;
+    float: left;
+    margin: 0.33rem; }
+  .pay-type .list-pop .pop-style {
+    float: left;
+    font-size: 0.29rem;
+    color: #212121;
+    padding-left: 0.25rem; }
+  .pay-type .list-pop .payBg {
+    width: 0.43rem;
+    height: 0.43rem;
+    float: left;
+    margin: 0.25rem 0; }
+
+.pay-type .pay {
+  background: #00a84c;
+  text-align: center;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  margin: 0.3rem 0.3rem;
+  border-radius: 0.4rem; }
+
+/*双十一分享二维码*/
+.share-qrcode .activity-detail .activity-img {
+  position: relative;
+  margin: 0.89rem auto 0px auto;
+  width: 7.5rem; }
+  .share-qrcode .activity-detail .activity-img .qrcode-bg .qrcode {
+    position: absolute;
+    margin: 0px auto;
+    width: 2.42rem;
+    height: 2.42rem;
+    bottom: 0.46rem;
+    left: 1.03rem; }

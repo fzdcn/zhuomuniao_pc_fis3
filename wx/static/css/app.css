@@ -1,0 +1,3252 @@
+@charset "UTF-8";
+/*背景色*/
+/*文字颜色*/
+/*边框颜色*/
+.mescroll-empty .empty-icon {
+  width: 5.7rem;
+  height: 5.7rem; }
+.mescroll-empty .empty-btn {
+  border: 1px solid #00a84c;
+  color: #00a84c;
+  height: 0.2rem;
+  line-height: 0.2rem;
+  width: 3rem;
+  font-size: 0.3rem; }
+
+.swiper-pagination-bullet {
+  border-radius: 0.32rem; }
+
+.sweet-alert h2 {
+  line-height: 0.4rem;
+  font-size: 0.28rem; }
+
+.sweet-alert p {
+  font-size: 0.25rem; }
+
+.field[data-has-confirm-button=false][data-has-cancel-button=false] {
+  padding-bottom: 0; }
+
+.field {
+  width: 3rem;
+  margin-left: -1.7rem;
+  padding: 0 0.2rem;
+  left: 50%;
+  top: 50%;
+  background-color: rgba(0, 0, 0, 0.7); }
+  .field fieldset {
+    display: none; }
+  .field .sa-button-container {
+    display: none; }
+  .field h2 {
+    margin: 0.4rem 0;
+    line-height: 0.6rem;
+    font-weight: normal;
+    font-size: 0.25rem;
+    color: #fff; }
+
+/*字体大小*/
+.fc-16 {
+  font-size: 0.16rem; }
+
+.fc-17 {
+  font-size: 0.17rem; }
+
+.fc-18 {
+  font-size: 0.18rem; }
+
+.fc-19 {
+  font-size: 0.19rem; }
+
+.fc-20 {
+  font-size: 0.20rem; }
+
+.fc-21 {
+  font-size: 0.21rem; }
+
+.fc-22 {
+  font-size: 0.22rem; }
+
+.fc-23 {
+  font-size: 0.23rem; }
+
+.fc-24 {
+  font-size: 0.24rem; }
+
+.fc-25 {
+  font-size: 0.25rem; }
+
+.fc-26 {
+  font-size: 0.26rem; }
+
+.fc-27 {
+  font-size: 0.27rem; }
+
+.fc-28 {
+  font-size: 0.28rem; }
+
+.fc-29 {
+  font-size: 0.29rem; }
+
+.fc-30 {
+  font-size: 0.30rem; }
+
+.fc-31 {
+  font-size: 0.31rem; }
+
+.fc-32 {
+  font-size: 0.32rem; }
+
+.fc-33 {
+  font-size: 0.33rem; }
+
+.fc-34 {
+  font-size: 0.34rem; }
+
+.fc-35 {
+  font-size: 0.35rem; }
+
+.fc-36 {
+  font-size: 0.36rem; }
+
+.fc-37 {
+  font-size: 0.37rem; }
+
+.fc-38 {
+  font-size: 0.38rem; }
+
+.fc-39 {
+  font-size: 0.39rem; }
+
+.fc-40 {
+  font-size: 0.40rem; }
+
+.fc-41 {
+  font-size: 0.41rem; }
+
+.fc-42 {
+  font-size: 0.42rem; }
+
+/*被选中颜色*/
+.selected-color {
+  color: #00a84c; }
+
+.cancel-color {
+  color: #333; }
+
+.bg {
+  background-color: #eeeeee; }
+
+.clear-fix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.fl {
+  float: left; }
+
+.fr {
+  float: right; }
+
+/*文字几行*/
+.p1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.p6 {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-all; }
+
+.set {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 0.88rem;
+  line-height: 0.88rem;
+  background-color: #fff;
+  z-index: 100;
+  border-bottom: 1px solid #e6e6e6; }
+  .set .set-on {
+    text-align: center;
+    font-size: 0.36rem; }
+  .set .setback {
+    width: 0.22rem;
+    height: 0.4rem;
+    position: absolute;
+    top: 0.26rem;
+    left: 0.3rem; }
+
+[v-cloak] {
+  display: none; }
+
+/*header*/
+body {
+  background-color: #f6f6f6; }
+
+.clear {
+  clear: both; }
+
+/*index.html*/
+/*header*/
+.index {
+  width: 100%; }
+
+.header-top {
+  position: fixed;
+  top: 0rem;
+  height: 0.89rem;
+  width: 100%;
+  background-color: #14A83B;
+  line-height: 0.89rem;
+  padding: 0 0.15rem;
+  z-index: 100; }
+  .header-top .project-title {
+    position: absolute;
+    font-size: 0.28rem;
+    color: #fff;
+    width: 3.5rem;
+    text-align: center;
+    top: 0rem;
+    height: 0.89rem;
+    left: 50%;
+    margin-left: -1.75rem; }
+    .header-top .project-title .index-search {
+      width: 3.5rem;
+      height: 0.54rem;
+      border-radius: 0.5rem;
+      color: #7f7f7f;
+      font-size: 0.24rem;
+      text-align: left;
+      line-height: 0.54rem;
+      padding-left: 1rem; }
+    .header-top .project-title .search-img {
+      display: inline-block;
+      position: absolute;
+      width: 0.32rem;
+      height: 0.32rem;
+      background: url("/wx/static/images/home_search@2x.png") no-repeat;
+      background-size: 0.32rem 0.32rem;
+      top: 0.32rem;
+      left: 0.5rem; }
+  .header-top .city-position {
+    width: 1.6rem;
+    height: 0.89rem; }
+    .header-top .city-position .city-name {
+      position: absolute;
+      text-align: center;
+      width: 1.3rem;
+      line-height: 0.89rem;
+      height: 0.89rem;
+      font-size: 0.28rem;
+      color: #fff;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      word-break: break-all; }
+    .header-top .city-position .inverted-triangle {
+      margin-left: 1.3rem;
+      width: 0.3rem; }
+      .header-top .city-position .inverted-triangle img {
+        width: 0.3rem;
+        height: 0.16rem; }
+
+.header {
+  height: 0.85rem;
+  width: 100%;
+  line-height: 0.85rem; }
+
+/*banner*/
+.index-list {
+  position: fixed;
+  top: 0.89rem; }
+  .index-list .mescroll-upwarp {
+    padding-bottom: 2rem; }
+  .index-list .mescroll-empty {
+    margin-top: -4rem;
+    padding-bottom: 2rem; }
+
+/*.banner {
+  width: 100%;
+  height: auto;
+  margin-top: 0.89rem;
+}*/
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
+  margin: 0.05rem 0.1rem; }
+
+.swiper-pagination-bullet {
+  width: 0.16rem;
+  height: 0.16rem;
+  background-color: #3cd882; }
+
+.swiper-pagination-bullet-active {
+  background-color: #00a84c; }
+
+/*家政服务*/
+.service-list {
+  width: 100%;
+  height: auto;
+  padding-top: 0.3rem;
+  background-color: #fff; }
+  .service-list .service-detail {
+    margin: auto; }
+
+.service-list ul li {
+  width: 25%;
+  height: auto;
+  margin-bottom: 0.3rem; }
+  .service-list ul li p {
+    color: #545454;
+    font-size: 0.28rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    word-break: break-all; }
+
+.service-list ul li img {
+  width: 1rem;
+  height: 1rem;
+  margin-bottom: 0.1rem; }
+
+/*今日推荐*/
+.recommend {
+  height: auto;
+  margin: 0.2rem 0.15rem 0;
+  background-color: #fff;
+  border-radius: 0.1rem; }
+  .recommend .recommend-top {
+    height: 0.8rem;
+    width: auto;
+    background-color: #fff;
+    margin: 0 0.15rem; }
+    .recommend .recommend-top dl {
+      width: 100%;
+      height: 0.8rem; }
+      .recommend .recommend-top dl dt {
+        float: left;
+        height: 0.8rem;
+        line-height: 0.8rem;
+        font-size: 0.28rem;
+        color: #4c4c4c; }
+        .recommend .recommend-top dl dt span {
+          display: inline-block;
+          height: 0.8rem;
+          line-height: 0.8rem;
+          color: #00a84c;
+          font-size: 0.24rem;
+          margin-left: 0.15rem; }
+      .recommend .recommend-top dl dd {
+        float: right;
+        height: 1rem;
+        line-height: 1rem; }
+        .recommend .recommend-top dl dd a {
+          line-height: 1rem;
+          color: #B3B3B3;
+          font-size: 0.28rem;
+          display: inline-block; }
+          .recommend .recommend-top dl dd a img {
+            margin-left: 0.2rem;
+            width: 0.15rem;
+            height: 0.27rem; }
+  .recommend .recommend-list {
+    width: auto;
+    height: auto;
+    padding: 0 0.15rem; }
+    .recommend .recommend-list .recommend-list-img ul {
+      display: table;
+      width: 100%; }
+      .recommend .recommend-list .recommend-list-img ul li {
+        text-align: center;
+        margin-bottom: 0.2rem; }
+        .recommend .recommend-list .recommend-list-img ul li img {
+          width: 7.5rem; }
+  .recommend .see-more {
+    font-size: 0.28rem;
+    text-align: center;
+    color: #767b84;
+    height: 1rem;
+    line-height: 1rem; }
+
+/*生活服务*/
+.life-service {
+  height: auto;
+  width: 100%;
+  margin-top: 0.2rem;
+  background-color: #fff; }
+  .life-service .title {
+    padding: 0 0.28rem;
+    height: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #E9E9E9; }
+    .life-service .title dl {
+      width: 100%;
+      height: 1rem; }
+      .life-service .title dl dt {
+        float: left;
+        height: 1rem;
+        line-height: 1rem;
+        font-size: 0.32rem;
+        color: #5A5A5A; }
+        .life-service .title dl dt img {
+          margin-right: 0.15rem;
+          width: 0.54rem;
+          height: 0.54rem; }
+  .life-service .service-list {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    padding: 0.5rem 0 0.25rem; }
+    .life-service .service-list .service-list-modular {
+      width: 100%;
+      height: auto;
+      padding: 0 0.15rem; }
+      .life-service .service-list .service-list-modular ul li {
+        float: left;
+        width: 1.5rem;
+        height: auto;
+        text-align: center;
+        margin: 0rem 0.15rem 0.5rem; }
+        .life-service .service-list .service-list-modular ul li i {
+          display: inline-block;
+          width: 1.5rem;
+          height: auto;
+          margin-bottom: 0.24rem; }
+          .life-service .service-list .service-list-modular ul li i img {
+            width: 0.88rem;
+            height: 0.88rem;
+            margin: 0; }
+        .life-service .service-list .service-list-modular ul li p {
+          font-size: 0.28rem;
+          color: #5A5A5A;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          -webkit-box-orient: vertical;
+          word-break: break-all; }
+    .life-service .service-list .life-service-pagination {
+      bottom: -0.12rem; }
+
+/*用户评价*/
+.user-evaluate-index {
+  padding-bottom: 0.25rem;
+  background-color: #fff;
+  margin-top: 0.2rem; }
+  .user-evaluate-index .evaluate-title {
+    padding: 0 0.28rem;
+    height: 1rem;
+    width: auto;
+    background-color: #fff;
+    border-bottom: 1px solid #E9E9E9; }
+    .user-evaluate-index .evaluate-title dl {
+      width: 100%;
+      height: 1rem; }
+      .user-evaluate-index .evaluate-title dl dt {
+        float: left;
+        height: 1rem;
+        line-height: 1rem;
+        font-size: 0.32rem;
+        color: #5A5A5A; }
+        .user-evaluate-index .evaluate-title dl dt img {
+          margin-right: 0.15rem;
+          width: 0.54rem;
+          height: 0.54rem; }
+      .user-evaluate-index .evaluate-title dl dd {
+        float: right;
+        height: 1rem;
+        line-height: 1rem; }
+        .user-evaluate-index .evaluate-title dl dd a {
+          line-height: 1rem;
+          color: #B3B3B3;
+          font-size: 0.28rem;
+          display: inline-block; }
+          .user-evaluate-index .evaluate-title dl dd a img {
+            margin-left: 0.2rem;
+            width: 0.15rem;
+            height: 0.27rem; }
+  .user-evaluate-index .user-info {
+    height: auto;
+    width: 100%;
+    background-color: #fff; }
+    .user-evaluate-index .user-info .user-evaluate-detail {
+      height: auto;
+      width: auto;
+      padding: 0.4rem 0.28rem; }
+      .user-evaluate-index .user-info .user-evaluate-detail .user-avatar {
+        position: absolute;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 0.1rem; }
+        .user-evaluate-index .user-info .user-evaluate-detail .user-avatar img {
+          width: 0.75rem;
+          height: 0.75rem;
+          border-radius: 50%; }
+      .user-evaluate-index .user-info .user-evaluate-detail .service-type {
+        margin-left: 0.85rem; }
+        .user-evaluate-index .user-info .user-evaluate-detail .service-type .user-name {
+          font-size: 0.24rem;
+          color: #333; }
+        .user-evaluate-index .user-info .user-evaluate-detail .service-type .service-detail {
+          position: relative;
+          margin-top: 0.05rem; }
+          .user-evaluate-index .user-info .user-evaluate-detail .service-type .service-detail .service {
+            position: absolute;
+            font-size: 0.16rem;
+            color: #fff;
+            display: inline-block;
+            height: 0.3rem;
+            line-height: 0.3rem;
+            background-color: #00a84c;
+            text-align: center;
+            width: 0.54rem;
+            border-radius: 0.1rem; }
+          .user-evaluate-index .user-info .user-evaluate-detail .service-type .service-detail .type {
+            position: absolute;
+            color: #999999;
+            font-size: 0.2rem;
+            width: 3.5rem;
+            line-height: 0.3rem;
+            margin-left: 0.6rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            word-break: break-all; }
+          .user-evaluate-index .user-info .user-evaluate-detail .service-type .service-detail .time {
+            display: inline-block;
+            color: #999999;
+            font-size: 0.2rem;
+            width: 2rem;
+            line-height: 0.3rem;
+            text-align: right;
+            position: absolute;
+            right: 0; }
+    .user-evaluate-index .user-info .evaluate-detail {
+      padding: 0.2rem 0.25rem 0 0.25rem;
+      margin: 0.25rem 0.28rem;
+      background-color: #f7f7f7; }
+      .user-evaluate-index .user-info .evaluate-detail p {
+        font-size: 0.24rem;
+        color: #333;
+        line-height: 0.3rem;
+        word-break: break-all; }
+      .user-evaluate-index .user-info .evaluate-detail .tar {
+        display: table;
+        margin-top: 0.2rem;
+        padding-bottom: 0.25rem; }
+        .user-evaluate-index .user-info .evaluate-detail .tar img {
+          width: 0.18rem;
+          height: 0.18rem; }
+      .user-evaluate-index .user-info .evaluate-detail .domestic-evaluate img {
+        width: 1.24rem;
+        height: 1.24rem;
+        margin: 0.1rem 0.17rem; }
+
+/*公司口号*/
+.company-slogan {
+  text-align: center;
+  height: 1.28rem;
+  line-height: 1.28rem;
+  background-color: #e8e8e8;
+  margin-top: 0.2rem; }
+  .company-slogan img {
+    width: 4.9rem;
+    height: 0.29rem; }
+
+/*search.html*/
+.search-back {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  border-bottom: 1px solid #e6e6e6;
+  background-color: #fff;
+  z-index: 100;
+  padding: 0.3rem 0; }
+  .search-back .search-tab {
+    position: relative;
+    height: 0.3rem;
+    display: table;
+    margin-left: 0.3rem;
+    margin-bottom: 0.18rem; }
+    .search-back .search-tab .service {
+      height: 0.3rem;
+      line-height: 0.3rem;
+      font-size: 0.28rem;
+      margin-left: 0.5rem;
+      width: 0.6rem;
+      text-align: center; }
+    .search-back .search-tab .selected-color {
+      color: #00a84c; }
+    .search-back .search-tab .cancel-color {
+      color: #b9b9b9; }
+    .search-back .search-tab .transition-left {
+      left: 0.73rem; }
+    .search-back .search-tab .transition-right {
+      left: 2.26rem; }
+    .search-back .search-tab img {
+      height: 0.13rem;
+      width: 0.17rem;
+      top: 0.4rem;
+      position: absolute;
+      z-index: 10; }
+    .search-back .search-tab .goods {
+      height: 0.3rem;
+      line-height: 0.3rem;
+      font-size: 0.28rem;
+      margin-left: 0.95rem;
+      width: 0.6rem;
+      text-align: center; }
+
+.search-result {
+  position: fixed;
+  top: 1.73rem;
+  width: 100%; }
+  .search-result .mescroll-empty {
+    margin-top: -4.5rem; }
+  .search-result .mescroll-upwarp {
+    margin-bottom: 1.6rem; }
+  .search-result .lately-search {
+    padding-top: 0.5rem; }
+    .search-result .lately-search .search-title {
+      height: 0.4rem;
+      width: auto; }
+      .search-result .lately-search .search-title dl dt {
+        height: 0.4rem;
+        line-height: 0.4rem;
+        width: 1.2rem;
+        float: left;
+        font-size: 0.28rem;
+        margin-left: 0.28rem; }
+      .search-result .lately-search .search-title dl dd {
+        float: right;
+        width: 0.34rem;
+        height: 0.4rem;
+        margin-right: 0.28rem; }
+        .search-result .lately-search .search-title dl dd img {
+          width: 0.34rem;
+          height: 0.32rem; }
+    .search-result .lately-search .lately-search-list {
+      margin-top: 0.22rem;
+      padding: 0 0.07rem; }
+      .search-result .lately-search .lately-search-list p {
+        float: left;
+        width: auto;
+        height: 0.68rem;
+        border: 1px solid #ccc;
+        border-radius: 0.05rem;
+        font-size: 0.28rem;
+        text-align: center;
+        color: #333333;
+        line-height: 0.68rem;
+        padding: 0 0.28rem;
+        margin: 0 0.2rem 0.2rem; }
+  .search-result .hot-search {
+    padding-top: 1rem; }
+    .search-result .hot-search .hot-search-title {
+      height: 0.4rem;
+      width: auto; }
+      .search-result .hot-search .hot-search-title dl dt {
+        height: 0.4rem;
+        line-height: 0.4rem;
+        width: 1.2rem;
+        float: left;
+        font-size: 0.28rem;
+        margin-left: 0.28rem; }
+    .search-result .hot-search .hot-search-list {
+      margin-top: 0.22rem;
+      padding: 0 0.07rem; }
+      .search-result .hot-search .hot-search-list p {
+        float: left;
+        width: auto;
+        height: 0.68rem;
+        border: 1px solid #ccc;
+        border-radius: 0.05rem;
+        font-size: 0.28rem;
+        text-align: center;
+        color: #333333;
+        line-height: 0.68rem;
+        padding: 0 0.28rem;
+        margin: 0 0.2rem 0.2rem; }
+
+.search-result-list {
+  position: fixed;
+  top: 1.25rem; }
+  .search-result-list .mescroll-upwarp {
+    margin-bottom: 1.2rem; }
+  .search-result-list .mescroll-empty {
+    margin-top: -4rem; }
+
+.search-content {
+  position: relative;
+  width: auto;
+  height: 0.62rem; }
+  .search-content .search-list {
+    position: relative;
+    height: 0.62rem;
+    margin: 0 auto; }
+    .search-content .search-list .search-img {
+      background: url("/wx/static/images/search_search@2x.png") no-repeat;
+      background-size: 0.28rem 0.28rem;
+      display: inline-block;
+      width: 0.28rem;
+      height: 0.28rem;
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      margin-top: -0.11rem;
+      z-index: 1000; }
+    .search-content .search-list .search-input {
+      height: 0.58rem;
+      width: 5rem;
+      border-radius: 0.34rem;
+      border: 1px solid #00a84c;
+      color: #333;
+      font-size: 0.24rem;
+      line-height: 0.6rem;
+      background-color: #fff;
+      position: absolute;
+      left: 0.7rem;
+      top: 50%;
+      margin-top: -0.3rem;
+      padding-left: 0.6rem;
+      padding-right: 0.15rem; }
+    .search-content .search-list img {
+      width: 0.22rem;
+      height: 0.4rem;
+      position: absolute;
+      top: 0.14rem;
+      left: 0.3rem; }
+  .search-content .cancel {
+    width: 0.8rem;
+    height: 0.62rem;
+    position: absolute;
+    font-size: 0.25rem;
+    line-height: 0.66rem;
+    text-align: center;
+    right: 0.2rem;
+    top: 0; }
+
+/*stores.html*/
+.stores .fix-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100; }
+  .stores .fix-top .set {
+    width: 100%;
+    position: relative;
+    top: 0;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    background-color: #00A84C;
+    color: #fff;
+    border-bottom: none; }
+    .stores .fix-top .set .set-on {
+      text-align: center;
+      font-size: 0.36rem; }
+  .stores .fix-top .stores-tab {
+    position: relative;
+    width: 100%; }
+    .stores .fix-top .stores-tab .tab-choice {
+      height: 0.88rem;
+      width: 100%;
+      border-bottom: 1px solid #e6e6e6;
+      background-color: #fff; }
+      .stores .fix-top .stores-tab .tab-choice ul {
+        position: relative;
+        width: 7.5rem;
+        height: 0.88rem;
+        margin: 0 auto; }
+        .stores .fix-top .stores-tab .tab-choice ul li.city-name {
+          position: absolute;
+          right: 50%;
+          font-size: 0.32rem;
+          height: 0.88rem;
+          line-height: 0.88rem;
+          width: 49.9%; }
+          .stores .fix-top .stores-tab .tab-choice ul li.city-name p {
+            position: absolute;
+            left: 50%;
+            margin-left: -1rem;
+            display: inline-block;
+            width: 2rem;
+            text-align: center;
+            height: 0.88rem;
+            line-height: 0.88rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            word-break: break-all; }
+          .stores .fix-top .stores-tab .tab-choice ul li.city-name img {
+            position: absolute;
+            top: 50%;
+            margin-top: -0.085rem;
+            right: 0.45rem;
+            width: 0.32rem;
+            height: 0.17rem; }
+        .stores .fix-top .stores-tab .tab-choice ul li.service-type {
+          position: absolute;
+          left: 50%;
+          font-size: 0.32rem;
+          height: 0.88rem;
+          line-height: 0.88rem;
+          width: 49.9%; }
+          .stores .fix-top .stores-tab .tab-choice ul li.service-type p {
+            position: absolute;
+            right: 50%;
+            margin-right: -1rem;
+            width: 2rem;
+            text-align: center;
+            height: 0.88rem;
+            line-height: 0.88rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            word-break: break-all; }
+          .stores .fix-top .stores-tab .tab-choice ul li.service-type img {
+            position: absolute;
+            top: 50%;
+            margin-top: -0.085rem;
+            right: 0.45rem;
+            width: 0.32rem;
+            height: 0.17rem; }
+        .stores .fix-top .stores-tab .tab-choice ul li.liner {
+          height: 0.5rem;
+          border: 0.01rem solid #ccc;
+          position: absolute;
+          top: 50%;
+          margin-top: -0.25rem;
+          left: 49.9%; }
+    .stores .fix-top .stores-tab .tab-city-content {
+      position: relative;
+      width: auto;
+      background-color: #fff; }
+      .stores .fix-top .stores-tab .tab-city-content .region {
+        max-height: 5.35rem;
+        overflow: scroll; }
+        .stores .fix-top .stores-tab .tab-city-content .region ul li {
+          position: relative;
+          height: 0.75rem;
+          width: auto;
+          text-align: left;
+          line-height: 0.75rem;
+          font-size: 0.28rem;
+          padding-left: 11%;
+          border-bottom: 1px solid #ccc; }
+          .stores .fix-top .stores-tab .tab-city-content .region ul li img {
+            position: absolute;
+            top: 50%;
+            left: 4%;
+            margin-top: -0.065rem;
+            width: 0.22rem;
+            height: 0.13rem; }
+    .stores .fix-top .stores-tab .tab-service-content {
+      position: relative;
+      width: auto;
+      background-color: #fff; }
+      .stores .fix-top .stores-tab .tab-service-content .service-content-list {
+        height: 5.32rem;
+        overflow-y: scroll; }
+        .stores .fix-top .stores-tab .tab-service-content .service-content-list ul li {
+          position: relative;
+          height: 0.75rem;
+          width: auto;
+          text-align: left;
+          line-height: 0.75rem;
+          font-size: 0.28rem;
+          border-bottom: 1px solid #ccc;
+          padding-left: 11%; }
+          .stores .fix-top .stores-tab .tab-service-content .service-content-list ul li img {
+            position: absolute;
+            top: 50%;
+            left: 4%;
+            margin-top: -0.065rem;
+            width: 0.22rem;
+            height: 0.13rem; }
+.stores .stores-module {
+  position: fixed;
+  top: 1.76rem; }
+  .stores .stores-module .mescroll-empty {
+    margin-top: -4rem; }
+  .stores .stores-module .stores-list {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+    bottom: 1rem; }
+    .stores .stores-module .stores-list .stores-list-content {
+      width: auto;
+      height: 2.16rem;
+      border-bottom: 1px solid #D0DBE4;
+      position: relative;
+      background-color: #fff;
+      padding: 0 0.28rem; }
+      .stores .stores-module .stores-list .stores-list-content .stores-list-img {
+        position: absolute;
+        top: 50%;
+        margin-top: -0.8rem;
+        height: 1.6rem;
+        width: 2.08rem; }
+        .stores .stores-module .stores-list .stores-list-content .stores-list-img img {
+          width: 2.08rem;
+          height: 1.6rem; }
+      .stores .stores-module .stores-list .stores-list-content .stores-list-info {
+        position: relative;
+        height: 1.6rem;
+        width: auto;
+        margin-left: 2.08rem;
+        padding: 0.28rem 0 0.28rem 0.28rem; }
+        .stores .stores-module .stores-list .stores-list-content .stores-list-info .stores-name {
+          text-align: left;
+          font-size: 0.32rem;
+          color: #000;
+          line-height: 0.36rem; }
+        .stores .stores-module .stores-list .stores-list-content .stores-list-info .stores-address {
+          font-size: 0.28rem;
+          color: #8c9aa7;
+          line-height: 0.4rem;
+          margin: 0.09rem 0; }
+        .stores .stores-module .stores-list .stores-list-content .stores-list-info .time-distance {
+          position: absolute;
+          display: table;
+          width: 100%;
+          line-height: 0.28rem;
+          bottom: 0.28rem;
+          font-size: 0.28rem;
+          color: #758696; }
+
+/*stores-detail.html*/
+.stores-detail .stores-cover {
+  margin-top: 0.89rem;
+  position: relative;
+  text-align: center;
+  height: 3.8rem; }
+  .stores-detail .stores-cover img {
+    width: 7.5rem;
+    height: 3.8rem; }
+  .stores-detail .stores-cover .stores-time {
+    position: absolute;
+    width: 100%;
+    height: 3.8rem;
+    z-index: 50;
+    top: 0;
+    background: url("/wx/static/images/bg.png") repeat; }
+    .stores-detail .stores-cover .stores-time .stores-name {
+      text-align: center;
+      font-size: 0.48rem;
+      color: #fff;
+      margin-top: 1.4rem;
+      margin-bottom: 0.5rem; }
+    .stores-detail .stores-cover .stores-time .time {
+      font-size: 0.48rem;
+      text-align: center;
+      color: #fff;
+      line-height: 0.48rem;
+      height: 0.48rem; }
+.stores-detail .address-list {
+  background-color: #fff;
+  padding: 0.47rem 0.3rem 0 0.3rem; }
+  .stores-detail .address-list .address-img {
+    width: 0.28rem;
+    height: 0.33rem; }
+  .stores-detail .address-list .address-detail {
+    font-size: 0.28rem;
+    color: #545454;
+    margin-left: 0.48rem;
+    line-height: 0.33rem; }
+.stores-detail .stores-service-list {
+  padding: 0.4rem 0.3rem;
+  background-color: #fff; }
+  .stores-detail .stores-service-list .list-detail {
+    width: 6.9rem;
+    margin: auto; }
+    .stores-detail .stores-service-list .list-detail .tel-img, .stores-detail .stores-service-list .list-detail .service-img {
+      width: 1.24rem;
+      margin: 0 0.53rem;
+      text-align: center; }
+      .stores-detail .stores-service-list .list-detail .tel-img img, .stores-detail .stores-service-list .list-detail .service-img img {
+        width: 1.24rem;
+        height: 1.24rem;
+        margin-bottom: 0.3rem; }
+      .stores-detail .stores-service-list .list-detail .tel-img p, .stores-detail .stores-service-list .list-detail .service-img p {
+        font-size: 0.28rem;
+        color: #a4b2c1; }
+.stores-detail .stores-activity {
+  padding: 0.2rem 0.3rem;
+  background-color: #fff;
+  margin: 0.2rem 0; }
+  .stores-detail .stores-activity .activity-detail {
+    display: table;
+    width: 100%; }
+    .stores-detail .stores-activity .activity-detail .activity-img {
+      line-height: 0.5rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin-right: 0.28rem; }
+    .stores-detail .stores-activity .activity-detail .title {
+      line-height: 0.5rem;
+      font-size: 0.28rem;
+      color: #2e3339;
+      width: 60%; }
+    .stores-detail .stores-activity .activity-detail .activity-num {
+      line-height: 0.5rem;
+      font-size: 0.28rem;
+      color: #999999;
+      width: 23%; }
+    .stores-detail .stores-activity .activity-detail .right-arrow {
+      width: 0.15rem;
+      height: 0.24rem;
+      line-height: 0.5rem;
+      margin-top: 0.13rem;
+      margin-left: 0.2rem; }
+.stores-detail .service-personal {
+  padding: 0 0.3rem;
+  background-color: #fff;
+  height: 0.8rem;
+  border-bottom: 1px solid #e6e6e6;
+  margin-top: 0.2rem; }
+  .stores-detail .service-personal .service-personal-cover {
+    line-height: 0.8rem;
+    font-size: 0; }
+    .stores-detail .service-personal .service-personal-cover img {
+      width: 0.5rem;
+      height: 0.5rem;
+      margin-right: 0.13rem; }
+  .stores-detail .service-personal .title {
+    font-size: 0.32rem;
+    color: #2e3339;
+    line-height: 0.8rem; }
+    .stores-detail .service-personal .title .charge-mode {
+      display: none; }
+.stores-detail .personal-list {
+  background-color: #fff; }
+  .stores-detail .personal-list .personal-list-detail {
+    padding: 0.3rem 0.3rem;
+    border-bottom: 1px solid #e6e6e6; }
+    .stores-detail .personal-list .personal-list-detail .moving-services-cover {
+      float: left;
+      width: 1.66rem;
+      height: 1.66rem; }
+      .stores-detail .personal-list .personal-list-detail .moving-services-cover img {
+        width: 1.66rem;
+        height: 1.66rem; }
+    .stores-detail .personal-list .personal-list-detail .moving-services-detail {
+      margin-left: 2.06rem;
+      display: table; }
+      .stores-detail .personal-list .personal-list-detail .moving-services-detail h3 {
+        line-height: 0.4rem;
+        font-size: 0.32rem;
+        color: #2e3339;
+        max-width: 3.6rem;
+        margin-right: 0.05rem; }
+      .stores-detail .personal-list .personal-list-detail .moving-services-detail .sex {
+        width: 0.26rem;
+        height: 0.26rem;
+        margin-top: 0.07rem; }
+      .stores-detail .personal-list .personal-list-detail .moving-services-detail .lever-info {
+        width: 100%;
+        line-height: 0.35rem;
+        display: table;
+        color: #777b84; }
+        .stores-detail .personal-list .personal-list-detail .moving-services-detail .lever-info .lever-number {
+          line-height: 0.4rem;
+          font-size: 0.24rem;
+          margin-right: 0.1rem;
+          color: #777b84; }
+        .stores-detail .personal-list .personal-list-detail .moving-services-detail .lever-info .gender {
+          line-height: 0.4rem;
+          font-size: 0.24rem;
+          color: #777b84; }
+        .stores-detail .personal-list .personal-list-detail .moving-services-detail .lever-info .liner {
+          border-left: 1px solid #9ca2ad;
+          margin: 0.12rem 0.1rem;
+          height: 0.16rem;
+          width: 0.1rem; }
+        .stores-detail .personal-list .personal-list-detail .moving-services-detail .lever-info .sold {
+          line-height: 0.4rem;
+          font-size: 0.24rem;
+          color: #777b84; }
+      .stores-detail .personal-list .personal-list-detail .moving-services-detail .discount {
+        height: 0.4rem;
+        display: table; }
+        .stores-detail .personal-list .personal-list-detail .moving-services-detail .discount > div {
+          line-height: 0.4rem;
+          text-align: center;
+          color: #2e3339;
+          font-size: 0.24rem; }
+        .stores-detail .personal-list .personal-list-detail .moving-services-detail .discount .promotion {
+          margin-right: 0.24rem; }
+      .stores-detail .personal-list .personal-list-detail .moving-services-detail .lever {
+        display: table;
+        line-height: 0.46rem;
+        font-size: 0; }
+        .stores-detail .personal-list .personal-list-detail .moving-services-detail .lever img {
+          width: 0.18rem;
+          height: 0.18rem;
+          margin-right: 0.1rem; }
+  .stores-detail .personal-list .see-more {
+    font-size: 0.28rem;
+    text-align: center;
+    color: #767b84;
+    height: 1rem;
+    line-height: 1rem; }
+.stores-detail .stores-list {
+  height: 0.8rem;
+  text-align: center;
+  background-color: #fff;
+  margin-top: 0.2rem; }
+  .stores-detail .stores-list img {
+    width: 2.96rem;
+    height: 0.29rem;
+    margin-top: 0.255rem; }
+.stores-detail .stores-detail-list {
+  position: relative;
+  width: 100%; }
+  .stores-detail .stores-detail-list .see-more {
+    font-size: 0.28rem;
+    text-align: center;
+    color: #767b84;
+    height: 1rem;
+    line-height: 1rem;
+    background-color: #fff; }
+  .stores-detail .stores-detail-list .stores-list-content {
+    width: auto;
+    height: 2.16rem;
+    border-bottom: 1px solid #D0DBE4;
+    position: relative;
+    background-color: #fff;
+    padding: 0 0.28rem; }
+    .stores-detail .stores-detail-list .stores-list-content .stores-list-img {
+      position: absolute;
+      top: 50%;
+      margin-top: -0.8rem;
+      height: 1.6rem;
+      width: 2.08rem; }
+      .stores-detail .stores-detail-list .stores-list-content .stores-list-img img {
+        width: 2.08rem;
+        height: 1.6rem; }
+    .stores-detail .stores-detail-list .stores-list-content .stores-list-info {
+      position: relative;
+      height: 1.6rem;
+      width: auto;
+      margin-left: 2.08rem;
+      padding: 0.28rem 0 0.28rem 0.28rem; }
+      .stores-detail .stores-detail-list .stores-list-content .stores-list-info .stores-name {
+        text-align: left;
+        font-size: 0.36rem;
+        color: #333;
+        line-height: 0.4rem; }
+      .stores-detail .stores-detail-list .stores-list-content .stores-list-info .stores-address {
+        font-size: 0.28rem;
+        color: #8c9aa7;
+        line-height: 0.4rem;
+        margin: 0.09rem 0; }
+      .stores-detail .stores-detail-list .stores-list-content .stores-list-info .time-distance {
+        position: absolute;
+        display: table;
+        width: 100%;
+        line-height: 0.28rem;
+        bottom: 0.28rem; }
+        .stores-detail .stores-detail-list .stores-list-content .stores-list-info .time-distance div {
+          font-size: 0.28rem;
+          color: #8c9aa7;
+          display: inline-block;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          -webkit-box-orient: vertical;
+          word-break: break-all; }
+.stores-detail .mask-bg {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.3;
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  top: 0; }
+.stores-detail .mask-content {
+  height: 7rem;
+  width: 100%;
+  position: fixed;
+  bottom: 0.7rem;
+  background-color: #fff;
+  z-index: 1001; }
+  .stores-detail .mask-content .stores-activity-list {
+    height: 7rem;
+    overflow: scroll; }
+    .stores-detail .mask-content .stores-activity-list .activity-detail {
+      padding: 0.285rem 0.3rem;
+      border-bottom: 1px solid #e6e6e6; }
+      .stores-detail .mask-content .stores-activity-list .activity-detail .activity-detail-info {
+        display: table;
+        width: 100%; }
+        .stores-detail .mask-content .stores-activity-list .activity-detail .activity-detail-info .activity-cover {
+          font-size: 0;
+          line-height: 0.4rem; }
+          .stores-detail .mask-content .stores-activity-list .activity-detail .activity-detail-info .activity-cover img {
+            width: 0.38rem;
+            height: 0.43rem; }
+        .stores-detail .mask-content .stores-activity-list .activity-detail .activity-detail-info .activity-title {
+          margin-left: 0.3rem;
+          margin-right: 0.2rem;
+          max-width: 70%;
+          line-height: 0.4rem;
+          color: #2e3339; }
+        .stores-detail .mask-content .stores-activity-list .activity-detail .activity-detail-info .activity-num {
+          color: #00a84c;
+          width: 16%;
+          text-align: center;
+          border: 1px solid #00a84c;
+          border-radius: 0.05rem;
+          line-height: 0.4rem; }
+  .stores-detail .mask-content .close-mask {
+    height: 0.7rem;
+    text-align: center;
+    color: #fff;
+    background-color: #00a84c;
+    line-height: 0.7rem;
+    position: fixed;
+    z-index: 1001;
+    bottom: 0;
+    width: 100%; }
+.stores-detail .stores-appointment-mask {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.5;
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  top: 0; }
+.stores-detail .stores-appointment-type {
+  position: fixed;
+  width: 6rem;
+  height: 7.59rem;
+  top: 50%;
+  left: 50%;
+  margin-top: -3.795rem;
+  margin-left: -3.005rem;
+  background: url("/wx/static/images/store_service_background@2x.png") no-repeat;
+  background-size: 6rem 5.66rem;
+  z-index: 1001; }
+  .stores-detail .stores-appointment-type .service-type-num {
+    width: 6rem;
+    height: 4.06rem;
+    margin-top: 1.6rem;
+    overflow-y: scroll; }
+    .stores-detail .stores-appointment-type .service-type-num li {
+      width: 1.5rem;
+      height: auto;
+      margin: 0.2rem 0; }
+      .stores-detail .stores-appointment-type .service-type-num li p {
+        color: #545454;
+        font-size: 0.28rem; }
+      .stores-detail .stores-appointment-type .service-type-num li img {
+        width: 1rem;
+        height: 1rem;
+        margin-bottom: 0.2rem; }
+  .stores-detail .stores-appointment-type .close-service-mask {
+    height: 1.93rem;
+    width: 100%;
+    text-align: center; }
+    .stores-detail .stores-appointment-type .close-service-mask img {
+      width: 0.68rem;
+      height: 1.93rem; }
+
+/*goods-order-detail.html*/
+.goods-list-detail .goods-list {
+  margin-top: 0.89rem;
+  margin-bottom: 0.9rem; }
+  .goods-list-detail .goods-list .order-info {
+    padding: 0.3rem 0.2rem;
+    background-color: #fff;
+    margin-bottom: 0.2rem; }
+    .goods-list-detail .goods-list .order-info .order-nav {
+      display: table;
+      width: 100%;
+      height: 0.5rem; }
+      .goods-list-detail .goods-list .order-info .order-nav .content {
+        height: 0.5rem;
+        line-height: 0.5rem;
+        font-size: 0.28rem; }
+        .goods-list-detail .goods-list .order-info .order-nav .content img {
+          width: 0.31rem;
+          height: 0.38rem;
+          margin-right: 0.2rem;
+          vertical-align: text-bottom; }
+      .goods-list-detail .goods-list .order-info .order-nav .status {
+        height: 0.5rem;
+        line-height: 0.5rem;
+        font-size: 0.24rem;
+        color: #e6464a; }
+    .goods-list-detail .goods-list .order-info .order-number {
+      display: table;
+      width: 100%;
+      height: 0.3rem;
+      line-height: 0.3rem;
+      margin: 0.25rem 0; }
+      .goods-list-detail .goods-list .order-info .order-number .title {
+        font-size: 0.24rem;
+        color: #999999; }
+      .goods-list-detail .goods-list .order-info .order-number .number {
+        font-size: 0.24rem;
+        color: #999999; }
+    .goods-list-detail .goods-list .order-info .time-detail {
+      display: table;
+      width: 100%; }
+      .goods-list-detail .goods-list .order-info .time-detail .time-title {
+        font-size: 0.24rem;
+        color: #999999; }
+      .goods-list-detail .goods-list .order-info .time-detail .time {
+        font-size: 0.24rem;
+        color: #999999; }
+  .goods-list-detail .goods-list .order-detail {
+    background-color: #fff; }
+    .goods-list-detail .goods-list .order-detail .detail-info {
+      height: 1.76rem;
+      padding: 0.2rem 0.28rem 0.4rem;
+      border-bottom: 1px solid #e6e6e6; }
+      .goods-list-detail .goods-list .order-detail .detail-info .goods-cover {
+        position: absolute;
+        width: 1.76rem;
+        height: 1.76rem; }
+        .goods-list-detail .goods-list .order-detail .detail-info .goods-cover img {
+          width: 1.76rem;
+          height: 1.76rem; }
+      .goods-list-detail .goods-list .order-detail .detail-info .goods-info {
+        height: 1.76rem;
+        margin-left: 2.04rem;
+        position: relative; }
+        .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-head {
+          display: table;
+          width: 100%; }
+          .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-head .goods-title {
+            width: 100%;
+            font-size: 0.28rem;
+            color: #333; }
+        .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-introduce {
+          display: table;
+          width: 100%;
+          position: absolute;
+          bottom: 0.6rem; }
+          .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-introduce .goods-describe {
+            max-width: 3.8rem;
+            height: 0.3rem;
+            line-height: 0.3rem;
+            font-size: 0.24rem;
+            color: #999999; }
+          .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-introduce .goods-number {
+            max-width: 1rem;
+            height: 0.3rem;
+            line-height: 0.3rem;
+            text-align: right;
+            font-size: 0.24rem;
+            color: #999999; }
+        .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-price {
+          display: table;
+          height: 0.4rem;
+          line-height: 0.4rem;
+          width: 100%;
+          position: absolute;
+          bottom: 0; }
+          .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-price .unit-price {
+            max-width: 1.8rem;
+            height: 0.4rem;
+            line-height: 0.4rem;
+            font-size: 0.28rem;
+            color: #333; }
+          .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-price .all-price-title {
+            height: 0.4rem;
+            line-height: 0.4rem;
+            font-size: 0.28rem;
+            color: #333; }
+          .goods-list-detail .goods-list .order-detail .detail-info .goods-info .goods-price .all-price-number {
+            height: 0.4rem;
+            line-height: 0.4rem;
+            font-size: 0.28rem;
+            max-width: 3rem;
+            color: #e6464a; }
+    .goods-list-detail .goods-list .order-detail .goods-pay {
+      width: 100%;
+      height: px2rem(80px);
+      background-color: #fff;
+      display: table; }
+      .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail {
+        padding: 0 px2rem(28px); }
+        .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .cancel-order, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .see-logistics, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .delete-order, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .deliver-goods {
+          font-size: px2rem(22px);
+          color: #333;
+          height: px2rem(50px);
+          width: px2rem(148px);
+          line-height: px2rem(50px);
+          border-radius: px2rem(25px);
+          text-align: center;
+          border: 1px solid #999999;
+          margin-top: px2rem(15px);
+          margin-left: px2rem(30px); }
+        .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .pay, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .confirm-receipt, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .evaluate {
+          font-size: px2rem(22px);
+          color: #e6464a;
+          height: px2rem(50px);
+          width: px2rem(148px);
+          line-height: px2rem(50px);
+          border-radius: px2rem(25px);
+          text-align: center;
+          border: 1px solid #e6464a;
+          margin-top: px2rem(15px);
+          margin-left: px2rem(30px); }
+  .goods-list-detail .goods-list .order-total-money {
+    background: #fff;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    text-align: right;
+    padding-right: 0.2rem;
+    font-size: 0.28rem; }
+  .goods-list-detail .goods-list .user-info {
+    padding: 0.3rem 0.2rem;
+    background-color: #fff;
+    margin-top: 0.2rem; }
+    .goods-list-detail .goods-list .user-info .user-nav {
+      display: table;
+      width: 100%;
+      height: 0.5rem; }
+      .goods-list-detail .goods-list .user-info .user-nav .content {
+        height: 0.5rem;
+        line-height: 0.5rem;
+        font-size: 0.28rem; }
+        .goods-list-detail .goods-list .user-info .user-nav .content img {
+          width: 0.39rem;
+          height: 0.38rem;
+          margin-right: 0.2rem;
+          vertical-align: text-bottom; }
+    .goods-list-detail .goods-list .user-info .name {
+      display: table;
+      width: 100%;
+      height: 0.3rem;
+      line-height: 0.3rem;
+      margin: 0.25rem 0; }
+      .goods-list-detail .goods-list .user-info .name .name-title {
+        font-size: 0.24rem;
+        color: #999999;
+        width: 0.6rem; }
+      .goods-list-detail .goods-list .user-info .name .name-detail {
+        font-size: 0.24rem;
+        color: #999999;
+        max-width: 6.4rem; }
+    .goods-list-detail .goods-list .user-info .telphone {
+      margin: 0.25rem 0;
+      display: table;
+      width: 100%; }
+      .goods-list-detail .goods-list .user-info .telphone .telphone-title {
+        width: 0.6rem;
+        font-size: 0.24rem;
+        color: #999999; }
+      .goods-list-detail .goods-list .user-info .telphone .telphone-detail {
+        font-size: 0.24rem;
+        color: #999999;
+        max-width: 6.4rem; }
+    .goods-list-detail .goods-list .user-info .address {
+      display: table;
+      width: 100%; }
+      .goods-list-detail .goods-list .user-info .address .address-title {
+        width: 0.6rem;
+        font-size: 0.24rem;
+        color: #999999; }
+      .goods-list-detail .goods-list .user-info .address .address-detail {
+        max-width: 6.4rem;
+        font-size: 0.24rem;
+        color: #999999; }
+.goods-list-detail .goods-pay-detail {
+  padding: 0 0.28rem; }
+  .goods-list-detail .goods-pay-detail .cancel-order, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .see-logistics, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .delete-order, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .deliver-goods, .goods-list-detail .goods-pay-detail .see-logistics, .goods-list-detail .goods-pay-detail .delete-order, .goods-list-detail .goods-pay-detail .deliver-goods, .goods-list-detail .goods-pay .goods-pay-detail .see-logistics, .goods-list-detail .goods-pay .goods-pay-detail .delete-order, .goods-list-detail .goods-pay .goods-pay-detail .deliver-goods {
+    font-size: 0.22rem;
+    color: #333;
+    height: 0.5rem;
+    width: 1.48rem;
+    line-height: 0.5rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    border: 1px solid #999999;
+    margin-top: 0.15rem;
+    margin-left: 0.3rem; }
+  .goods-list-detail .goods-pay-detail .pay, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .confirm-receipt, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .evaluate, .goods-list-detail .goods-pay-detail .confirm-receipt, .goods-list-detail .goods-pay-detail .evaluate, .goods-list-detail .goods-pay .goods-pay-detail .confirm-receipt, .goods-list-detail .goods-pay .goods-pay-detail .evaluate {
+    font-size: 0.22rem;
+    color: #e6464a;
+    height: 0.5rem;
+    width: 1.48rem;
+    line-height: 0.5rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    border: 1px solid #e6464a;
+    margin-top: 0.15rem;
+    margin-left: 0.3rem; }
+.goods-list-detail .goods-pay {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 0.8rem;
+  background-color: #fff;
+  display: table; }
+  .goods-list-detail .goods-pay .goods-pay-detail {
+    padding: 0 0.28rem; }
+    .goods-list-detail .goods-pay .goods-pay-detail .cancel-order, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .see-logistics, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .delete-order, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .deliver-goods, .goods-list-detail .goods-pay .goods-pay-detail .see-logistics, .goods-list-detail .goods-pay .goods-pay-detail .delete-order, .goods-list-detail .goods-pay .goods-pay-detail .deliver-goods {
+      font-size: 0.22rem;
+      color: #333;
+      height: 0.5rem;
+      width: 1.48rem;
+      line-height: 0.5rem;
+      border-radius: 0.25rem;
+      text-align: center;
+      border: 1px solid #999999;
+      margin-top: 0.15rem;
+      margin-left: 0.3rem; }
+    .goods-list-detail .goods-pay .goods-pay-detail .pay, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .confirm-receipt, .goods-list-detail .goods-list .order-detail .goods-pay .goods-pay-detail .evaluate, .goods-list-detail .goods-pay .goods-pay-detail .confirm-receipt, .goods-list-detail .goods-pay .goods-pay-detail .evaluate {
+      font-size: 0.22rem;
+      color: #e6464a;
+      height: 0.5rem;
+      width: 1.48rem;
+      line-height: 0.5rem;
+      border-radius: 0.25rem;
+      text-align: center;
+      border: 1px solid #e6464a;
+      margin-top: 0.15rem;
+      margin-left: 0.3rem; }
+
+/*domestic-service-evaluate.html*/
+.domesticServiceEvaluate {
+  height: auto;
+  width: 100%;
+  background-color: #fff;
+  padding-bottom: 0.2rem; }
+  .domesticServiceEvaluate .user-info-list {
+    position: fixed;
+    top: 0.89rem; }
+    .domesticServiceEvaluate .user-info-list .mescroll-upwarp {
+      margin-bottom: 0.9rem; }
+    .domesticServiceEvaluate .user-info-list .mescroll-empty {
+      margin-top: -2rem; }
+    .domesticServiceEvaluate .user-info-list .user-info-detail {
+      background-color: #fff; }
+      .domesticServiceEvaluate .user-info-list .user-info-detail .user-info {
+        height: auto;
+        width: 100%;
+        background-color: #fff;
+        padding-bottom: 0.25rem; }
+        .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail {
+          height: auto;
+          width: auto;
+          padding: 0.4rem 0.28rem; }
+          .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .user-avatar {
+            position: absolute;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 0.1rem; }
+            .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .user-avatar img {
+              width: 0.75rem;
+              height: 0.75rem;
+              border-radius: 50%; }
+          .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .service-type {
+            margin-left: 0.85rem; }
+            .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .service-type .user-name {
+              font-size: 0.24rem;
+              color: #333; }
+            .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .service-type .service-detail {
+              position: relative;
+              margin-top: 0.05rem; }
+              .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .service-type .service-detail .service {
+                position: absolute;
+                font-size: 0.16rem;
+                color: #fff;
+                display: inline-block;
+                height: 0.3rem;
+                line-height: 0.3rem;
+                background-color: #00a84c;
+                text-align: center;
+                width: 0.54rem;
+                border-radius: 0.1rem; }
+              .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .service-type .service-detail .type {
+                position: absolute;
+                color: #999999;
+                font-size: 0.2rem;
+                width: 3.5rem;
+                line-height: 0.3rem;
+                margin-left: 0.6rem;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                word-break: break-all; }
+              .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .user-evaluate-detail .service-type .service-detail .time {
+                display: inline-block;
+                color: #999999;
+                font-size: 0.2rem;
+                width: 2rem;
+                line-height: 0.3rem;
+                text-align: right;
+                position: absolute;
+                right: 0; }
+        .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .evaluate-detail {
+          padding: 0.2rem 0.25rem 0 0.25rem;
+          margin: 0.25rem 0.28rem;
+          background-color: #f7f7f7; }
+          .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .evaluate-detail p {
+            font-size: 0.24rem;
+            color: #333;
+            line-height: 0.3rem;
+            word-break: break-all; }
+          .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .evaluate-detail .tar {
+            display: table;
+            margin-top: 0.2rem;
+            margin-bottom: 0.25rem; }
+            .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .evaluate-detail .tar img {
+              width: 0.18rem;
+              height: 0.18rem; }
+          .domesticServiceEvaluate .user-info-list .user-info-detail .user-info .evaluate-detail .domestic-evaluate img {
+            width: 1.24rem;
+            height: 1.24rem;
+            margin: 0.1rem 0.17rem; }
+
+/*footer.html*/
+.foot {
+  position: fixed;
+  bottom: 0;
+  height: 1rem;
+  background-color: #fff;
+  width: 100%;
+  border-top: 1px solid #e6e6e6;
+  z-index: 1; }
+
+.foot-list {
+  margin: 0 auto;
+  width: 7rem; }
+
+.foot-list li {
+  width: 1rem;
+  padding: 0.09rem 0.2rem;
+  height: 0.82rem; }
+  .foot-list li a {
+    width: 1rem;
+    display: inline-block;
+    height: 0.82rem; }
+
+.foot-list li i {
+  width: 0.48rem;
+  height: 0.48rem;
+  display: inline-block; }
+
+.foot-list li p {
+  margin-top: -0.08rem; }
+
+.foot-list li i.shouye {
+  background: url("/wx/static/images/shouye.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.stores {
+  background: url("/wx/static/images/stores.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.malls {
+  background: url("/wx/static/images/shop_normal@2x.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.dingdan {
+  background: url("/wx/static/images/dingdan.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.personal-center {
+  background: url("/wx/static/images/personal-center.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.shouye-selected {
+  background: url("/wx/static/images/shouye-selected.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.stores-selected {
+  background: url("/wx/static/images/stores-selected.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.malls-selected {
+  background: url("/wx/static/images/shop_selected@2x.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.dingdan-selected {
+  background: url("/wx/static/images/dingdan-selected.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.foot-list li i.personal-center-selected {
+  background: url("/wx/static/images/personal-center-selected.png") no-repeat center;
+  background-size: 0.48rem 0.48rem; }
+
+.t-top {
+  padding-left: 0.44rem;
+  line-height: 0.4rem;
+  background: url(/static/images/tishi.png) no-repeat 0.1rem center;
+  font-size: 0.26rem;
+  background-size: 0.24rem 0.24rem;
+  margin-top: 0.15rem; }
+
+.t-top a {
+  color: #14A83B; }
+
+/*注册详情*/
+.register-content {
+  border-top: solid 1px #e6e6e6;
+  margin-top: 1rem;
+  background-color: #fff; }
+  .register-content > div {
+    border-bottom: solid 1px #e6e6e6;
+    padding: 0 0.15rem;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    /* WebKit browsers */
+    /* Mozilla Firefox 4 to 18 */
+    /* Mozilla Firefox 19+ */
+    /* Internet Explorer 10+ */ }
+    .register-content > div span {
+      height: 0.42rem;
+      line-height: 0.42rem;
+      font-size: 0.28rem;
+      color: #333;
+      display: inline-block;
+      width: 1.5rem;
+      text-align: left;
+      margin-right: 0.55rem; }
+    .register-content > div input {
+      height: 0.42rem;
+      max-width: 3.4rem;
+      line-height: 0.42rem;
+      font-size: 0.28rem;
+      color: #333;
+      text-align: left; }
+    .register-content > div ::-webkit-input-placeholder {
+      color: #ccc; }
+    .register-content > div :-moz-placeholder {
+      color: #ccc;
+      opacity: 1; }
+    .register-content > div ::-moz-placeholder {
+      color: #ccc;
+      opacity: 1; }
+    .register-content > div :-ms-input-placeholder {
+      color: #ccc; }
+    .register-content > div .change-btn, .register-content > div .verification-code, .register-content > div .message-code {
+      width: 1.5rem;
+      height: 0.5rem;
+      border-radius: 0.05rem;
+      margin-top: 0.19rem;
+      color: #ee600c;
+      line-height: 0.5rem;
+      text-align: center; }
+    .register-content > div .verification-code {
+      margin-right: 0.05rem; }
+    .register-content > div .message-code {
+      width: 1.5rem;
+      font-size: 0.24rem;
+      color: #00a84c;
+      border: 1px solid #00a84c; }
+
+/*move-home.html*/
+.moving-services .set {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 0.88rem;
+  line-height: 0.88rem;
+  background-color: #fff;
+  z-index: 100;
+  border-bottom: 1px solid #e6e6e6; }
+  .moving-services .set .set-on {
+    text-align: center;
+    font-size: 0.36rem;
+    color: #333; }
+  .moving-services .set .set-back {
+    width: 0.22rem;
+    height: 0.4rem;
+    position: absolute;
+    top: 0.26rem;
+    left: 0.28rem; }
+  .moving-services .set .more-service {
+    position: absolute;
+    top: 0;
+    right: 0.28rem;
+    font-size: 0.28rem;
+    color: #00a84c; }
+.moving-services .moving-services-infp {
+  position: fixed;
+  top: 0.89rem; }
+  .moving-services .moving-services-infp .mescroll-empty {
+    margin-top: -2rem; }
+.moving-services .moving-services-list {
+  background-color: #fff; }
+
+.custom-service {
+  height: 0.7rem;
+  width: auto;
+  text-align: center;
+  font-size: 0.24rem;
+  background-color: #e8e8e8;
+  color: #038BFF;
+  line-height: 0.7rem; }
+
+.allSearchContent {
+  background-color: #fff; }
+
+.life-service-list {
+  height: 1.63rem;
+  padding: 0.3rem 0.3rem;
+  border-bottom: 1px solid #e6e6e6; }
+  .life-service-list .moving-services-cover {
+    float: left;
+    width: 1.62rem;
+    height: 1.63rem; }
+    .life-service-list .moving-services-cover img {
+      width: 1.62rem;
+      height: 1.63rem; }
+  .life-service-list .moving-services-detail {
+    margin-left: 2.02rem;
+    height: 1.63rem; }
+    .life-service-list .moving-services-detail h3 {
+      height: 0.4rem;
+      line-height: 0.4rem;
+      font-size: 0.28rem;
+      color: #2E3338; }
+    .life-service-list .moving-services-detail .lever-info {
+      width: 100%;
+      height: 0.35rem;
+      display: table;
+      color: #777b84; }
+      .life-service-list .moving-services-detail .lever-info .lever {
+        display: table;
+        line-height: 0.35rem;
+        font-size: 0; }
+        .life-service-list .moving-services-detail .lever-info .lever img {
+          width: 0.18rem;
+          height: 0.18rem; }
+      .life-service-list .moving-services-detail .lever-info .lever-number {
+        width: 0.3rem;
+        text-align: center;
+        line-height: 0.35rem;
+        font-size: 0.2rem;
+        margin-left: 0.07rem; }
+      .life-service-list .moving-services-detail .lever-info .liner {
+        border-left: 1px solid #9ca2ad;
+        margin: 0.09rem 0.07rem;
+        height: 0.16rem; }
+      .life-service-list .moving-services-detail .lever-info .sold {
+        width: 1.3rem;
+        line-height: 0.35rem;
+        font-size: 0.24rem; }
+      .life-service-list .moving-services-detail .lever-info .praise-rate {
+        width: 1.6rem;
+        line-height: 0.35rem;
+        font-size: 0.24rem; }
+    .life-service-list .moving-services-detail .discount {
+      height: 0.38rem;
+      display: table; }
+      .life-service-list .moving-services-detail .discount > div {
+        height: 0.38rem;
+        line-height: 0.38rem;
+        text-align: center;
+        color: #d3bb81;
+        font-size: 0.2rem;
+        background-color: #fdf7ea;
+        padding: 0 0.04rem; }
+      .life-service-list .moving-services-detail .discount .promotion {
+        margin-right: 0.24rem; }
+    .life-service-list .moving-services-detail .money {
+      height: 0.5rem;
+      display: table;
+      width: 100%; }
+      .life-service-list .moving-services-detail .money .money-number {
+        height: 0.5rem;
+        line-height: 0.5rem;
+        color: #e6464a;
+        font-size: 0.28rem; }
+      .life-service-list .moving-services-detail .money .appointment {
+        font-size: 0.24rem;
+        color: #fff;
+        background-color: #00a84c;
+        border-radius: 0.1rem;
+        width: 1.3rem;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        text-align: center; }
+
+/*move-detail.html*/
+.move-detail {
+  margin-bottom: 1.2rem; }
+  .move-detail .bg {
+    background-color: #f9f9f9; }
+  .move-detail .set-top {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    z-index: 100; }
+    .move-detail .set-top .set-back {
+      width: 0.6rem;
+      height: 0.6rem;
+      margin-top: 0.14rem;
+      margin-left: 0.3rem; }
+    .move-detail .set-top .shopping-cart {
+      width: 0.6rem;
+      height: 0.6rem;
+      margin-top: 0.14rem;
+      margin-right: 0.2rem; }
+    .move-detail .set-top .message {
+      width: 0.6rem;
+      height: 0.6rem;
+      margin-top: 0.14rem;
+      margin-right: 0.3rem; }
+  .move-detail .move-banner {
+    background-color: #fff; }
+    .move-detail .move-banner img {
+      max-height: 3.75rem; }
+    .move-detail .move-banner .banner-list .swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
+      margin: 0.05rem 0.1rem; }
+    .move-detail .move-banner .banner-list .swiper-pagination-bullet {
+      width: 0.16rem;
+      height: 0.16rem;
+      background-color: #3cd882; }
+    .move-detail .move-banner .banner-list .swiper-pagination-bullet-active {
+      background-color: #00a84c; }
+  .move-detail .move-info {
+    background-color: #fff; }
+    .move-detail .move-info .info-detail {
+      padding: 0 0.3rem; }
+      .move-detail .move-info .info-detail .title {
+        color: #2E3338;
+        font-size: 0.36rem;
+        padding: 0.2rem 0 0.1rem; }
+      .move-detail .move-info .info-detail .discount {
+        display: table; }
+        .move-detail .move-info .info-detail .discount > div {
+          color: #d3bb81;
+          font-size: 0.2rem;
+          background-color: #fdf7ea;
+          padding: 0.04rem;
+          margin: 0 0.15rem 0.15rem 0; }
+      .move-detail .move-info .info-detail .money .money-number {
+        color: #eb434d;
+        font-size: 0.4rem; }
+      .move-detail .move-info .info-detail .money .single {
+        font-size: 0.2rem;
+        color: #999999; }
+      .move-detail .move-info .info-detail .lever-info {
+        display: table;
+        width: 100%;
+        margin: 0.3rem 0 0.2rem; }
+        .move-detail .move-info .info-detail .lever-info .lever {
+          line-height: 0.3rem;
+          height: 0.4rem; }
+          .move-detail .move-info .info-detail .lever-info .lever img {
+            width: 0.18rem;
+            height: 0.18rem;
+            font-size: 0; }
+        .move-detail .move-info .info-detail .lever-info .lever-number {
+          line-height: 0.4rem;
+          font-size: 0.22rem;
+          color: #eb434d;
+          margin-left: 0.1rem; }
+        .move-detail .move-info .info-detail .lever-info .sold {
+          line-height: 0.4rem;
+          color: #767b83;
+          font-size: 0.24rem;
+          margin-left: 0.14rem;
+          width: 1.5rem; }
+        .move-detail .move-info .info-detail .lever-info .praise-rate {
+          width: 1.6rem;
+          text-align: right;
+          line-height: 0.4rem;
+          color: #767b83;
+          font-size: 0.24rem; }
+    .move-detail .move-info .service-label {
+      display: table;
+      width: 100%;
+      border-top: 1px solid #e6e6e6; }
+      .move-detail .move-info .service-label .list-detail .label-list {
+        height: 0.36rem;
+        line-height: 0.36rem;
+        font-size: 0.24rem;
+        color: #767b83;
+        margin: 0.1rem 0.3rem; }
+        .move-detail .move-info .service-label .list-detail .label-list img {
+          width: 0.36rem;
+          height: 0.36rem;
+          font-size: 0;
+          margin-right: 0.1rem;
+          vertical-align: bottom; }
+  .move-detail .service-content {
+    margin-top: 0.2rem;
+    background-color: #fff; }
+    .move-detail .service-content .service-title {
+      height: 0.75rem;
+      line-height: 0.75rem;
+      border-bottom: 1px solid #e6e6e6;
+      font-size: 0.32rem;
+      color: #333;
+      padding: 0 0.3rem; }
+    .move-detail .service-content .content-list {
+      padding: 0 0.3rem; }
+      .move-detail .service-content .content-list .content-detail {
+        padding-bottom: 0.8rem; }
+        .move-detail .service-content .content-list .content-detail .content-text p {
+          font-size: 0.28rem;
+          color: #5e6872;
+          line-height: 0.5rem; }
+  .move-detail .ordering-information {
+    margin-top: 0.2rem;
+    background-color: #fff; }
+    .move-detail .ordering-information .service-title {
+      height: 0.75rem;
+      line-height: 0.75rem;
+      border-bottom: 1px solid #e6e6e6;
+      font-size: 0.32rem;
+      color: #333;
+      padding: 0 0.3rem; }
+    .move-detail .ordering-information .content-list {
+      padding: 0 0.3rem; }
+      .move-detail .ordering-information .content-list .content-detail {
+        padding: 0.35rem 0; }
+        .move-detail .ordering-information .content-list .content-detail .content-text p {
+          font-size: 0.28rem;
+          color: #5e6872;
+          line-height: 0.5rem; }
+  .move-detail .custom-evaluate {
+    margin-top: 0.2rem;
+    background-color: #fff; }
+    .move-detail .custom-evaluate .evaluate-head {
+      overflow: hidden;
+      padding: 0 0.3rem;
+      height: 0.8rem; }
+      .move-detail .custom-evaluate .evaluate-head .title {
+        font-size: 0.32rem;
+        color: #333;
+        line-height: 0.8rem;
+        margin-right: 0.15rem; }
+      .move-detail .custom-evaluate .evaluate-head .number {
+        font-size: 0.24rem;
+        color: #999999;
+        line-height: 0.9rem; }
+    .move-detail .custom-evaluate .evaluate-detail .evaluate-list {
+      padding: 0 0.3rem;
+      height: auto; }
+      .move-detail .custom-evaluate .evaluate-detail .evaluate-list .user-img {
+        position: absolute;
+        width: 0.8rem;
+        height: 0.8rem; }
+        .move-detail .custom-evaluate .evaluate-detail .evaluate-list .user-img img {
+          width: 0.8rem;
+          height: 0.8rem; }
+      .move-detail .custom-evaluate .evaluate-detail .evaluate-list .user-info {
+        height: 0.4rem;
+        margin-left: 1.02rem; }
+        .move-detail .custom-evaluate .evaluate-detail .evaluate-list .user-info .user-name {
+          font-size: 0.28rem;
+          color: #2E3338;
+          width: 3.58rem;
+          height: 0.4rem;
+          line-height: 0.4rem; }
+        .move-detail .custom-evaluate .evaluate-detail .evaluate-list .user-info .time {
+          font-size: 0.22rem;
+          color: #999999;
+          width: 2.3rem;
+          height: 0.4rem;
+          line-height: 0.4rem;
+          text-align: right; }
+      .move-detail .custom-evaluate .evaluate-detail .evaluate-list .lever-detail {
+        display: table;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        margin-left: 1.02rem; }
+        .move-detail .custom-evaluate .evaluate-detail .evaluate-list .lever-detail .lever-title {
+          height: 0.4rem;
+          line-height: 0.4rem;
+          color: #2E3338;
+          font-size: 0.22rem;
+          margin-right: 0.13rem; }
+        .move-detail .custom-evaluate .evaluate-detail .evaluate-list .lever-detail .lever {
+          height: 0.4rem;
+          line-height: 0.36rem; }
+          .move-detail .custom-evaluate .evaluate-detail .evaluate-list .lever-detail .lever img {
+            width: 0.18rem;
+            height: 0.18rem; }
+      .move-detail .custom-evaluate .evaluate-detail .evaluate-list .evaluate-text {
+        margin: 0.4rem 0 0 1.02rem; }
+        .move-detail .custom-evaluate .evaluate-detail .evaluate-list .evaluate-text .info-detail {
+          font-size: 0.28rem;
+          color: #2E3338;
+          line-height: 0.4rem; }
+        .move-detail .custom-evaluate .evaluate-detail .evaluate-list .evaluate-text .evaluate-img {
+          display: table;
+          margin: 0.1rem -0.15rem 0 -0.15rem; }
+          .move-detail .custom-evaluate .evaluate-detail .evaluate-list .evaluate-text .evaluate-img img {
+            width: 1.24rem;
+            height: 1.24rem;
+            margin: 0.12rem 0.15rem; }
+    .move-detail .custom-evaluate .evaluate-detail .see-more {
+      padding: 0.3rem 0; }
+      .move-detail .custom-evaluate .evaluate-detail .see-more .see-more-buttom {
+        text-align: center;
+        line-height: 0.5rem;
+        border-radius: 0.5rem;
+        width: 2.1rem;
+        height: 0.5rem;
+        margin: 0 auto;
+        border: 1px solid #999999;
+        font-size: 0.24rem;
+        color: #767b83; }
+  .move-detail .appointment {
+    position: fixed;
+    bottom: 0;
+    height: 1rem;
+    background-color: #fff;
+    width: 100%;
+    z-index: 1000; }
+    .move-detail .appointment .appointment-list {
+      display: table;
+      width: 6.9rem;
+      height: 1rem;
+      margin: 0 auto;
+      padding: 0 0.3rem; }
+      .move-detail .appointment .appointment-list .customer-service {
+        margin-right: 0.3rem;
+        line-height: 0.5rem;
+        height: 1rem;
+        width: 1rem;
+        text-align: center; }
+        .move-detail .appointment .appointment-list .customer-service img {
+          width: 0.45rem;
+          height: 0.45rem; }
+        .move-detail .appointment .appointment-list .customer-service p {
+          font-size: 0.2rem;
+          color: #525a5f; }
+      .move-detail .appointment .appointment-list .life-collection {
+        margin-right: 0.3rem;
+        line-height: 0.5rem;
+        height: 1rem;
+        width: 1rem;
+        text-align: center; }
+        .move-detail .appointment .appointment-list .life-collection img {
+          width: 0.45rem;
+          height: 0.45rem; }
+        .move-detail .appointment .appointment-list .life-collection p {
+          font-size: 0.2rem;
+          color: #525a5f; }
+      .move-detail .appointment .appointment-list .shopping-cart {
+        margin-right: 0.3rem;
+        line-height: 0.5rem;
+        height: 1rem;
+        width: 1rem;
+        text-align: center; }
+        .move-detail .appointment .appointment-list .shopping-cart img {
+          width: 0.45rem;
+          height: 0.45rem; }
+        .move-detail .appointment .appointment-list .shopping-cart p {
+          font-size: 0.2rem;
+          color: #525a5f; }
+      .move-detail .appointment .appointment-list .immediate-reservation {
+        width: 2.88rem;
+        height: 0.7rem;
+        line-height: 0.7rem;
+        text-align: center;
+        border-radius: 0.35rem;
+        font-size: 0.28rem;
+        color: #fff;
+        background-color: #14A83B;
+        margin-top: 0.15rem; }
+
+/*service-evaluate.html*/
+.life-service-evaluate .set {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 2.03rem;
+  background-color: #fff;
+  z-index: 100;
+  border-bottom: 1px solid #e6e6e6; }
+  .life-service-evaluate .set .set-on {
+    text-align: center;
+    font-size: 0.36rem; }
+  .life-service-evaluate .set .setback {
+    width: 0.22rem;
+    height: 0.4rem;
+    position: absolute;
+    top: 0.26rem;
+    left: 0.3rem; }
+  .life-service-evaluate .set .service-evaluate-tab {
+    border-top: 1px solid #e6e6e6; }
+    .life-service-evaluate .set .service-evaluate-tab .tab-change {
+      display: table;
+      height: 0.6rem;
+      padding: 0.25rem 0.3rem; }
+      .life-service-evaluate .set .service-evaluate-tab .tab-change .selected {
+        color: #00a84c;
+        border: 1px solid #00a84c; }
+      .life-service-evaluate .set .service-evaluate-tab .tab-change .cancel-selected {
+        color: #999999;
+        border: 1px solid #999999; }
+      .life-service-evaluate .set .service-evaluate-tab .tab-change .all {
+        font-size: 0.28rem;
+        height: 0.6rem;
+        margin-right: 0.6rem;
+        line-height: 0.6rem;
+        max-width: 2.2rem;
+        padding: 0 0.3rem;
+        text-align: center;
+        border-radius: 0.3rem; }
+      .life-service-evaluate .set .service-evaluate-tab .tab-change .map {
+        line-height: 0.6rem;
+        font-size: 0.28rem;
+        height: 0.6rem;
+        max-width: 2.2rem;
+        padding: 0 0.3rem;
+        text-align: center;
+        border-radius: 0.3rem; }
+.life-service-evaluate .user-evaluate {
+  position: fixed;
+  top: 2.04rem;
+  width: 100%;
+  background-color: #fff; }
+  .life-service-evaluate .user-evaluate .mescroll-upwarp {
+    margin-bottom: 2rem; }
+  .life-service-evaluate .user-evaluate .mescroll-empty {
+    margin-top: -4.5rem; }
+  .life-service-evaluate .user-evaluate .evaluate-list {
+    padding: 0.25rem 0.3rem;
+    height: auto;
+    border-top: 1px solid #e6e6e6; }
+    .life-service-evaluate .user-evaluate .evaluate-list .user-img {
+      position: absolute;
+      width: 0.8rem;
+      height: 0.8rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .user-img img {
+        width: 0.8rem;
+        height: 0.8rem; }
+    .life-service-evaluate .user-evaluate .evaluate-list .user-top-info {
+      height: 0.4rem;
+      margin-left: 1.02rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .user-top-info .user-name {
+        font-size: 0.28rem;
+        color: #2E3338;
+        width: 3.58rem;
+        height: 0.4rem;
+        line-height: 0.4rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .user-top-info .time {
+        font-size: 0.22rem;
+        color: #999999;
+        width: 2.3rem;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        text-align: right; }
+    .life-service-evaluate .user-evaluate .evaluate-list .lever-detail {
+      display: table;
+      height: 0.4rem;
+      line-height: 0.4rem;
+      margin-left: 1.02rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .lever-detail .lever-title {
+        height: 0.4rem;
+        line-height: 0.4rem;
+        color: #2E3338;
+        font-size: 0.22rem;
+        margin-right: 0.13rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .lever-detail .lever {
+        height: 0.4rem;
+        line-height: 0.36rem; }
+        .life-service-evaluate .user-evaluate .evaluate-list .lever-detail .lever img {
+          width: 0.18rem;
+          height: 0.18rem; }
+    .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text {
+      margin: 0.4rem 0 0 1.02rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .info-detail {
+        font-size: 0.28rem;
+        color: #2E3338;
+        line-height: 0.4rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .evaluate-img {
+        display: table;
+        margin: 0.1rem -0.15rem 0 -0.15rem; }
+        .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .evaluate-img img {
+          width: 1.24rem;
+          height: 1.24rem;
+          margin: 0.12rem 0.15rem; }
+      .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .evaluate-like {
+        display: table;
+        width: 100%;
+        height: 0.34rem;
+        margin-top: 0.2rem; }
+        .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .evaluate-like .like-num {
+          font-size: 0.24rem;
+          color: #999999;
+          height: 0.34rem;
+          line-height: 0.34rem; }
+          .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .evaluate-like .like-num img {
+            width: 0.34rem;
+            height: 0.34rem;
+            margin-right: 0.1rem; }
+        .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .evaluate-like .evaluate-input {
+          font-size: 0.24rem;
+          color: #999999;
+          height: 0.34rem;
+          line-height: 0.34rem; }
+          .life-service-evaluate .user-evaluate .evaluate-list .evaluate-text .evaluate-like .evaluate-input img {
+            width: 0.34rem;
+            height: 0.34rem;
+            margin-left: 0.5rem;
+            margin-right: 0.1rem; }
+
+/*customized-service.html*/
+.customized-service {
+  margin-top: 0.89rem;
+  margin-bottom: 1.2rem; }
+  .customized-service .service-selected {
+    background-color: #fff; }
+    .customized-service .service-selected .service-nav {
+      padding: 0.3rem 0.3rem; }
+      .customized-service .service-selected .service-nav .head-title {
+        display: table;
+        height: 0.6rem;
+        line-height: 0.6rem;
+        width: 100%; }
+        .customized-service .service-selected .service-nav .head-title img {
+          width: 0.33rem;
+          height: 0.33rem;
+          margin-right: 0.15rem;
+          margin-top: 0.135rem; }
+        .customized-service .service-selected .service-nav .head-title .service-type {
+          font-size: 0.28rem;
+          color: #484c51;
+          height: 0.6rem;
+          line-height: 0.6rem; }
+        .customized-service .service-selected .service-nav .head-title .select {
+          width: 5rem;
+          height: 0.6rem;
+          border-radius: 0.05rem;
+          background-color: #f5f5f5;
+          text-align: center;
+          font-size: 0.28rem;
+          color: #999999; }
+  .customized-service .cover-img {
+    text-align: center;
+    background-color: #fff; }
+    .customized-service .cover-img .img {
+      width: 7.5rem;
+      height: 3.49rem; }
+  .customized-service .service-introduce {
+    background-color: #fff;
+    margin: 0.2rem 0; }
+    .customized-service .service-introduce .title {
+      height: 0.7rem;
+      line-height: 0.7rem;
+      font-size: 0.32rem;
+      color: #333;
+      border-bottom: 1px solid #e6e6e6;
+      padding: 0 0.3rem; }
+    .customized-service .service-introduce .introduce-detail {
+      padding: 0.3rem 0.3rem; }
+      .customized-service .service-introduce .introduce-detail p {
+        font-size: 0.28rem;
+        color: #5e6873;
+        line-height: 0.5rem; }
+  .customized-service .customer-demand {
+    background-color: #fff;
+    margin: 0.2rem 0; }
+    .customized-service .customer-demand .title {
+      height: 0.7rem;
+      line-height: 0.7rem;
+      font-size: 0.32rem;
+      color: #333;
+      border-bottom: 1px solid #e6e6e6;
+      padding: 0 0.3rem; }
+    .customized-service .customer-demand .introduce-detail {
+      padding: 0.3rem 0.3rem; }
+      .customized-service .customer-demand .introduce-detail textarea {
+        font-size: 0.28rem;
+        color: #ccc;
+        height: 2rem;
+        line-height: 0.4rem;
+        width: 100%; }
+      .customized-service .customer-demand .introduce-detail textarea::-webkit-input-placeholder {
+        color: #ccc; }
+      .customized-service .customer-demand .introduce-detail textarea::-moz-placeholder {
+        color: #ccc; }
+      .customized-service .customer-demand .introduce-detail textarea::-moz-placeholder {
+        color: #ccc; }
+      .customized-service .customer-demand .introduce-detail textarea:-ms-input-placeholder {
+        color: #ccc; }
+  .customized-service .personal-info {
+    background-color: #fff; }
+    .customized-service .personal-info .info-list {
+      padding: 0 0.3rem;
+      border-bottom: 1px solid #e6e6e6; }
+      .customized-service .personal-info .info-list .address-detail {
+        display: table;
+        width: 100%; }
+        .customized-service .personal-info .info-list .address-detail .address-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-info .info-list .address-detail .address-img img {
+            width: 0.44rem;
+            height: 0.44rem;
+            margin-right: 0.3rem;
+            vertical-align: text-bottom; }
+        .customized-service .personal-info .info-list .address-detail .address-info {
+          font-size: 0.28rem;
+          color: #ccc;
+          width: 5.6rem;
+          margin: 0.265rem 0; }
+        .customized-service .personal-info .info-list .address-detail .tab-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-info .info-list .address-detail .tab-img img {
+            width: 0.15rem;
+            height: 0.24rem; }
+    .customized-service .personal-info .date-list {
+      padding: 0 0.3rem;
+      border-bottom: 1px solid #e6e6e6; }
+      .customized-service .personal-info .date-list .date-detail {
+        display: table;
+        width: 100%; }
+        .customized-service .personal-info .date-list .date-detail .date-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-info .date-list .date-detail .date-img img {
+            width: 0.44rem;
+            height: 0.44rem;
+            margin-right: 0.3rem;
+            vertical-align: text-bottom; }
+        .customized-service .personal-info .date-list .date-detail input {
+          font-size: 0.28rem;
+          color: #484c51;
+          width: 5.6rem;
+          height: 0.9rem;
+          line-height: 0.9rem; }
+        .customized-service .personal-info .date-list .date-detail input::-webkit-input-placeholder {
+          color: #ccc; }
+        .customized-service .personal-info .date-list .date-detail input::-moz-placeholder {
+          color: #ccc; }
+        .customized-service .personal-info .date-list .date-detail input::-moz-placeholder {
+          color: #ccc; }
+        .customized-service .personal-info .date-list .date-detail input:-ms-input-placeholder {
+          color: #ccc; }
+        .customized-service .personal-info .date-list .date-detail .tab-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-info .date-list .date-detail .tab-img img {
+            width: 0.15rem;
+            height: 0.24rem; }
+  .customized-service .personal-name {
+    background-color: #fff;
+    margin-top: 0.2rem; }
+    .customized-service .personal-name .name-list {
+      padding: 0 0.3rem;
+      border-bottom: 1px solid #e6e6e6; }
+      .customized-service .personal-name .name-list .name-detail {
+        display: table;
+        width: 100%; }
+        .customized-service .personal-name .name-list .name-detail .name-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-name .name-list .name-detail .name-img img {
+            width: 0.44rem;
+            height: 0.44rem;
+            margin-right: 0.3rem;
+            vertical-align: text-bottom; }
+        .customized-service .personal-name .name-list .name-detail input {
+          font-size: 0.28rem;
+          color: #484c51;
+          width: 5.6rem;
+          height: 0.9rem;
+          line-height: 0.9rem; }
+        .customized-service .personal-name .name-list .name-detail input::-webkit-input-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .name-list .name-detail input::-moz-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .name-list .name-detail input::-moz-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .name-list .name-detail input:-ms-input-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .name-list .name-detail .tab-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-name .name-list .name-detail .tab-img img {
+            width: 0.15rem;
+            height: 0.24rem; }
+    .customized-service .personal-name .tel-list {
+      padding: 0 0.3rem;
+      border-bottom: 1px solid #e6e6e6; }
+      .customized-service .personal-name .tel-list .tel-detail {
+        display: table;
+        width: 100%; }
+        .customized-service .personal-name .tel-list .tel-detail .tel-img, .customized-service .personal-name .tel-list .tel-detail .stores-detail .stores-service-list .list-detail .service-img, .stores-detail .stores-service-list .list-detail .customized-service .personal-name .tel-list .tel-detail .service-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-name .tel-list .tel-detail .tel-img img, .customized-service .personal-name .tel-list .tel-detail .stores-detail .stores-service-list .list-detail .service-img img, .stores-detail .stores-service-list .list-detail .customized-service .personal-name .tel-list .tel-detail .service-img img {
+            width: 0.44rem;
+            height: 0.44rem;
+            margin-right: 0.3rem;
+            vertical-align: text-bottom; }
+        .customized-service .personal-name .tel-list .tel-detail input {
+          font-size: 0.28rem;
+          color: #484c51;
+          width: 5.6rem;
+          height: 0.9rem;
+          line-height: 0.9rem; }
+        .customized-service .personal-name .tel-list .tel-detail input::-webkit-input-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .tel-list .tel-detail input::-moz-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .tel-list .tel-detail input::-moz-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .tel-list .tel-detail input:-ms-input-placeholder {
+          color: #ccc; }
+        .customized-service .personal-name .tel-list .tel-detail .tab-img {
+          line-height: 0.9rem; }
+          .customized-service .personal-name .tel-list .tel-detail .tab-img img {
+            width: 0.15rem;
+            height: 0.24rem; }
+  .customized-service .submit-button {
+    height: 1rem;
+    width: 100%;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    z-index: 2; }
+    .customized-service .submit-button .submit-info {
+      margin: 0.15rem auto;
+      width: 3.8rem;
+      height: 0.7rem;
+      line-height: 0.7rem;
+      font-size: 0.28rem;
+      color: #fff;
+      border-radius: 0.35rem;
+      background-color: #26a84b;
+      text-align: center; }
+
+/*evaluate-detail.html*/
+.evaluate-detail {
+  margin-bottom: 1.1rem; }
+  .evaluate-detail .user-evaluate-detail {
+    margin-top: 0.89rem; }
+    .evaluate-detail .user-evaluate-detail .evaluate-list {
+      padding: 0.25rem 0.3rem;
+      height: auto;
+      border-bottom: 1px solid #e6e6e6;
+      background-color: #fff; }
+      .evaluate-detail .user-evaluate-detail .evaluate-list .user-img {
+        position: absolute;
+        width: 0.8rem;
+        height: 0.8rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-list .user-img img {
+          width: 0.8rem;
+          height: 0.8rem; }
+      .evaluate-detail .user-evaluate-detail .evaluate-list .user-top-info {
+        height: 0.4rem;
+        margin-left: 1.02rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-list .user-top-info .user-name {
+          font-size: 0.28rem;
+          color: #2E3338;
+          width: 3.58rem;
+          height: 0.4rem;
+          line-height: 0.4rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-list .user-top-info .time {
+          font-size: 0.22rem;
+          color: #999999;
+          width: 2.3rem;
+          height: 0.4rem;
+          line-height: 0.4rem;
+          text-align: right; }
+      .evaluate-detail .user-evaluate-detail .evaluate-list .lever-detail {
+        display: table;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        margin-left: 1.02rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-list .lever-detail .lever-title {
+          height: 0.4rem;
+          line-height: 0.4rem;
+          color: #2E3338;
+          font-size: 0.22rem;
+          margin-right: 0.13rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-list .lever-detail .lever {
+          height: 0.4rem;
+          line-height: 0.36rem; }
+          .evaluate-detail .user-evaluate-detail .evaluate-list .lever-detail .lever img {
+            width: 0.18rem;
+            height: 0.18rem; }
+      .evaluate-detail .user-evaluate-detail .evaluate-list .evaluate-text {
+        margin: 0.4rem 0 0 1.02rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-list .evaluate-text .info-detail {
+          font-size: 0.28rem;
+          color: #2E3338;
+          line-height: 0.4rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-list .evaluate-text .evaluate-img {
+          display: table;
+          margin: 0.1rem -0.15rem 0 -0.15rem; }
+          .evaluate-detail .user-evaluate-detail .evaluate-list .evaluate-text .evaluate-img img {
+            width: 1.24rem;
+            height: 1.24rem;
+            margin: 0.12rem 0.15rem; }
+    .evaluate-detail .user-evaluate-detail .evaluate-lever-list {
+      padding: 0.25rem 0.3rem;
+      height: auto;
+      border-bottom: 1px solid #e6e6e6;
+      background-color: #f6f6f6; }
+      .evaluate-detail .user-evaluate-detail .evaluate-lever-list .user-img {
+        position: absolute;
+        width: 0.8rem;
+        height: 0.8rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-lever-list .user-img img {
+          width: 0.8rem;
+          height: 0.8rem; }
+      .evaluate-detail .user-evaluate-detail .evaluate-lever-list .user-top-info {
+        height: 0.4rem;
+        margin-left: 1.02rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-lever-list .user-top-info .user-name {
+          font-size: 0.28rem;
+          color: #2E3338;
+          width: 3.58rem;
+          height: 0.4rem;
+          line-height: 0.4rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-lever-list .user-top-info .time {
+          font-size: 0.22rem;
+          color: #999999;
+          width: 2.3rem;
+          height: 0.4rem;
+          line-height: 0.4rem;
+          text-align: right; }
+          .evaluate-detail .user-evaluate-detail .evaluate-lever-list .user-top-info .time img {
+            width: 0.34rem;
+            height: 0.34rem;
+            margin-right: 0.1rem; }
+      .evaluate-detail .user-evaluate-detail .evaluate-lever-list .lever-detail {
+        display: table;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        margin-left: 1.02rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-lever-list .lever-detail .lever-title {
+          height: 0.4rem;
+          line-height: 0.4rem;
+          color: #999999;
+          font-size: 0.22rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-lever-list .lever-detail .lever {
+          height: 0.4rem;
+          line-height: 0.36rem; }
+          .evaluate-detail .user-evaluate-detail .evaluate-lever-list .lever-detail .lever img {
+            width: 0.18rem;
+            height: 0.18rem; }
+      .evaluate-detail .user-evaluate-detail .evaluate-lever-list .evaluate-text {
+        margin: 0.4rem 0 0 1.02rem; }
+        .evaluate-detail .user-evaluate-detail .evaluate-lever-list .evaluate-text .info-detail {
+          font-size: 0.28rem;
+          color: #2E3338;
+          line-height: 0.4rem; }
+  .evaluate-detail .evaluate-input {
+    height: 1.1rem;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%; }
+    .evaluate-detail .evaluate-input input {
+      background-color: #f6f6f6;
+      height: 0.7rem;
+      line-height: 0.7rem;
+      font-size: 0.28rem;
+      color: #999999;
+      width: 88%;
+      margin: 0.19rem 4%;
+      padding: 0 2%;
+      border-radius: 0.1rem; }
+
+/*immediate-reservation.html*/
+.reservation-index {
+  margin-top: 0.89rem;
+  margin-bottom: 1.01rem; }
+  .reservation-index .reservation-info {
+    padding: 0.3rem;
+    background-color: #fff; }
+    .reservation-index .reservation-info .detail-info .goods-cover {
+      position: absolute;
+      width: 1rem;
+      height: 1rem; }
+      .reservation-index .reservation-info .detail-info .goods-cover img {
+        width: 1rem;
+        height: 1rem; }
+    .reservation-index .reservation-info .detail-info .goods-info {
+      margin-left: 1.3rem; }
+      .reservation-index .reservation-info .detail-info .goods-info .goods-head {
+        margin-bottom: 0.25rem;
+        width: 100%;
+        display: table; }
+        .reservation-index .reservation-info .detail-info .goods-info .goods-head .goods-title {
+          width: 100%;
+          font-size: 0.32rem;
+          color: #484c51; }
+      .reservation-index .reservation-info .detail-info .goods-info .goods-price {
+        height: 0.3rem;
+        line-height: 0.3rem;
+        width: 100%;
+        display: table; }
+        .reservation-index .reservation-info .detail-info .goods-info .goods-price .unit-price {
+          max-width: 1.8rem;
+          height: 0.3rem;
+          line-height: 0.3rem;
+          font-size: 0.3rem;
+          color: #e6464a; }
+  .reservation-index .goods-list-info {
+    padding: 0 0.3rem;
+    background-color: #fff;
+    margin-top: 0.2rem; }
+    .reservation-index .goods-list-info .list-info {
+      height: 0.88rem;
+      line-height: 0.88rem;
+      font-size: 0.28rem;
+      border-bottom: 1px solid #e6e6e6; }
+      .reservation-index .goods-list-info .list-info .tit {
+        font-size: 0.28rem;
+        color: #484c51; }
+        .reservation-index .goods-list-info .list-info .tit img {
+          width: 0.44rem;
+          height: 0.44rem;
+          margin-right: 0.3rem; }
+      .reservation-index .goods-list-info .list-info .remarks {
+        width: 5.5rem;
+        float: left;
+        height: 0.86rem;
+        line-height: 0.86rem;
+        background: transparent; }
+      .reservation-index .goods-list-info .list-info .more img {
+        width: 0.15rem;
+        height: 0.24rem; }
+      .reservation-index .goods-list-info .list-info .explan {
+        width: 4.4rem;
+        overflow: hidden;
+        margin-right: 0.5rem;
+        white-space: nowrap;
+        text-overflow: ellipsis; }
+      .reservation-index .goods-list-info .list-info .add img {
+        width: 0.36rem;
+        height: 0.36rem; }
+      .reservation-index .goods-list-info .list-info .num {
+        width: 0.65rem;
+        text-align: center;
+        font-size: 0.28rem;
+        color: #484c51; }
+      .reservation-index .goods-list-info .list-info .reduce img {
+        width: 0.36rem;
+        height: 0.36rem; }
+      .reservation-index .goods-list-info .list-info .many {
+        margin-right: 0.2rem;
+        font-size: 0.28rem; }
+      .reservation-index .goods-list-info .list-info .spe {
+        font-size: 0.28rem; }
+    .reservation-index .goods-list-info .address-detail {
+      display: table;
+      width: 100%;
+      border-bottom: 1px solid #e6e6e6; }
+      .reservation-index .goods-list-info .address-detail .address-img {
+        line-height: 0.9rem; }
+        .reservation-index .goods-list-info .address-detail .address-img img {
+          width: 0.44rem;
+          height: 0.44rem;
+          margin-right: 0.3rem;
+          vertical-align: text-bottom; }
+      .reservation-index .goods-list-info .address-detail .address-info {
+        font-size: 0.28rem;
+        margin: 0.265rem 0;
+        width: 5.6rem; }
+      .reservation-index .goods-list-info .address-detail .address-selected-color {
+        color: #484c51; }
+      .reservation-index .goods-list-info .address-detail .address-cancel-color {
+        color: #ccc; }
+      .reservation-index .goods-list-info .address-detail .tab-img {
+        line-height: 0.9rem; }
+        .reservation-index .goods-list-info .address-detail .tab-img img {
+          width: 0.15rem;
+          height: 0.24rem; }
+    .reservation-index .goods-list-info .date-detail {
+      display: table;
+      width: 100%; }
+      .reservation-index .goods-list-info .date-detail .date-img {
+        line-height: 0.9rem; }
+        .reservation-index .goods-list-info .date-detail .date-img img {
+          width: 0.44rem;
+          height: 0.44rem;
+          margin-right: 0.3rem;
+          vertical-align: text-bottom; }
+      .reservation-index .goods-list-info .date-detail input {
+        font-size: 0.28rem;
+        color: #484c51;
+        height: 0.9rem;
+        line-height: 0.9rem;
+        width: 5.6rem; }
+      .reservation-index .goods-list-info .date-detail input::-webkit-input-placeholder {
+        color: #ccc; }
+      .reservation-index .goods-list-info .date-detail input::-moz-placeholder {
+        color: #ccc; }
+      .reservation-index .goods-list-info .date-detail input::-moz-placeholder {
+        color: #ccc; }
+      .reservation-index .goods-list-info .date-detail input:-ms-input-placeholder {
+        color: #ccc; }
+      .reservation-index .goods-list-info .date-detail .tab-img {
+        line-height: 0.9rem; }
+        .reservation-index .goods-list-info .date-detail .tab-img img {
+          width: 0.15rem;
+          height: 0.24rem; }
+  .reservation-index .personal-name {
+    background-color: #fff;
+    margin-top: 0.2rem;
+    border-bottom: 1px solid #e6e6e6; }
+    .reservation-index .personal-name .name-list {
+      padding: 0 0.3rem; }
+      .reservation-index .personal-name .name-list .name-detail {
+        display: table;
+        width: 100%;
+        border-bottom: 1px solid #e6e6e6; }
+        .reservation-index .personal-name .name-list .name-detail .name-img {
+          line-height: 0.9rem; }
+          .reservation-index .personal-name .name-list .name-detail .name-img img {
+            width: 0.44rem;
+            height: 0.44rem;
+            margin-right: 0.3rem;
+            vertical-align: text-bottom; }
+        .reservation-index .personal-name .name-list .name-detail input {
+          font-size: 0.28rem;
+          color: #484c51;
+          height: 0.9rem;
+          line-height: 0.9rem;
+          width: 5.6rem; }
+        .reservation-index .personal-name .name-list .name-detail input::-webkit-input-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .name-list .name-detail input::-moz-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .name-list .name-detail input::-moz-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .name-list .name-detail input:-ms-input-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .name-list .name-detail .tab-img {
+          line-height: 0.9rem; }
+          .reservation-index .personal-name .name-list .name-detail .tab-img img {
+            width: 0.15rem;
+            height: 0.24rem; }
+    .reservation-index .personal-name .tel-list {
+      padding: 0 0.3rem; }
+      .reservation-index .personal-name .tel-list .tel-detail {
+        display: table;
+        width: 100%;
+        border-bottom: 1px solid #e6e6e6; }
+        .reservation-index .personal-name .tel-list .tel-detail .tel-img, .reservation-index .personal-name .tel-list .tel-detail .stores-detail .stores-service-list .list-detail .service-img, .stores-detail .stores-service-list .list-detail .reservation-index .personal-name .tel-list .tel-detail .service-img {
+          line-height: 0.9rem; }
+          .reservation-index .personal-name .tel-list .tel-detail .tel-img img, .reservation-index .personal-name .tel-list .tel-detail .stores-detail .stores-service-list .list-detail .service-img img, .stores-detail .stores-service-list .list-detail .reservation-index .personal-name .tel-list .tel-detail .service-img img {
+            width: 0.44rem;
+            height: 0.44rem;
+            margin-right: 0.3rem;
+            vertical-align: text-bottom; }
+        .reservation-index .personal-name .tel-list .tel-detail input {
+          font-size: 0.28rem;
+          color: #484c51;
+          height: 0.9rem;
+          line-height: 0.9rem;
+          width: 5.6rem; }
+        .reservation-index .personal-name .tel-list .tel-detail input::-webkit-input-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .tel-list .tel-detail input::-moz-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .tel-list .tel-detail input::-moz-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .tel-list .tel-detail input:-ms-input-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .tel-list .tel-detail .tab-img {
+          line-height: 0.9rem; }
+          .reservation-index .personal-name .tel-list .tel-detail .tab-img img {
+            width: 0.15rem;
+            height: 0.24rem; }
+    .reservation-index .personal-name .remarks {
+      padding: 0 0.3rem; }
+      .reservation-index .personal-name .remarks .remarks-detail {
+        display: table;
+        width: 100%;
+        border-bottom: 1px solid #e6e6e6; }
+        .reservation-index .personal-name .remarks .remarks-detail .remarks-img {
+          line-height: 0.9rem; }
+          .reservation-index .personal-name .remarks .remarks-detail .remarks-img img {
+            width: 0.44rem;
+            height: 0.44rem;
+            margin-right: 0.3rem;
+            vertical-align: text-bottom; }
+        .reservation-index .personal-name .remarks .remarks-detail input {
+          font-size: 0.28rem;
+          color: #484c51;
+          height: 0.9rem;
+          line-height: 0.9rem;
+          width: 5.6rem; }
+        .reservation-index .personal-name .remarks .remarks-detail input::-webkit-input-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .remarks .remarks-detail input::-moz-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .remarks .remarks-detail input::-moz-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .remarks .remarks-detail input:-ms-input-placeholder {
+          color: #ccc; }
+        .reservation-index .personal-name .remarks .remarks-detail .tab-img {
+          line-height: 0.9rem; }
+          .reservation-index .personal-name .remarks .remarks-detail .tab-img img {
+            width: 0.15rem;
+            height: 0.24rem; }
+    .reservation-index .personal-name .reminder {
+      padding: 0.2rem 0.3rem; }
+      .reservation-index .personal-name .reminder .reminder-title {
+        font-size: 0.22rem;
+        color: #484c51;
+        margin-bottom: 0.2rem; }
+      .reservation-index .personal-name .reminder .reminder-info {
+        font-size: 0.22rem;
+        color: #e6464a;
+        line-height: 0.4rem;
+        margin-bottom: 0.2rem; }
+      .reservation-index .personal-name .reminder .reminder-detail {
+        font-size: 0.22rem;
+        color: #999999;
+        line-height: 0.4rem; }
+  .reservation-index .pay-list {
+    background-color: #fff;
+    height: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%; }
+    .reservation-index .pay-list .number {
+      margin-left: 0.3rem;
+      font-size: 0.28rem; }
+      .reservation-index .pay-list .number .number-title {
+        color: #484c51;
+        line-height: 1rem; }
+        .reservation-index .pay-list .number .number-title .money {
+          color: #e6464a;
+          line-height: 1rem;
+          display: inline-block; }
+    .reservation-index .pay-list .pay, .reservation-index .pay-list .goods-list-detail .goods-pay-detail .confirm-receipt, .goods-list-detail .goods-pay-detail .reservation-index .pay-list .confirm-receipt, .reservation-index .pay-list .goods-list-detail .goods-pay-detail .evaluate, .goods-list-detail .goods-pay-detail .reservation-index .pay-list .evaluate {
+      width: 2.89rem;
+      height: 0.7rem;
+      line-height: 0.7rem;
+      background-color: #26a84b;
+      border-radius: 0.35rem;
+      font-size: 0.28rem;
+      text-align: center;
+      margin-right: 0.3rem;
+      margin-top: 0.15rem;
+      color: #fff; }
+
+/*service-order-detail.html*/
+.service-order-detail .info-detail-head {
+  margin-top: 0.89rem; }
+  .service-order-detail .info-detail-head .detail-address {
+    background: #eaf8f0;
+    padding: 0.45rem 0.28rem; }
+    .service-order-detail .info-detail-head .detail-address .address-show {
+      display: table; }
+      .service-order-detail .info-detail-head .detail-address .address-show img {
+        width: 0.88rem;
+        height: 0.88rem;
+        float: left; }
+      .service-order-detail .info-detail-head .detail-address .address-show .address-position {
+        width: 5.8rem;
+        margin-left: 0.2rem;
+        float: left; }
+        .service-order-detail .info-detail-head .detail-address .address-show .address-position .right-info {
+          display: table;
+          width: 100%;
+          padding-bottom: 0.15rem; }
+          .service-order-detail .info-detail-head .detail-address .address-show .address-position .right-info div {
+            float: left; }
+          .service-order-detail .info-detail-head .detail-address .address-show .address-position .right-info .phone {
+            margin-left: 0.4rem; }
+          .service-order-detail .info-detail-head .detail-address .address-show .address-position .right-info .status-num {
+            float: right;
+            color: #fff;
+            font-size: 0.2rem;
+            background-color: #00a84c;
+            padding: 0.05rem 0.2rem;
+            border-radius: 0.1rem; }
+        .service-order-detail .info-detail-head .detail-address .address-show .address-position .add {
+          width: 100%;
+          margin-top: 0.1rem;
+          word-break: break-all; }
+  .service-order-detail .info-detail-head .detail-order-list {
+    padding: 0.4rem 0.28rem 1.01rem;
+    background: #fff; }
+    .service-order-detail .info-detail-head .detail-order-list .menu {
+      margin-bottom: 0.5rem; }
+      .service-order-detail .info-detail-head .detail-order-list .menu .tittle {
+        border-bottom: #00a84c solid 0.04rem;
+        display: table;
+        padding-bottom: 0.15rem; }
+        .service-order-detail .info-detail-head .detail-order-list .menu .tittle .point {
+          line-height: 0.28rem;
+          font-weight: bold;
+          margin: 0 0.05rem; }
+      .service-order-detail .info-detail-head .detail-order-list .menu .list-item {
+        color: #8288a2;
+        margin: 0.15rem 0; }
+        .service-order-detail .info-detail-head .detail-order-list .menu .list-item .con {
+          margin-left: 0.15rem;
+          word-break: break-all; }
+    .service-order-detail .info-detail-head .detail-order-list .store-detail .tittle {
+      border-bottom: #00a84c solid 0.04rem;
+      display: table;
+      padding-bottom: 0.15rem; }
+    .service-order-detail .info-detail-head .detail-order-list .store-detail .coverPhoto {
+      width: 6.9rem;
+      height: 3.95rem;
+      margin: 0.4rem auto px2rem(20px); }
+      .service-order-detail .info-detail-head .detail-order-list .store-detail .coverPhoto img {
+        width: 6.9rem;
+        height: 3.95rem; }
+    .service-order-detail .info-detail-head .detail-order-list .store-detail .store-name {
+      border-left: 0.04rem solid #00a84c;
+      padding-left: 0.1rem;
+      margin: 0.2rem 0; }
+    .service-order-detail .info-detail-head .detail-order-list .store-detail .contact-info {
+      margin: 0.1rem 0; }
+      .service-order-detail .info-detail-head .detail-order-list .store-detail .contact-info .con {
+        margin-left: 0.15rem; }
+.service-order-detail .evaluation-submit {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 1rem;
+  line-height: 1rem;
+  border-top: 1px solid #e6e6e6;
+  background-color: #fff; }
+  .service-order-detail .evaluation-submit .pay-submit, .service-order-detail .evaluation-submit .benefit-life .benefit-life-submit .pay-submit-no, .benefit-life .benefit-life-submit .service-order-detail .evaluation-submit .pay-submit-no {
+    width: 1.65rem;
+    height: 0.58rem;
+    color: #fff;
+    font-size: 0.24rem;
+    line-height: 0.58rem;
+    text-align: center;
+    background-color: #00a84c;
+    border-radius: 0.3rem;
+    margin-right: 0.3rem;
+    margin-top: 0.21rem; }
+
+/*exchange-success.html*/
+.exchange-success .integral-success {
+  text-align: center;
+  margin-top: 3.07rem; }
+  .exchange-success .integral-success img {
+    height: 1.32rem;
+    width: 1.32rem; }
+.exchange-success h3 {
+  text-align: center;
+  color: #333;
+  margin-top: 0.73rem; }
+.exchange-success p {
+  text-align: center;
+  color: #999999;
+  margin-top: 0.31rem; }
+
+/*exchange-record.html*/
+.exchange-record {
+  background-color: #fff; }
+  .exchange-record .exchange-record-list {
+    margin-top: 0.89rem; }
+    .exchange-record .exchange-record-list .exchange-goods-list {
+      display: table;
+      width: 100%;
+      border-bottom: 1px solid #e6e6e6; }
+      .exchange-record .exchange-record-list .exchange-goods-list .exchange-goods-cover {
+        height: 2.17rem;
+        line-height: 2.17rem;
+        width: 20%;
+        margin-left: 0.3rem; }
+        .exchange-record .exchange-record-list .exchange-goods-list .exchange-goods-cover img {
+          width: 1.5rem;
+          height: 1.3rem; }
+      .exchange-record .exchange-record-list .exchange-goods-list .integral-goods-info {
+        margin-top: 0.435rem;
+        margin-left: 0.2rem;
+        width: 65%; }
+        .exchange-record .exchange-record-list .exchange-goods-list .integral-goods-info h3 {
+          color: #333; }
+        .exchange-record .exchange-record-list .exchange-goods-list .integral-goods-info p {
+          margin-top: 0.22rem; }
+          .exchange-record .exchange-record-list .exchange-goods-list .integral-goods-info p .exchange-num {
+            display: inline-block;
+            line-height: 0.4rem;
+            color: #00a84c;
+            max-width: 85%;
+            word-break: break-all; }
+          .exchange-record .exchange-record-list .exchange-goods-list .integral-goods-info p .exchange-text {
+            color: #999999;
+            display: inline-block;
+            line-height: 0.4rem;
+            max-width: 15%; }
+      .exchange-record .exchange-record-list .exchange-goods-list .arrow-img {
+        height: 2.17rem;
+        line-height: 2.17rem;
+        margin-right: 0.3rem; }
+        .exchange-record .exchange-record-list .exchange-goods-list .arrow-img img {
+          width: 0.15rem;
+          height: 0.25rem; }
+
+/*benefit-life-detail.html*/
+.benefit-life .benefit-life-detail {
+  margin-top: 0.89rem;
+  padding-bottom: 1rem; }
+  .benefit-life .benefit-life-detail .benefit-life-content {
+    background-color: #fff; }
+.benefit-life .benefit-life-submit {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 1rem;
+  line-height: 1rem;
+  border-top: 1px solid #e6e6e6;
+  background-color: #fff; }
+  .benefit-life .benefit-life-submit .pay-submit, .benefit-life .benefit-life-submit .pay-submit-no {
+    width: 1.65rem;
+    height: 0.58rem;
+    color: #fff;
+    font-size: 0.24rem;
+    line-height: 0.58rem;
+    text-align: center;
+    background-color: #00a84c;
+    border-radius: 0.3rem;
+    margin-right: 0.3rem;
+    margin-top: 0.21rem; }
+  .benefit-life .benefit-life-submit .pay-submit-no {
+    background-color: #eeeeee; }
+  .benefit-life .benefit-life-submit .need-pay {
+    height: 0.58rem;
+    color: #e6464a;
+    font-size: 0.24rem;
+    line-height: 0.58rem;
+    text-align: center;
+    border-radius: 0.3rem;
+    margin-left: 0.3rem;
+    margin-top: 0.21rem; }
+
+/*注册*/
+.btn-submit {
+  width: 6rem;
+  height: 0.9rem;
+  margin: 0.75rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+  background-color: #00a84c;
+  line-height: 0.9rem;
+  border-radius: 0.4rem;
+  -moz-border-radius: 0.4rem; }
+
+/*活动*/
+.activity {
+  position: relative;
+  background: url("../images/activity-bg.png") repeat;
+  background-size: auto 16.37rem;
+  height: 16.37rem;
+  width: auto;
+  padding-bottom: 1.01rem; }
+  .activity .activity-img {
+    margin: 0.89rem auto 0 auto;
+    width: 7.5rem;
+    height: 5.65rem; }
+    .activity .activity-img img {
+      width: 7.5rem;
+      height: 5.65rem; }
+  .activity .more-activity {
+    width: 2rem;
+    height: 0.5rem;
+    margin: 0.1rem auto;
+    background-color: #fff;
+    color: #14A83B;
+    line-height: 0.5rem;
+    text-align: center; }
+  .activity .activity-info {
+    height: auto;
+    width: 5.4rem;
+    margin: 1.1rem auto 0 auto;
+    border-radius: 0.2rem;
+    background: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    padding: 0.3rem 0.5rem; }
+    .activity .activity-info h3 {
+      font-size: 0.32rem;
+      color: #fff;
+      padding-bottom: 0.2rem; }
+    .activity .activity-info p {
+      text-indent: 0.32rem;
+      color: #fff;
+      font-size: 0.28rem;
+      text-align: left;
+      line-height: 0.5rem; }
+  .activity .appointment {
+    height: 2.02rem;
+    width: 7.5rem;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 0rem;
+    left: 0;
+    right: 0; }
+    .activity .appointment img {
+      height: 2.02rem;
+      width: 7.5rem; }
+
+/*支付成功*/
+.pay-success {
+  margin-top: 0.89rem; }
+  .pay-success .success-img {
+    height: 4.3rem;
+    width: 3.7rem;
+    text-align: center;
+    margin: 2rem auto 0; }
+    .pay-success .success-img img {
+      height: 4.3rem;
+      width: 3.7rem; }
+  .pay-success .success-prompt {
+    font-size: #999999;
+    font-size: 0.32rem;
+    padding: 0.5rem;
+    text-align: center;
+    line-height: 0.5rem; }
+
+/*查看更多活动*/
+.more-activity-list {
+  margin-top: 0.89rem; }
+  .more-activity-list .activity-img {
+    text-align: center;
+    height: auto;
+    width: auto;
+    background-color: #fff; }
+    .more-activity-list .activity-img img {
+      height: auto;
+      width: 7.5rem; }
+
+/*# sourceMappingURL=app.css.map */

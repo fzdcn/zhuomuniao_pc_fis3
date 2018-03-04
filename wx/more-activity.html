@@ -1,0 +1,24 @@
+<link rel="import" href="components/common/header.html?__inline">
+<div class="sale" id="sale" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">更多活动</div>
+    <img @click="back" src="/wx/static/images/back.png" class="setback">
+  </div>
+  <!--查看更多活动-->
+  <div class="more-activity-list">
+    <div class="activity-img"><img src="/wx/static/images/opening.png" alt="查看更多"></div>
+  </div>
+
+</div>
+<script>
+  var vm = new Vue({
+    el: '#sale',
+    data: {},
+    methods: {
+      back: function () {
+        window.history.go(-1);
+      }
+    }
+  })
+</script>
+

@@ -1,0 +1,21 @@
+<!--搜索分类-->
+<div class="search-tab">
+  <div @click="serviceSearch"
+       :class="[({'selected-color' : isSelected == true}),({'cancel-color' : isSelected == false})]"
+       class="fl service">服务
+  </div>
+  <img :class="[({'transition-left' : isSelected == true}),({'transition-right' : isSelected == false})]"
+       src="/wx/static/images/search_up.png" alt="">
+  <div @click="goodsSearch"
+       :class="[({'cancel-color' : isSelected == true}),({'selected-color' : isSelected == false})]"
+       class="fr goods">商品
+  </div>
+</div>
+<!--<div class="search-tab">-->
+  <!--<div @click="serviceSearch"-->
+       <!--:class="[({'selected-color' : isSelected == true}),({'cancel-color' : isSelected == false})]"-->
+       <!--class="fl service">商品-->
+  <!--</div>-->
+  <!--<img :class="[({'transition-left' : isSelected == true}),({'transition-right' : isSelected == false})]"-->
+       <!--src="/wx/static/images/search_up.png" alt="">-->
+<!--</div>-->

@@ -1,0 +1,51 @@
+<div v-if="index <= 2" v-for="(item,index) in lifeServiceList" @click="jumpMoveDetail(item)" class="life-service-list">
+  <div class="moving-services-cover">
+    <img v-lazy="item.cover_photo" src="" alt="item.name">
+  </div>
+  <div class="moving-services-detail">
+    <h3 class="p1">{{ item.name }}</h3>
+    <div class="lever-info">
+      <div class="fl lever">
+        <img v-for="val in star[item.stars].options" :src="val" alt="评价">
+      </div>
+      <div class="fl p1 lever-number">{{ item.stars }}</div>
+      <div class="fl liner"></div>
+      <div class="fl p1 sold">已售{{ item.sale_number }}</div>
+      <div class="fr p1 praise-rate">好评率{{ item.praise_rate * 100 }}%</div>
+    </div>
+    <div class="discount">
+      <div class="fl p1 promotion">促销可用</div>
+      <div class="fl p1 coupon">优惠卷可用</div>
+    </div>
+    <div class="money">
+      <div class="fl p1 money-number">¥{{ item.sale_price }}</div>
+      <div @click.stop="jumpImmediateReservation(item)" class="fr appointment">立即预约</div>
+    </div>
+  </div>
+</div>
+<div @click="jumpCustomService" class="custom-service">没有想要的服务？试试定制服务</div>
+<div v-if="index > 2" v-for="(item,index) in lifeServiceList" @click="jumpMoveDetail(item)" class="life-service-list">
+  <div class="moving-services-cover">
+    <img v-lazy="item.cover_photo" src="" alt="item.name">
+  </div>
+  <div class="moving-services-detail">
+    <h3 class="p1">{{ item.name }}</h3>
+    <div class="lever-info">
+      <div class="fl lever">
+        <img v-for="val in star[item.stars].options" :src="val" alt="评价">
+      </div>
+      <div class="fl p1 lever-number">{{ item.stars }}</div>
+      <div class="fl liner"></div>
+      <div class="fl p1 sold">已售{{ item.sale_number }}</div>
+      <div class="fr p1 praise-rate">好评率99.9%</div>
+    </div>
+    <div class="discount">
+      <div class="fl p1 promotion">促销可用</div>
+      <div class="fl p1 coupon">优惠卷可用</div>
+    </div>
+    <div class="money">
+      <div class="fl p1 money-number">¥{{ item.sale_price }}</div>
+      <div @click.stop="jumpImmediateReservation(item)" class="fr appointment">立即预约</div>
+    </div>
+  </div>
+</div>

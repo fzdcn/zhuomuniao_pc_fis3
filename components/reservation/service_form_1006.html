@@ -1,0 +1,267 @@
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/ser_choice.png" alt="">服务选择</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input @click="otherFormAttributes[1006].serviceType.push('保洁');"
+                 v-model="otherFormAttributes[1006].serviceType" class="f16 c666" value="保洁" type="checkbox"/>
+          保洁
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input @click="otherFormAttributes[1006].riceLike=[];" v-model="otherFormAttributes[1006].serviceType"
+                 class="f16 c666" value="烧饭" type="checkbox"/>
+          烧饭
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <p class="f16 cccc">*需要做饭另加服务费100元</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div v-if="otherFormAttributes[1006].serviceType=='烧饭' || otherFormAttributes[1006].serviceType.length == 2"
+     class="row clearfix">
+  <div class="title"><img src="/wx/static/images/taste_like.png" alt="">烧饭喜好</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].riceLike" value="正常" type="checkbox"/>
+          正常
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].riceLike" value="偏甜" type="checkbox"/>
+          偏甜
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].riceLike" value="偏辣" type="checkbox"/>
+          偏辣
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div v-if="otherFormAttributes[1006].serviceType=='保洁' || otherFormAttributes[1006].serviceType.length == 2"
+     class="row clearfix">
+  <div class="title"><img src="/wx/static/images/house_area.png" alt="">房屋面积</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1006].houseArea='不限'"
+         :class="{on:otherFormAttributes[1006].houseArea=='不限'}"
+         href="javascript:void(0);">不限</a>
+      <a @click="otherFormAttributes[1006].houseArea='80以下'"
+         :class="{on:otherFormAttributes[1006].houseArea=='80以下'}"
+         href="javascript:void(0);">80以下</a>
+      <a @click="otherFormAttributes[1006].houseArea='80-120'"
+         :class="{on:otherFormAttributes[1006].houseArea=='80-120'}"
+         href="javascript:void(0);">80-120</a>
+      <a @click="otherFormAttributes[1006].houseArea='120-150'"
+         :class="{on:otherFormAttributes[1006].houseArea=='120-150'}"
+         href="javascript:void(0);">120-150</a>
+      <a @click="otherFormAttributes[1006].houseArea='150-200'"
+         :class="{on:otherFormAttributes[1006].houseArea=='150-200'}"
+         href="javascript:void(0);">150-200</a>
+      <a @click="otherFormAttributes[1006].houseArea='200以上'"
+         :class="{on:otherFormAttributes[1006].houseArea=='200以上'}"
+         href="javascript:void(0);">200以上</a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/service_frequency.png" alt="">服务频率</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].serviceFrequency" value="周一" type="checkbox"/>
+          周一
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].serviceFrequency" value="周二" type="checkbox"/>
+          周二
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].serviceFrequency" value="周三" type="checkbox"/>
+          周三
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].serviceFrequency" value="周四" type="checkbox"/>
+          周四
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].serviceFrequency" value="周五" type="checkbox"/>
+          周五
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].serviceFrequency" value="周六" type="checkbox"/>
+          周六
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1006].serviceFrequency" value="周日" type="checkbox"/>
+          周日
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/time.png" alt="">服务时长</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1006].serviceTime='2'"
+         :class="{on:otherFormAttributes[1006].serviceTime=='2'}"
+         href="javascript:void(0);">2</a>
+      <a @click="otherFormAttributes[1006].serviceTime='3'"
+         :class="{on:otherFormAttributes[1006].serviceTime=='3'}"
+         href="javascript:void(0);">3</a>
+      <a @click="otherFormAttributes[1006].serviceTime='4'"
+         :class="{on:otherFormAttributes[1006].serviceTime=='4'}"
+         href="javascript:void(0);">4</a>
+      <a @click="otherFormAttributes[1006].serviceTime='5'"
+         :class="{on:otherFormAttributes[1006].serviceTime=='5'}"
+         href="javascript:void(0);">5</a>
+      <a href="javascript:void(0);">
+        <p class="f16 cccc">*单位（小时）</p>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <p class="f16 cccc">*当服务时间选择为4小时和5小时时，如需要分段服务，请备注说明</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div v-if="otherFormAttributes[1006].serviceFrequency.length > 0 && otherFormAttributes[1006].serviceTime"
+     class="row clearfix">
+  <div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a class="on" href="javascript:void(0);">{{ hourlyWorkerPrice }}</a>
+      <a style="border: none;" href="javascript:void(0);">
+        <p class="f16 cccc">*单位（元）</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/home_time.png" alt="">上门时间</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <!--<a href="javascript:void(0);">-->
+      <!--<label>开始日期-->
+      <!--<input class="f16 c666" id="inpstart" type="text" placeholder="请选服务开始时间" readonly>-->
+      <!--</label>-->
+      <!--</a>-->
+      <!--<a href="javascript:void(0);">-->
+      <!--<label>结束日期-->
+      <!--<input class="f16 c666" id="inpend" type="text" placeholder="请选服务结束时间" readonly>-->
+      <!--</label>-->
+      <!--</a>-->
+      <a style="border: none;" href="javascript:void(0);">
+        <label>开始日期
+          <select v-model="otherFormAttributes[1006].visitingStartTime" class="c666 f16" style="border: 1px solid #ccc;"
+                  name="">
+            <option v-for="item in selectTime" :value="item">{{ item }}</option>
+          </select>
+        </label>
+      </a>
+      <a v-if="otherFormAttributes[1006].serviceTime" href="javascript:void(0);" style="border: none;">
+        <label>结束日期
+          <select class="c666 f16" style="border: 1px solid #ccc;" name="">
+            <option :value="endTime">{{ endTime }}</option>
+          </select>
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!--地址-->
+<div v-if="form.service_code">
+  <link rel="import" href="/components/reservation/service_address.html?__inline">
+</div>
+
+<div @click="tabToggle();" class="tabToggle">其它可选</div>
+<div class="houseKeepingToggle hide">
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/pet.png" alt="">是否有宠物</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1006].pet" value="大型犬" type="checkbox"/>
+            大型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1006].pet" value="小型犬" type="checkbox"/>
+            小型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1006].pet" value="猫" type="checkbox"/>
+            猫
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1006].pet" value="其它" type="checkbox"/>
+            其它
+          </label>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其它备注</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1006].petRemarks"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其他需求</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1006].told"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="requirement">家政员要求</div>
+  <div v-if="form.service_code">
+    <link rel="import" href="/components/reservation/common-form-attributes.html?__inline">
+  </div>
+</div>
+

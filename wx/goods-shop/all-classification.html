@@ -1,0 +1,157 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="all-shop clearfix" v-cloak id="allShop">
+  <!--header-->
+  <div class="shop-head">
+    <img src="/wx/static/images/back_black@2x.png" class="set-back" @click="back">
+    <input @click="searchContent" v-model="search" placeholder="请输入搜索内容" class="sou" type="text" name="search">
+    <img src="/wx/static/images/product_list_search@2x.png" class="search-image">
+    <a @click="toCart"><img class="shop-image" src="/wx/static/images/all_categories_shopping_cart@2x.png"></a>
+  </div>
+  <div class="tab main-goods clearfix">
+    <!--左侧导航-->
+    <div class="tab_menu tit-list fl">
+      <ul>
+        <!--<li class="listMenu" @click="showTypeList(item)" v-for="item in typeList"-->
+        <!--:class="status == item.id ? 'selected' : 'color-8' ">{{ item.name }}-->
+        <!--</li>-->
+        <a @click="stores.addGoBackLevel();" v-for="(val,index) in typeList"
+           :href="`#tab-right-${index+1}`"
+           class="color-8 nav-tab" style="display: block;">
+          <li v-if="index == 0" class="is-selected" :id="`tab-${index+1}`">{{ val.name }}</li>
+          <li v-else :id="`tab-${index+1}`" @click="">{{ val.name }}</li>
+        </a>
+      </ul>
+    </div>
+    <!--右侧-->
+    <div class="tab_box de-list fl">
+      <div :id="`tab-right-${index+1}`" v-for="(list,index) in typeList" class="tab-right">
+        <div :id="`tab-title-${index+1}`" class="tab-title"
+        style="background-color: #fff;text-align: center;height: 0.69rem;line-height: 0.69rem;width: 5.4rem;margin: 0.1rem 0;">
+        {{ list.name }}
+        </div>
+        <div :class="`goods-tab-${index+1}`" v-for="(goodsList,index) in list.goods_list">
+          <div class="class-tittle font-4">
+            <div class="fl">{{ goodsList.name }}</div>
+            <div class="fr" @click="toGoodList(goodsList)">更多</div>
+          </div>
+          <div class="list">
+            <div v-if="goodsList.shopGoods && goodsList.shopGoods.length < 1" class="font-4 color-8 no-con">
+              <img src="/wx/static/images/blank_no_service.png">
+            </div>
+            <div class="one-shop fl" v-for="i in goodsList.shopGoods" @click="toDetail(i)">
+              <div class="shop-img">
+                <img class="shop-img" src="" v-lazy="i.cover_photo">
+              </div>
+              <div class="name color-1">{{ i.name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_order_order@2x.png',
+    loading: '/wx/static/images/product_order_order@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#allShop',
+    data: {
+      typeList: [],
+      typeTwoList: [],
+      search: '',
+      status: '',
+      isFixed: false
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      searchContent: function () {
+        window.location.href = window.location.origin + '/wx/search/goods-search.html';
+      },
+      // 进入商品购物车
+      toCart: function () {
+        window.location.href = 'shopping-cart.html';
+      },
+      // 进入商品详情页
+      toDetail: function (i) {
+        window.location.href = 'goods-detail.html?goods_id=' + i.id
+      },
+      // 获取商品以及分类，以及默认状态下显示第一个类别商品
+      /*getOneList: function () {
+       var _this = this;
+       http.get('shop-goods-type/get-type-one', {}, function (data) {
+       _this.typeList = data;
+       _this.status = data[0].id;
+       _this.getDefaultTypeList();
+       })
+       },*/
+      // 点击左侧一级分类，右侧显示商品
+      showTypeList: function (item) {
+        var _this = this;
+        http.get('shop-goods/type-list', {
+          type_one_id: item.id,
+          expand: 'goods_list'
+        }, function (data) {
+          _this.typeTwoList = data.items;
+          _this.status = item.id;
+        })
+      },
+      // 获得默认状态下，一级分类的商品
+      getDefaultTypeList: function () {
+        var _this = this;
+        http.get('shop-goods/type-list', {
+          type_one_id: _this.status,
+          expand: 'goods_list'
+        }, function (data) {
+          _this.typeTwoList = data.items;
+        })
+      },
+      // 跳转到商品列表页
+      toGoodList: function (list) {
+        window.location.href = 'goods-list.html?type_two_id=' + list.id
+      },
+      goodsClassification: function () {
+        var _this = this;
+        http.get('shop-goods/all-goods', {
+          expand: 'goods_list'
+        }, function (data) {
+          _this.typeList = data;
+        })
+      },
+      tabTitle: function () {
+        // 距离文档顶部的距离
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        for (i = 1; i <= this.typeList.length; i++) {
+          var top = document.getElementById("tab-right-" + i).offsetTop;
+          if (top <= scrollTop + 55) { //判断滚动条位置
+            /*document.getElementsByClassName("tab-title")[i].className = "tab-title";
+             var tabTitle = document.getElementsByClassName("tab-title");
+             for (k = 0, lenNum = tabTitle.length; k < lenNum; k++) {
+             tabTitle[k].className = "tab-title";
+             }
+             document.getElementById("tab-title-" + i).className = "tab-title fixed";
+             document.getElementById("tab-title-" + i).style.top = "0.89rem";*/
+            var listMenu = document.getElementsByClassName("nav-tab");
+            for (j = 0, len = listMenu.length; j < len; j++) {
+              var listMenuChildNodes = listMenu[j].firstChild;
+              listMenuChildNodes.className = "";
+            }
+            document.getElementById("tab-" + i).className = "is-selected";
+          }
+        }
+        /*if (scrollTop <= 60) {
+         document.getElementById("tab-title-1").className = "";
+         }*/
+      }
+    },
+    mounted: function () {
+      this.goodsClassification();
+      window.addEventListener('scroll', this.tabTitle);
+    }
+  })
+</script>

@@ -1,0 +1,179 @@
+@charset "UTF-8";
+@function px2rem($px) {
+  $rem: 100px;
+  @return $px/$rem + rem;
+}
+v-cloak {display: none;}
+/*双十一活动页面*/
+.double-eleven-activity{
+  .activity-detail{
+    margin: px2rem(89px) auto px2rem(0px) auto;
+    width: px2rem(750px);
+  }
+}
+
+/*我的分享*/
+.con-share {
+  margin-top: 0.89rem;
+  width: 100%;
+  height: px2rem(1206px);
+  background: url(../images/share-bg.png) no-repeat;
+  background-size: cover;
+  .share {
+    width: 100%;
+    height: 3.5rem;
+    padding-top: 1.4rem;
+    img {
+      width: 3.22rem;
+      height: 1.29rem;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+  .total {
+    height: 1rem;
+    line-height: 1rem;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+  }
+  .share-list {
+    margin: 0 1.2rem;
+    overflow-x: scroll;
+    height: px2rem(580px);
+    .share-item {
+      display: table;
+      width: 100%;
+      height: 0.8rem;
+      line-height: 0.8rem;
+      border-bottom: 1px solid #eee;
+      > div {
+        float: left;
+        color: #fff;
+        margin-right: 0.2rem;
+      }
+      .min-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: px2rem(200px);
+      }
+      .min-phone{
+        float: right;
+      }
+    }
+  }
+}
+
+/*双十一下单页面*/
+.double-eleven-pay {
+  .selectContainer .title {
+    line-height: px2rem(75px);
+    height: px2rem(75px);
+  }
+  .user-pay-status{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    .pay-status-bg{
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+    .pay-status-judge{
+      position: absolute;
+      bottom: px2rem(15px);
+      height: px2rem(152px);
+      width: 60%;
+      background: #fff;
+      border-radius: px2rem(20px);
+      left: 20%;
+      text-align: center;
+      .user-judge{
+        height: px2rem(80px);
+        line-height: px2rem(80px);
+        border-bottom: 1px solid #eee;
+      }
+      .whether{
+        height: px2rem(70px);
+        line-height: px2rem(70px);
+        >span{
+          width: px2rem(100px);
+          height: px2rem(70px);
+          line-height: px2rem(70px);
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+
+.service-data {
+  background: #fff;
+  height: px2rem(70px);
+  line-height: px2rem(70px);
+  padding-left: px2rem(50px);
+  color: #00a84c;
+}
+
+.pay-type {
+  .list-pop {
+    height: px2rem(94px);
+    line-height: px2rem(94px);
+    border-bottom: 1px solid #e8e8e8;
+    background: #fff;
+    .pop-img {
+      width: px2rem(28px);
+      height: px2rem(28px);
+      float: left;
+      margin: px2rem(33px);
+    }
+    .pop-style {
+      float: left;
+      font-size: px2rem(29px);
+      color: #212121;
+      padding-left: px2rem(25px);
+    }
+    .payBg {
+      width: px2rem(43px);
+      height: px2rem(43px);
+      float: left;
+      margin: px2rem(25px) 0;
+    }
+  }
+  .pay {
+    background: #00a84c;
+    text-align: center;
+    height: px2rem(70px);
+    line-height: px2rem(70px);
+    margin: px2rem(30px) px2rem(30px);
+    border-radius: px2rem(40px);
+  }
+}
+
+/*双十一分享二维码*/
+.share-qrcode{
+  .activity-detail{
+    .activity-img{
+      position: relative;
+      margin: px2rem(89px) auto 0px auto;
+      width: px2rem(750px);
+      .qrcode-bg{
+        .qrcode{
+          position: absolute;
+          margin: 0px auto;
+          width: px2rem(242px);
+          height:px2rem(242px);
+          bottom: px2rem(46px);
+          left: px2rem(103px);
+        }
+      }
+    }
+  }
+}
+

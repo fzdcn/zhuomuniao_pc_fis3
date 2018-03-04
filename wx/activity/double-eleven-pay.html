@@ -1,0 +1,151 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<link href="/wx/activity/static/css/double-eleven-activity.css" rel="stylesheet">
+<div class="double-eleven-pay" id="pay" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">双十一活动支付</div>
+    <img @click="back" src="/wx/static/images/back.png" class="setback">
+  </div>
+  <div class="selectContainer" style="padding-top: 0.88rem;padding-bottom: 1.01rem;">
+    <!--保洁-->
+    <div class="row clearfix">
+      <div class="title"><img src="static/images/mobile-bg.png" alt="">服务类型</div>
+      <div class="service-data">日常保洁</div>
+    </div>
+    <div class="row clearfix">
+      <div class="title"><img src="static/images/mobile-bg.png" alt="">服务时长</div>
+      <div class="service-data">2小时</div>
+    </div>
+    <div class="row clearfix">
+      <div class="title"><img src="static/images/mobile-bg.png" alt="">指导价格</div>
+      <div class="service-data">100元</div>
+    </div>
+    <!--地址-->
+    <div class="row clearfix">
+      <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">具体地址：</div>
+      <div class="content clearfix showHeight">
+        <div class="contentInner">
+          <a style="border: none;">
+            <div class="region_address">
+              <input class="f16 c666" v-model="address_detail" type="text" name="address" placeholder="请填写具体服务地址">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">付款方式：</div>
+      <div class="pay-type">
+        <div class="list-pop" @click="choosePay(item)" v-for="item in payStyle">
+          <img
+            :src="item.payType == chosePayType ? 'static/images/payment_selected.png' : 'static/images/payment_normal.png'"
+            class="pop-img">
+          <img :src="item.img" class="payBg">
+          <div class="pop-style wei">{{ item.name }}</div>
+        </div>
+        <div class="pay color-4 font-1" @click="pay">付款</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#pay',
+    data: {
+      address_detail: '',
+      payStyle: [
+        {
+          payType: 12,
+          img: 'static/images/weixin.png',
+          name: '微信'
+        },
+        {
+          payType: 21,
+          img: 'static/images/zhifubao.png',
+          name: '支付宝'
+        }
+      ],
+      chosePayType: '',
+      money: '',
+      orderId: '',
+      return_url: '',
+      uuid: ''
+    },
+    methods: {
+      checkIsPay: function (trueCallback, falseCallback) {
+        http.post('activity/whether-pay-success', {
+          id: stores.getPayOrderId()
+        }, function (data) {
+          if (data) {
+            trueCallback();
+          } else {
+            falseCallback();
+          }
+        });
+      },
+      back: function () {
+        window.history.go(-1);
+      },
+      choosePay: function (item) {
+        this.chosePayType = item.payType
+      },
+      pay: function () {
+        var vm = this;
+        if (!this.address_detail) {
+          tools.alert('服务地址不能为空', 'warning');
+          return false;
+        }
+        if (!this.chosePayType) {
+          tools.alert('请选择付款方式', 'warning');
+          return false;
+        }
+        http.post('activity/order', {
+          token: stores.getAccessToken(),
+          ad_code: 320501,
+          address: vm.address_detail,
+          activity_type: 20,
+          uuid: this.uuid
+        }, function (data) {
+          vm.orderId = data.id;
+          stores.setPayOrderId(vm.orderId);
+          if (vm.chosePayType == 12) {
+            http.post('activity-pay/service-order', {
+              activity_order_id: vm.orderId,
+              pay_type: vm.chosePayType
+            }, function (data) {
+              stores.setPayStatus(true);
+              window.location.href = data;
+            });
+          } else if (vm.chosePayType == 21) {
+            var form = http.createForm(http.baseUrl + 'activity-pay/service-order', 'post', {
+              activity_order_id: vm.orderId,
+              pay_type: 21,
+              return_url: vm.return_url
+            });
+            form.submit();
+          } else {
+            alert('未知的支付方式');
+          }
+        });
+      }
+    },
+    created: function () {
+      var payStatus = stores.getPayStatus();
+      var _this = this;
+      if (payStatus) {
+        tools.confirm('是否已经支付完成', '', true, function () {
+          stores.setPayStatus(false);
+          _this.checkIsPay(function () {
+            stores.removePayOrderId();
+            window.location.href = window.location.origin + '/wx/activity/qrcode.html';
+          }, function () {
+            tools.alert('暂未查询到您已支付完成，请再次确认', 'warning', 200);
+          });
+        }, function () {
+          stores.setPayStatus(false);
+        });
+      }
+      this.uuid = http.getQuery('uuid');
+      this.return_url = window.location.origin + '/wx/activity/qrcode.html';
+    }
+  })
+</script>

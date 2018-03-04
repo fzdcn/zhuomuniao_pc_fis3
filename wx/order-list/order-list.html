@@ -1,0 +1,754 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="orderList" class="orderList" v-cloak>
+  <div class="set">
+    <div class="set-on">
+      <!--<div class="user-selecte">-->
+      <!--<div @click="currentIndex=index;mescroll.resetUpScroll();" v-for="(item,index) in headTabChange"-->
+      <!--class="my-order"-->
+      <!--:class="[{'tab-order-style':currentIndex==index},{'cancel':currentIndex!=index},{'border-left':index==0},{'border-right':index==3}]">-->
+      <!--{{ item }}-->
+      <!--</div>-->
+      <!--</div>-->
+      <div class="user-selecte">
+        <div @click="currentIndex=index;mescroll.resetUpScroll();" v-for="(item,index) in headTabChange"
+             class="my-order" style="width: 6rem;border-radius: 10px;font-size: 0.36rem;border: 0;">
+          {{ item }}
+        </div>
+      </div>
+      <div v-if="currentIndex==0" class="service-state">
+        <ul>
+          <li v-for="item in tabStatusChose.options">
+            <span @click="tabStatusChoseContent(item);"
+
+                  :class="[{'br-00a84c':tabStatusChose.selected == item.tabName},{'fc-00a84c':tabStatusChose.selected == item.tabName},{'fc-212121':tabStatusChose.selected != item.tabName}]">{{ item.tabName }}</span>
+          </li>
+        </ul>
+      </div>
+      <div v-if="currentIndex==1" class="service-list-state">
+        <ul>
+          <li v-for="item in tabServiceStatusChose.options">
+            <span @click="tabServiceStatusChoseContent(item);"
+                  :class="[{'br-00a84c':tabServiceStatusChose.selected == item.tabName},{'fc-00a84c':tabServiceStatusChose.selected == item.tabName},{'fc-212121':tabServiceStatusChose.selected != item.tabName}]">{{ item.tabName }}</span>
+          </li>
+        </ul>
+      </div>
+      <div v-if="currentIndex==2" class="goods-service-state">
+        <ul>
+          <li v-for="item in tabGoodsStatusChose.options">
+            <span @click="tabGoodsStatusChoseContent(item);"
+                  :class="[{'br-00a84c':tabGoodsStatusChose.selected == item.tabName},{'fc-00a84c':tabGoodsStatusChose.selected == item.tabName},{'fc-212121':tabGoodsStatusChose.selected != item.tabName}]">{{ item.tabName }}</span>
+          </li>
+        </ul>
+      </div>
+      <div v-if="currentIndex==3" class="goods-service-state">
+        <ul>
+          <li v-for="item in benefitLifeStatusChoseContent.options" style="width: 33%">
+            <span @click="benefitLifeStatusChose(item);"
+                  :class="[{'br-00a84c':benefitLifeStatusChoseContent.selected == item.tabName},{'fc-00a84c':benefitLifeStatusChoseContent.selected == item.tabName},{'fc-212121':benefitLifeStatusChoseContent.selected != item.tabName}]">{{ item.tabName }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="mescroll" class="mescroll list-num-info">
+    <div v-if="currentIndex==0" id="list-num" class="list-num">
+      <div class="list-menu" v-for="item in orderList" @click="jump(item)">
+        <div class="order-n">
+          <div class="address fl">订单编号：{{ item.order_number }}</div>
+          <div class="fr font-2 style-3">{{ setDate(item.created_at) }}</div>
+        </div>
+        <div class="menu-item">
+          <!--<img v-if="item.service_code == 1001" src="/wx/static/images/service_order_yuesao@2x.png" class="type-image">-->
+          <!--<img v-if="item.service_code == 1002" src="/wx/static/images/service_order_yuyingshi@2x.png"-->
+          <!--class="type-image">-->
+          <!--<img v-if="item.service_code == 1003" src="/wx/static/images/service_order_baomu@2x.png" class="type-image">-->
+          <!--<img v-if="item.service_code == 1004" src="/wx/static/images/service_order_hugong@2x.png" class="type-image">-->
+          <!--<img v-if="item.service_code == 1006" src="/wx/static/images/service_order_zhongdiangong@2x.png"-->
+          <!--class="type-image">-->
+          <img src="/wx/static/images/service_order_baojie@2x.png" class="type-image">
+          <div class="detail-right">
+            <ul class="people">
+              <li class="fl font-1 color-1 style-1">{{ item.user.real_name }}</li>
+              <li class="fl font-2 style-2">{{ item.user.cellphone }}</li>
+              <li v-if="item.pay_status != 20" class="p1 pay-money">已付:￥{{ item.all_pay }}元</li>
+              <li v-if="item.pay_status == 20" class="p1 pay-money">￥{{ item.need_pay }}元</li>
+            </ul>
+            <div class="third">
+              <!--<div v-if="item.detail_json.服务结束时间" class="level">服务时间：{{ item.detail_json.服务开始时间 }}~{{-->
+              <!--item.detail_json.服务结束时间 }}-->
+              <!--</div>-->
+              <!--<div v-else class="level">服务时间：{{ item.detail_json.服务开始时间 }}</div>-->
+              <div class="level">服务时间：{{ setDate(item.service_time) }}</div>
+              <div class="status"
+                   v-if="(item.status == 10 || item.status == 20 || item.status == 25 || item.status == 27 || item.status == 30) && (item.pay_status != 20)">
+                预约中
+              </div>
+              <div class="status-pay" v-if="item.pay_status == 20" @click.stop="domesticPayMoney(item)">付款</div>
+              <div class="status" v-if="item.pay_status != 20 && item.status == 40">进行中</div>
+              <div class="status" v-if="item.pay_status != 20 && item.status == 45" @click="toServiceEvaluate(item)">
+                待评价
+              </div>
+              <div class="status" v-if="item.pay_status != 20 && item.status == 50">已完成</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="currentIndex==1" class="goods-list">
+      <div v-for="item in serviceOrderList" class="goods-list-menu">
+        <div @click="jumpLifeServiceDetail(item)" class="list-detail">
+          <div class="fl goods-cover">
+            <img v-lazy="item.life_goods.cover_photo" src="" alt="商品封面">
+          </div>
+          <div class="goods-info">
+            <div class="goods-head">
+              <div class="fl p2 goods-title">{{ item.life_goods.name }}</div>
+              <div v-if="item.status==10" class="fr goods-status">待付款</div>
+              <div v-if="item.status==20" class="fr goods-status">进行中</div>
+              <div v-if="item.status==30" class="fr goods-status">待评价</div>
+              <div v-if="item.status==40" class="fr goods-status">已完成</div>
+              <div v-if="item.status==50" class="fr goods-status">已取消</div>
+            </div>
+            <div class="goods-introduce">
+              <div class="fr p1 goods-number">x{{ item.number }}</div>
+            </div>
+            <div class="goods-price">
+              <div class="fl p1 unit-price">￥{{ item.life_goods.sale_price }}</div>
+              <div class="fr p1 all-price-number">￥{{ item.pay_money }}</div>
+              <div class="fr all-price-title">总计:</div>
+            </div>
+          </div>
+        </div>
+        <div class="goods-pay">
+          <div class="goods-pay-detail">
+            <template v-if="item.status==10">
+              <div @click="lifeServicePayMoney(item)" class="fr pay">付款</div>
+              <div class="fr cancel-order" @click="cancelServiceOrder(item)">取消订单</div>
+            </template>
+            <template v-if="item.status==20">
+              <div class="fr deliver-goods" @click="remind">提醒发货</div>
+            </template>
+            <template v-if="item.status==30">
+              <div class="fr evaluate" @click="toLifeServiceEvaluate(item)">评价</div>
+              <!--<div class="fr see-logistics">查看进度</div>-->
+            </template>
+            <template v-if="item.status==50">
+              <div class="fr delete-order" @click="deleteServiceOrder(item)">删除订单</div>
+              <!--<div class="fr see-logistics">查看进度</div>-->
+            </template>
+            <!-- <template v-if="item.status==40">
+               <div class="fr delete-order" @click="deleteServiceOrder(item)">删除订单</div>
+             </template>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="currentIndex==2" class="goods-list">
+      <div v-for="item in goodsOrderList" class="goods-list-menu">
+        <div class="order-num color-99 font-3">
+          <span class="fl">订单编号：{{item.order_num}}</span>
+          <span class="fr color-2">{{item.status_name}}</span>
+        </div>
+        <div v-for="value in item.shop_order_details" @click="jumpGoodsDetail(item)" class="list-detail">
+          <div class="fl goods-cover">
+            <img v-lazy="value.goods.cover_photo" src="" alt="商品封面">
+          </div>
+          <div class="goods-info">
+            <div class="goods-head">
+              <div class="fl p2 goods-title">{{ value.goods.name }}</div>
+              <!--<div v-if="item.status==10" class="fr goods-status">待付款</div>
+              <div v-if="item.status==20" class="fr goods-status">待发货</div>
+              <div v-if="item.status==30" class="fr goods-status">已取消</div>
+              <div v-if="item.status==40" class="fr goods-status">待收货</div>
+              <div v-if="item.status==50" class="fr goods-status">待评价</div>
+              <div v-if="item.status==80" class="fr goods-status">已完成</div>-->
+            </div>
+            <div class="goods-introduce">
+              <div class="fl p1 goods-describe">{{ value.goods.tag_name }}</div>
+              <div class="fr p1 goods-number">x{{ value.quantity }}</div>
+            </div>
+            <div class="goods-price">
+              <div class="fl p1 unit-price">￥{{ value.goods.sale_price }}</div>
+              <div class="fr p1 all-price-number">￥{{ value.goods.sale_price*value.quantity }}</div>
+              <div class="fr all-price-title">总计:</div>
+            </div>
+          </div>
+        </div>
+        <div v-if="item.shop_order_details.length > 1" class="order-total-money">共{{item.sum_quantity}}件 合计<span
+          class="color-h">￥{{item.pay_money}}</span></div>
+        <div class="goods-pay">
+          <div class="goods-pay-detail">
+            <template v-if="item.status==80">
+              <div class="fr delete-order" @click="deleteOrder(item)">删除订单</div>
+              <div class="fr see-logistics">查看物流</div>
+            </template>
+            <template v-if="item.status==10">
+              <div @click="goodsPayMoney(item)" class="fr pay">付款</div>
+              <div class="fr cancel-order" @click="cancelOrder(item)">取消订单</div>
+            </template>
+            <template v-if="item.status==20">
+              <div class="fr deliver-goods" @click="remind">提醒发货</div>
+            </template>
+            <template v-if="item.status==30">
+              <div class="fr deliver-goods" @click="deleteOrder(item)">删除订单</div>
+            </template>
+            <template v-if="item.status==40">
+              <div class="fr confirm-receipt" @click="sureOrder(item)">确认收货</div>
+              <div class="fr see-logistics">查看物流</div>
+            </template>
+            <template v-if="item.status==50">
+              <div class="fr evaluate" @click="toEvaluate(item)">评价</div>
+              <div class="fr see-logistics">查看物流</div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="currentIndex==3" class="benefit-life-list">
+      <div v-for="item in benefitlifeList" class="goods-list-menu">
+        <div class="order-num color-99 font-3">
+          <span class="fl">订单编号：{{item.order_num}}</span>
+          <span class="fr color-2">{{item.status_name}}</span>
+        </div>
+        <div class="list-detail">
+          <div class="goods-info" style="margin-left: 0">
+            <div class="goods-head">
+              <div class="fl p2 color-8 font-1 benefit-life-introduce">{{ item.today_recommend.title }}</div>
+              <div class="fr color-99 font-4">x1</div>
+              <!--<div v-if="item.status==10" class="fr goods-status">待付款</div>
+              <div v-if="item.status==20" class="fr goods-status">待发货</div>
+              <div v-if="item.status==30" class="fr goods-status">已取消</div>
+              <div v-if="item.status==40" class="fr goods-status">待收货</div>
+              <div v-if="item.status==50" class="fr goods-status">待评价</div>
+              <div v-if="item.status==80" class="fr goods-status">已完成</div>-->
+            </div>
+            <div class="goods-introduce" style="bottom: 0.3rem;">
+              <div class="fl color-8 font-3">￥{{ item.real_price }}</div>
+              <div class="fr color-8 font-3">总计：<span class="color-h">￥{{ item.real_price }}</span></div>
+            </div>
+            <!--<div class="goods-price">-->
+            <!--<div class="fl p1 unit-price">￥{{ value.goods.sale_price }}</div>-->
+            <!--<div class="fr p1 all-price-number">￥{{ value.goods.sale_price*value.quantity }}</div>-->
+            <!--<div class="fr all-price-title">总计:</div>-->
+            <!--</div>-->
+          </div>
+        </div>
+        <div class="goods-pay">
+          <div class="goods-pay-detail">
+            <template v-if="item.status==10">
+              <div @click="benefitLifePayMoney(item)" class="fr pay">付款</div>
+            </template>
+            <template v-if="item.status==20">
+              <div class="fr deliver-goods">已支付</div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--footer-->
+<link rel="import" href="/wx/components/common/footer.html?__inline">
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#orderList',
+    data: {
+      mescroll: null,
+      // 构造付款参数
+      payType: {
+        orderId: '', // 设置需要付款的id
+        money: '', // 设置需要付款的金额
+        type: '' // 设置家政服务付款类型为 payType = domestic
+      },
+      // 家政订单
+      orderList: [],
+      // 服务订单
+      serviceOrderList: [],
+      // 商品订单
+      goodsOrderList: [],
+      // 惠生活订单
+      benefitlifeList: [],
+      // 头部服务分类
+      // headTabChange: ['家政', '服务', '商品', '惠生活'],
+      headTabChange: ['订单列表'],
+      // headTabChange: ['家政订单', '商品订单'],
+      // 当前默认第一个切换位置
+      currentIndex: 0,
+      // 家政服务
+      tabStatusChose: {
+        options: [
+          {
+            'tabName': '全部',
+            'pay_status': '',
+            'status': ''
+          },
+          {
+            'tabName': '预约中',
+            'pay_status': '',
+            'status': '10,20,25,27,30'
+          },
+          {
+            'tabName': '待付款',
+            'pay_status': '20',
+            'status': ''
+          },
+          {
+            'tabName': '进行中',
+            'pay_status': '',
+            'status': '40'
+          },
+          {
+            'tabName': '待评价',
+            'pay_status': '',
+            'status': '45'
+          },
+          {
+            'tabName': '已完成',
+            'pay_status': '',
+            'status': '50'
+          }
+        ],
+        selected: '全部',
+        pay_status: '',
+        status: ''
+      },
+      // 服务订单
+      tabServiceStatusChose: {
+        options: [
+          {
+            'tabName': '全部',
+            'status': ''
+          },
+          {
+            'tabName': '待付款',
+            'status': '10'
+          },
+          {
+            'tabName': '进行中',
+            'status': '20'
+          },
+          {
+            'tabName': '待评价',
+            'status': '30'
+          },
+          {
+            'tabName': '已完成',
+            'status': '40'
+          }
+        ],
+        selected: '全部',
+        status: ''
+      },
+      // 商品订单
+      tabGoodsStatusChose: {
+        options: [
+          {
+            'tabName': '全部',
+            'status': ''
+          },
+          {
+            'tabName': '待付款',
+            'status': '10'
+          },
+          {
+            'tabName': '待发货',
+            'status': '20'
+          },
+          {
+            'tabName': '待收货',
+            'status': '40'
+          },
+          {
+            'tabName': '待评价',
+            'status': '50'
+          },
+          {
+            'tabName': '已完成',
+            'status': '80'
+          }
+        ],
+        selected: '全部',
+        status: ''
+      },
+      // 惠生活
+      benefitLifeStatusChoseContent: {
+        options: [
+          {
+            'tabName': '全部',
+            'status': ''
+          },
+          {
+            'tabName': '待付款',
+            'status': '10'
+          },
+          {
+            'tabName': '已支付',
+            'status': '20'
+          }
+        ],
+        selected: '全部',
+        status: ''
+      }
+    },
+    methods: {
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        // 家政服务接口
+        if (_this.currentIndex == 0) {
+          /*http.get('order/list', {
+           per_page: page.size,
+           page: page.num,
+           fields: 'service_code,detail_json,pay_status,id,created_at,status,store_id,order_number',
+           expand: 'address,services,user,all_pay,need_pay,store_name,detail_json',
+           // 10为未发起支付，20未支付，30已支付，40已取消，什么都不传  默认显示所有，
+           pay_status: _this.tabStatusChose.pay_status,
+           // （可选）10 20 25 27 30 代表是预约中，40代表进行中，50代表完成，10,20,25,27,30，什么都不传  默认显示所有
+           status: _this.tabStatusChose.status
+           }, function (data) {
+           // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+           _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+           // 设置列表数据
+           _this.setListData(data, page.num, true);
+           }, function () {
+           // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+           _this.mescroll.endErr();
+           });*/
+          http.get('clean-order/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'service_code,pay_status,id,created_at,status,store_id,order_number,service_time',
+            expand: 'address,services,user,all_pay,need_pay,store_name',
+            // 10为未发起支付，20未支付，30已支付，40已取消，什么都不传  默认显示所有，
+            pay_status: _this.tabStatusChose.pay_status,
+            // （可选）10 20 25 27 30 代表是预约中，40代表进行中，50代表完成，10,20,25,27,30，什么都不传  默认显示所有
+            status: _this.tabStatusChose.status
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+          // 服务订单接口
+        } else if (_this.currentIndex == 1) {
+          http.get('life-order/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'id,pay_money,status,remark,created_at,number',
+            expand: 'status_name,address,life_goods',
+            // 10代表未付款，20代表进行中，30待评价 ，40已完成，什么都不传 就是全部
+            status: _this.tabServiceStatusChose.status
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+          // 商品订单接口
+        } else if (_this.currentIndex == 2) {
+          http.get('shop-order/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'id,pay_money,status,order_num',
+            expand: 'status_name,shop_order_details,sum_quantity',
+            // 10代表未付款，20代表待发货，40待收货，50待评价 ，什么都不传 就是全部
+            status: _this.tabGoodsStatusChose.status
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+          // 惠生活订单接口
+        } else if (_this.currentIndex == 3) {
+          http.get('today-recommend-order/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'id,created_at,order_num,status',
+            expand: 'today_recommend,status_name,real_price',
+            // 10代表未付款，20代表进行中，30待评价 ，40已完成，什么都不传 就是全部
+            status: _this.benefitLifeStatusChoseContent.status
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+          // 商品订单接口
+        } else if (_this.currentIndex == 2) {
+          http.get('shop-order/list', {
+            per_page: page.size,
+            page: page.num,
+            fields: 'id,pay_money,status,order_num',
+            expand: 'status_name,shop_order_details,sum_quantity',
+            // 10代表未付款，20代表待发货，40待收货，50待评价 ，什么都不传 就是全部
+            status: _this.tabGoodsStatusChose.status
+          }, function (data) {
+            // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+            // 设置列表数据
+            _this.setListData(data, page.num, true);
+          }, function () {
+            // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+            _this.mescroll.endErr();
+          });
+        }
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        // 家政订单
+        if (this.currentIndex == 0) {
+          if (isAppend && pageNum == 1) {
+            this.orderList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.orderList = this.orderList.concat(data.items);
+          }
+          //服务订单
+        } else if (this.currentIndex == 1) {
+          if (isAppend && pageNum == 1) {
+            this.serviceOrderList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.serviceOrderList = this.serviceOrderList.concat(data.items);
+          }
+          // 商品订单
+        } else if (this.currentIndex == 2) {
+          if (isAppend && pageNum == 1) {
+            this.goodsOrderList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.goodsOrderList = this.goodsOrderList.concat(data.items);
+          }
+          // 惠生活订单
+        } else if (this.currentIndex == 3) {
+          if (isAppend && pageNum == 1) {
+            this.benefitlifeList = data.items;
+          } else if (isAppend && pageNum > 1) {
+            this.benefitlifeList = this.benefitlifeList.concat(data.items);
+          }
+        }
+      },
+      // 家政服务
+      tabStatusChoseContent: function (item) {
+        this.tabStatusChose.selected = item.tabName;
+        this.tabStatusChose.pay_status = item.pay_status;
+        this.tabStatusChose.status = item.status;
+        this.mescroll.resetUpScroll();
+      },
+      // 服务订单
+      tabServiceStatusChoseContent: function (item) {
+        this.tabServiceStatusChose.selected = item.tabName;
+        this.tabServiceStatusChose.status = item.status;
+        this.mescroll.resetUpScroll();
+      },
+      // 商品订单
+      tabGoodsStatusChoseContent: function (item) {
+        this.tabGoodsStatusChose.selected = item.tabName;
+        this.tabGoodsStatusChose.status = item.status;
+        this.mescroll.resetUpScroll();
+      },
+      // 惠生活订单
+      benefitLifeStatusChose: function (item) {
+        this.benefitLifeStatusChoseContent.selected = item.tabName;
+        this.benefitLifeStatusChoseContent.status = item.status;
+        this.mescroll.resetUpScroll();
+      },
+      setDate: function (timestamp) {
+        return tools.timestamp(timestamp)
+      },
+      // 跳转到家政订单详情页
+      jump: function (item) {
+        window.location.href = 'order-detail.html?id=' + item.id;
+      },
+      // 跳转到生活服务订单详情页
+      jumpLifeServiceDetail: function (item) {
+        window.location.href = window.location.origin + '/wx/order-list/service-order-detail.html?id=' + item.id;
+      },
+      // 跳转到商品订单详情页
+      jumpGoodsDetail: function (item) {
+        window.location.href = 'goods-order-detail.html?id=' + item.id;
+      },
+      // 家政服务付款
+      domesticPayMoney: function (item) {
+        this.payType.orderId = item.id;
+        this.payType.money = item.need_pay;
+        this.payType.type = 'domestic';
+        stores.setValue('payType', this.payType);
+        // 如果是微信浏览器直接发起微信公众号支付
+        if (tools.isWeChatBroswer()) {
+          tools.weChatPublicNumberPay();
+        } else {
+          window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+        }
+      },
+      // 生活服务付款
+      lifeServicePayMoney: function (item) {
+        // 存储订单参数
+        this.payType.orderId = item.id;
+        this.payType.money = item.pay_money;
+        this.payType.type = 'lifeService';
+        stores.setValue('payType', this.payType);
+        // 如果是微信浏览器直接发起微信公众号支付
+        if (tools.isWeChatBroswer()) {
+          tools.weChatPublicNumberPay();
+        } else {
+          window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+        }
+      },
+      // 商品服务付款
+      goodsPayMoney: function (item) {
+        // 存储订单参数
+        this.payType.orderId = item.id;
+        this.payType.money = item.pay_money;
+        this.payType.type = 'goods';
+        stores.setValue('payType', this.payType);
+        // 如果是微信浏览器直接发起微信公众号支付
+        if (tools.isWeChatBroswer()) {
+          tools.weChatPublicNumberPay();
+        } else {
+          window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+        }
+      },
+      // 惠生活付款
+      benefitLifePayMoney: function (item) {
+        // 下单后设置下单id放入缓存中，用于检查判断是否支付成功
+        stores.setPayOrderId(item.id);
+        // 存储订单参数
+        this.payType.orderId = item.id;
+        this.payType.money = item.real_price;
+        this.payType.type = 'benefitLife';
+        stores.setValue('payType', this.payType);
+        // 如果是微信浏览器直接发起微信公众号支付
+        if (tools.isWeChatBroswer()) {
+          tools.weChatPublicNumberPay();
+        } else {
+          window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+        }
+      },
+      // 去添加商品评价
+      toEvaluate: function (item) {
+        window.location.href = '/wx/evaluate/goods-evaluate.html?order_id=' + item.id;
+      },
+      // 去添加生活服务评价
+      toLifeServiceEvaluate: function (item) {
+        window.location.href = '/wx/evaluate/life-evaluate.html?life_order_id=' + item.id;
+      },
+      // 去添加家政服务评价
+      toServiceEvaluate: function (item) {
+        event.cancelBubble = true;
+        window.location.href = '/wx/evaluate/service-evaluate.html?service_order_id=' + item.id;
+      },
+
+      // 提醒发货
+      remind: function () {
+        tools.alert('提醒成功', 'success');
+      },
+      // 服务取消订单
+      cancelServiceOrder: function (item) {
+        var vm = this;
+        if (confirm("是否确认取消？")) {
+          http.post('life-order/cancel', {order_id: item.id}, function (data) {
+            tools.alert(data);
+            vm.mescroll.resetUpScroll();
+          })
+        }
+      },
+      // 服务删除订单
+      deleteServiceOrder: function (item) {
+        var vm = this;
+        if (confirm("是否确认删除？")) {
+          http.post('life-order/delete', {order_id: item.id}, function (data) {
+            tools.alert(data);
+            vm.mescroll.resetUpScroll();
+          })
+        }
+      },
+      // 商品取消订单
+      cancelOrder: function (item) {
+        var vm = this;
+        if (confirm("是否确认取消该订单？")) {
+          http.post('shop-order/cancel', {order_id: item.id}, function (data) {
+            tools.alert(data);
+            vm.mescroll.resetUpScroll();
+          })
+        }
+      },
+      // 删除订单
+      deleteOrder: function (item) {
+        var vm = this;
+        if (confirm("是否确认删除该订单？")) {
+          http.post('shop-order/delete', {order_id: item.id}, function (data) {
+            tools.alert(data);
+            vm.mescroll.resetUpScroll();
+          })
+        }
+      },
+      // 确认收货
+      sureOrder: function (item) {
+        var vm = this;
+        if (confirm("是否确认收货该订单？")) {
+          http.post('shop-order/confirm-goods', {order_id: item.id}, function (data) {
+            tools.alert(data);
+            vm.mescroll.resetUpScroll();
+          })
+        }
+      },
+      // 检查惠生活支付状态
+      checkIsPay: function (trueCallback, falseCallback) {
+        http.post('pay/pay-success', {
+          recommend_order_id: stores.getPayOrderId()
+        }, function (data) {
+          if (data) {
+            trueCallback();
+          } else {
+            falseCallback();
+          }
+        });
+      },
+      meScroll: function (_this, emptyIcon) {
+        _this = this;
+        emptyIcon = '/wx/static/images/blank_noorder@2x.png'
+        tools.myScroll(_this, false, false, false, emptyIcon);
+      }
+    },
+    mounted: function () {
+      var _this = this;
+      var payStatus = stores.getPayStatus();
+      if (payStatus) {
+        tools.confirm('是否已经支付完成', 'success', true, function () {
+          stores.setPayStatus(false);
+          _this.checkIsPay(function () {
+            stores.removePayOrderId();
+            setTimeout(function () {
+              tools.confirm('支付成功，啄木鸟客服会在两小时内与您联系，请保持电话畅通，谢谢！', 'success', false, function () {
+                window.location.href = window.location.origin + '/wx/pay-success.html';
+              })
+            }, 200)
+          }, function () {
+            tools.alert('暂未查询到您已支付完成，请再次确认', 'warning', 300);
+          });
+        }, function () {
+          stores.setPayStatus(false);
+        });
+      }
+      // 创建 MeScroll 对象
+      _this.meScroll();
+    }
+  })
+</script>

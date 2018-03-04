@@ -1,0 +1,24 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div id="exchange-detail" class="exchange-detail">
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="exchange-detail-info">
+
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#exchange-detail',
+    data: {
+      navTitle: '兑换详情'
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      }
+    },
+    mounted: function () {
+
+    }
+  })
+</script>
+

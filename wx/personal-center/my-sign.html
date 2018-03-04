@@ -1,0 +1,95 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="my-sign" id="sign" v-cloak>
+  <div class="set">
+    <div class="set-on color-8">我的签到</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+  </div>
+  <div class="sign-head">
+    <div class="all-score">
+      <div class="circle">
+        <div class="total-score font-0 color-2">{{ personal.sign_score }}</div>
+        <div class="tid font-4 color-8">我的积分</div>
+      </div>
+    </div>
+    <div class="sign">
+      <span @click="sign">签到</span>
+    </div>
+  </div>
+  <div class="go-score-shop" @click="scoreShop">
+    <img src="/wx/static/images/check_in_integral@2x.png">前往积分商城
+  </div>
+  <div class="score-con">
+    <div class="score-tittle" v-if="personal.whether_sign==1">
+      今日已签到<span class="color-2" v-if="personal.sign_day<5">+{{personal.sign_day*5}}</span>
+      <span class="color-2" v-else>+25</span>
+      &nbsp;&nbsp;&nbsp;连续签到<span class="color-2">{{personal.sign_day}}</span>天
+    </div>
+    <div class="score-tittle" v-if="personal.whether_sign==0">
+      今日未签到&nbsp;&nbsp;&nbsp;连续签到<span class="color-2">{{personal.sign_day}}</span>天
+    </div>
+    <div class="sign-list">
+      <div class="to-sign">
+        <div class="sign-score" :class="{chose : personal.sign_day==1}">+5</div>
+        <div class="day-total">1天</div>
+      </div>
+      <div class="to-sign">
+        <div class="sign-score" :class="{chose : personal.sign_day==2}">+10</div>
+        <div class="day-total">2天</div>
+      </div>
+      <div class="to-sign">
+        <div class="sign-score" :class="{chose : personal.sign_day==3}">+15</div>
+        <div class="day-total">3天</div>
+      </div>
+      <div class="to-sign">
+        <div class="sign-score" :class="{chose : personal.sign_day==4}">+20</div>
+        <div class="day-total">4天</div>
+      </div>
+      <div class="to-sign">
+        <div class="sign-score" :class="{chose : personal.sign_day>4}">+25</div>
+        <div class="day-total">>4天</div>
+      </div>
+    </div>
+    <div class="sign-rule">
+      <div class="rule-tittle">积分规则</div>
+      <div class="rule-con">
+        <p>1、消费即可获得，1元对应1积分</p>
+        <p>2、每天持续签到可以获得更多积分</p>
+        <p>3、参加活动也可获得积分赠送</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#sign',
+    data: {
+      personal: {},
+      signDay: ''
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      scoreShop: function () {
+        tools.alert('功能尚在开发中', 'warning');
+      },
+      getScore: function () {
+        var _this= this;
+        http.get('user-center/self-data', {expand:'sign_day,whether_sign'}, function (data) {
+          _this.personal = data
+        })
+      },
+      sign: function () {
+        var _this =this;
+        http.post('user-sign/sign', {}, function (data) {
+          tools.confirm(data.message, 'success', false, function () {
+            _this.getScore();
+          })
+        })
+      }
+    },
+    mounted: function () {
+      this.getScore();
+    }
+  })
+</script>

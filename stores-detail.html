@@ -1,0 +1,366 @@
+<link rel="import" href="/components/common/header.html?__inline">
+
+<!-- main主体内容 -->
+<div id="stores-detail" class="main" v-cloak>
+  <div class="mian_content">
+    <!-- 门店 -->
+    <div class="stores_bg">
+      <div class="stores_instr">
+        <div class="storesDetail_left fl">
+          <div class="left_content">
+            <div class="top_img">
+              <img src="/static/images/02门店_03.png">
+            </div>
+            <div class="stores_intro">
+              <h3 class="f20 c0">华夏中青家政保洁公司</h3>
+              <div class="detail_intro">
+                <p class="f16 c545454 p4">华夏中青家政服务项目： 一、育儿嫂：住家、不住家阿姨、月嫂、老人陪护、早教师（政府输送、安全可靠、员工制管理模式） 二、保洁：家庭保洁、公司保洁
+                  三、小时工：家庭卫生、洗衣做饭 、新居开荒我公司提供的阿姨家政责任险，免您后顾之忧。 让客户放心、称心、省心是我们的服务宗旨！</p>
+              </div>
+              <div class="stores_contact">
+                <ul>
+                  <li class="fl tel_left">
+                    <dl>
+                      <dt class="fl"><img src="/static/images/default_store.png"></dt>
+                      <dd class="fr">
+                        <h3 class="f20 c0">电话</h3>
+                        <p class="f16 c545454 p1">0512-67631020</p>
+                        <p class="f16 c545454 p1">13962845687</p>
+                      </dd>
+                    </dl>
+                  </li>
+                  <li class="fr addres_right">
+                    <dl>
+                      <dt class="fl"><img src="/static/images/02门店_09.png"></dt>
+                      <dd class="fr">
+                        <h3 class="f20 c0">地址</h3>
+                        <p class="f16 c545454 p2">江苏省苏州市吴江区太湖新城镇松陵镇油车路788号</p>
+                      </dd>
+                    </dl>
+                  </li>
+                </ul>
+              </div>
+              <!-- 附近门店 -->
+              <div class="stores_num">
+                <div class="stores_title">
+                  <i>
+                    <img src="/static/images/01预约服务---月嫂_08.png">
+                  </i>
+                  <span class="f24 c333">附近门店</span>
+                </div>
+                <div class="stores_list">
+                  <ul>
+                    <li>
+                      <h3 class="f20 c0">华夏中青家政保洁公司</h3>
+                      <div class="stores_detail">
+                        <div class="stores_tel">
+                          <span class="f16 c333">电话：</span>
+                          <p class="f16 c333">0512-67631020 ； 13962845687</p>
+                        </div>
+                        <div class="stores_address">
+                          <span class="f16 c333">地址：</span>
+                          <p class="f16 c333">江苏省苏州市吴江区太湖新城镇松陵镇油车路788号</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <h3 class="f20 c0">华夏中青家政保洁公司</h3>
+                      <div class="stores_detail">
+                        <div class="stores_tel">
+                          <span class="f16 c333">电话：</span>
+                          <p class="f16 c333">0512-67631020 ； 13962845687</p>
+                        </div>
+                        <div class="stores_address">
+                          <span class="f16 c333">地址：</span>
+                          <p class="f16 c333">江苏省苏州市吴江区太湖新城镇松陵镇油车路788号</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <h3 class="f20 c0">华夏中青家政保洁公司</h3>
+                      <div class="stores_detail">
+                        <div class="stores_tel">
+                          <span class="f16 c333">电话：</span>
+                          <p class="f16 c333">0512-67631020 ； 13962845687</p>
+                        </div>
+                        <div class="stores_address">
+                          <span class="f16 c333">地址：</span>
+                          <p class="f16 c333">江苏省苏州市吴江区太湖新城镇松陵镇油车路788号</p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="storesDetail_right fr">
+          <div class="right_content">
+            <h3 class="f18 c0">在线预约</h3>
+            <div class="region">
+              <ul>
+                <li class="fl">
+                  <p>请选择地区</p>
+                  <select class="f16 c0" v-model="selected">
+                    <option v-for="item in areaList" :value="item.name">{{ item.name }}</option>
+                  </select>
+                </li>
+              </ul>
+            </div>
+            <!--<div class="region_address">-->
+            <!--<input class="f16 c0" type="text" name="address" placeholder="请填写具体服务地址">-->
+            <!--<i></i>-->
+            <!--</div>-->
+            <div class="region_lever">
+              <ul>
+                <li v-for="item in commonFormAttributes" class="fl">
+                  <p class="p1">{{ item.label }}</p>
+                  <select class="f16 c0" v-model="item.selected">
+                    <option v-for="value in item.options" class="f16 c0" :value="value">{{ value }}</option>
+                  </select>
+                </li>
+              </ul>
+            </div>
+            <div v-if="form.service_code==1001">
+              <link rel="import" href="/components/stores-detail/stores_detail_1001.html?__inline">
+            </div>
+            <div v-if="form.service_code==1002">
+              <link rel="import" href="/components/stores-detail/stores_detail_1002.html?__inline">
+            </div>
+            <div v-if="form.service_code==1003">
+              <link rel="import" href="/components/stores-detail/stores_detail_1003.html?__inline">
+            </div>
+            <div v-if="form.service_code==1004">
+              <link rel="import" href="/components/stores-detail/stores_detail_1004.html?__inline">
+            </div>
+            <div v-if="form.service_code==1005">
+              <link rel="import" href="/components/stores-detail/stores_detail_1005.html?__inline">
+            </div>
+            <div v-if="form.service_code==1006">
+              <link rel="import" href="/components/stores-detail/stores_detail_1006.html?__inline">
+            </div>
+            <div class="region_btn">
+              <button @click="submitForm" class="region_submit f20 cf">立即预约</button>
+            </div>
+            <div class="prompt">
+              <p class="f14 c0 p3">每日9:00-17:00提交的订单，30分钟之内与您联系。其余时间收到订单后，我们会在次日12:00前与您联系。请保持手机畅通！</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 左边浮动 -->
+    <div class="left_service">
+      <div class="suspension">
+        <div class="suspension_detail active">
+          <i><img src="/static/images/arrow_left.png"></i>
+          <p class="cf f14 textaling">服务选择</p>
+          <div class="left_list">
+            <ul>
+              <li>
+                <a href="reservation.html?code=1001">
+                  <dl>
+                    <dt class="fl f16 cf">月嫂</dt>
+                    <dd class="fr"><img src="/static/images/arrow_left.png"></dd>
+                  </dl>
+                </a>
+              </li>
+              <li>
+                <a href="/reservation.html?code=1002">
+                  <dl>
+                    <dt class="fl f16 cf">育婴师</dt>
+                    <dd class="fr"><img src="/static/images/arrow_left.png"></dd>
+                  </dl>
+                </a>
+              </li>
+              <li>
+                <a href="/reservation.html?code=1003">
+                  <dl>
+                    <dt class="fl f16 cf">保姆</dt>
+                    <dd class="fr"><img src="/static/images/arrow_left.png"></dd>
+                  </dl>
+                </a>
+              </li>
+              <li>
+                <a href="/reservation.html?code=1004">
+                  <dl>
+                    <dt class="fl f16 cf">护工</dt>
+                    <dd class="fr"><img src="/static/images/arrow_left.png"></dd>
+                  </dl>
+                </a>
+              </li>
+              <li>
+                <a href="reservation.html?code=1005">
+                  <dl>
+                    <dt class="fl f16 cf">保洁</dt>
+                    <dd class="fr"><img src="/static/images/arrow_left.png"></dd>
+                  </dl>
+                </a>
+              </li>
+              <li>
+                <a href="/reservation.html?code=1006">
+                  <dl>
+                    <dt class="fl f16 cf">钟点工</dt>
+                    <dd class="fr"><img src="/static/images/arrow_left.png"></dd>
+                  </dl>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#stores-detail',
+    data: {
+      commonFormAttributes: [
+        {
+          name: 'education',
+          label: '学历',
+          options: ['不限', '小学', '初中', '高中', '中专', '大专', '本科及以上'],
+          selected: '不限'
+        },
+        {
+          name: 'star',
+          label: '星级',
+          options: ['不限', '一星', '二星', '三星', '四星', '五星'],
+          selected: '不限'
+        },
+        {
+          name: 'experience',
+          label: '经验',
+          options: ['不限', '1年以下', '1-2年', '3-5年', '6-8年', '8年以上'],
+          selected: '不限'
+        },
+        {
+          name: 'age',
+          label: '年龄',
+          options: ['不限', '35岁以下', '36~40岁', '41~45岁', '46~50岁', '50岁以上'],
+          selected: '不限'
+        }
+      ],
+      otherFormAttributes: {
+        1001: {
+          twinsExperience: false,
+          pretermBirthExperience: false,
+          dueDate: ''
+        },
+        1002: {
+          twinsExperience: false,
+          pretermBirthExperience: false,
+          dueDate: '',
+          formAttributes: [
+            {
+              name: 'babyAge',
+              label: '宝宝年龄',
+              options: ['不限', '0-1岁', '1-2岁', '2-3岁', '3-4岁', '4-5岁', '5-6岁'],
+              selected: '不限'
+            },
+            {
+              name: 'babySex',
+              label: '宝宝性别',
+              options: ['不限', '男', '女'],
+              selected: '不限'
+            },
+            {
+              name: 'used',
+              label: '用过育婴师否',
+              options: ['不限', '有', '否'],
+              selected: '不限'
+            }
+          ]
+        },
+        1003: {
+          formAttributes: [
+            {
+              name: 'type',
+              label: '类型',
+              options: ['不限', '住家保姆（月休4天）', '非住家保姆（月休4天）'],
+              selected: '不限'
+            },
+            {
+              name: 'nannyWork',
+              label: '保姆工作',
+              options: ['不限', '照顾不能自理老人', '照顾小孩', '保洁+家务+做饭', '医院看护'],
+              selected: '不限'
+            }
+          ]
+        },
+        1005: {
+          formAttributes: [
+            {
+              name: 'cleaningProject',
+              label: '保洁项目',
+              options: ['不限', '日常保洁', '开荒保洁', '深度保洁', '长期钟点工', '地毯清洁'],
+              selected: '不限'
+            }
+          ]
+        }
+      },
+      areaList: [],
+      form: {
+        service_code: http.getQuery('code'),
+        ad_code: '',
+        detail_json: ''
+      }
+    },
+    methods: {
+      submitForm: function () {
+        var formDetail = {};
+        $.each(this.commonFormAttributes, function (index, item) {
+          formDetail[item.label] = item.selected;
+        });
+        var specialRequirements = this.otherFormAttributes[this.form.service_code];
+        switch (this.form.service_code) {
+          case '1001':
+            formDetail['双胞胎经验'] = specialRequirements.twinsExperience ? '需要' : '不需要';
+            formDetail['早产儿经验'] = specialRequirements.pretermBirthExperience ? '需要' : '不需要';
+            formDetail['预产期'] = specialRequirements.dueDate;
+            break;
+          case '1002':
+            $.each(this.otherFormAttributes[1002].formAttributes, function (index, item) {
+              formDetail[item.label] = item.selected;
+            });
+            formDetail['双胞胎经验'] = specialRequirements.twinsExperience ? '需要' : '不需要';
+            formDetail['早产儿经验'] = specialRequirements.pretermBirthExperience ? '需要' : '不需要';
+            formDetail['预产期'] = specialRequirements.dueDate;
+            break;
+          case '1003':
+            $.each(this.otherFormAttributes[1003].formAttributes, function (index, item) {
+              formDetail[item.label] = item.selected;
+            });
+            break;
+          case '1005':
+            $.each(this.otherFormAttributes[1005].formAttributes, function (index, item) {
+              formDetail[item.label] = item.selected;
+            });
+            break;
+          default:
+            tools.pcAlert('未知服务类型，下单失败', 'error');
+            return false;
+            break;
+        }
+        this.form.detail_json = JSON.stringify(formDetail);
+        http.post('order/simple', this.form, function () {
+          tools.pcAlert('下单成功', 'success');
+        })
+      },
+      getAreaList: function () {
+        var vm = this;
+        http.get('area/areas', {
+          city_code: stores.getCityObj().ad_code
+        }, function (data) {
+          vm.areaList = data;
+        })
+      }
+    },
+    mounted: function () {
+      this.getAreaList();
+    }
+  })
+</script>
+<link rel="import" href="/components/common/footer.html?__inline">

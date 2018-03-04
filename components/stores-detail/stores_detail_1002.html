@@ -1,0 +1,33 @@
+<div class="region_lever">
+  <ul>
+    <li v-for="item in otherFormAttributes[1002].formAttributes" class="fl">
+      <p class="p1">{{ item.label }}</p>
+      <select class="f16 c0" v-model="item.selected">
+        <option v-for="value in item.options" class="f16 c0" :value="value">{{ value }}</option>
+      </select>
+    </li>
+  </ul>
+</div>
+
+<div class="region_other clear">
+  <div class="other_select">
+    <i class="f36" style="color: red;">*</i>
+    <span class="f16 c0">其它可选</span>
+  </div>
+  <div class="checkbox_select">
+    <a href="javascript:void(0);">
+      <label class="f16 c0"><input v-model="otherFormAttributes[1002].twinsExperience" name="twin" type="checkbox"
+                                   value="">双胞胎经验 </label>
+    </a>
+    <a href="javascript:void(0);">
+      <label class="f16 c0"><input v-model="otherFormAttributes[1002].pretermBirthExperience" name="premature"
+                                   type="checkbox" value="">早产儿经验 </label>
+    </a>
+  </div>
+  <div class="predict">
+    <a href="javascript:void(0);">
+      <label class="f16 c0">预产期:<input v-model="otherFormAttributes[1002].dueDate" id="date" type="text"
+                                       placeholder="请选择预产期"></label>
+    </a>
+  </div>
+</div>

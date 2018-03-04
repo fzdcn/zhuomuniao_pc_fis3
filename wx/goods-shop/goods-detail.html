@@ -1,0 +1,629 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="micro-shop" id="goods" v-cloak>
+  <div class="topbar">
+    <div class="list clearfix">
+      <a class="ware" :class="{ active: clickProducts}" @click="showProducts">商品</a>
+      <a class="detail" :class="{ active: clickDetails}" @click="showDetails">详情</a>
+      <a class="comment" :class="{ active: clickComments}" @click="showComments">评价</a>
+    </div>
+    <img class="back" src="/wx/static/images/back_black@2x.png" @click="back">
+    <a @click="toCart"><img class="shop-img" src="/wx/static/images/commodity_shopping_cart@2x.png"></a>
+    <!--<img class="share" src="wx/static/images/commodity_share@2x.png" alt="">-->
+  </div>
+  <div v-if="isShow" class="mescroll-touch">
+    <!--商品页-->
+    <div v-if="clickProducts" class="micro-goods">
+      <div class="banner">
+        <div class="banner-list">
+          <div id="banner-container" class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide textaling" v-for="(item,index) in bannerImg">
+                <img @click="imgPreview(0,index,'openGoodsImgs')" :src="item" :preview="0" class="openGoodsImgs">
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+      <div class="shop-msg clearfix">
+        <div class="now-price fl color-h">
+          <i class="color-red">￥</i>{{ goodsDetail.price }}
+          <!--<span>￥{{ goodsDetail.price }}</span>-->
+        </div>
+        <div class="collect fr" @click="collect">
+          <a>
+            <img class="col-img"
+                 :src="this.code==1 ? '/wx/static/images/commodity_collect_green@2x.png' : '/wx/static/images/commodity_collect_grey@2x.png'">
+            <div class="tit t-collection">{{ this.code==1 ? '已收藏' : '收藏'}}</div>
+          </a>
+        </div>
+        <div class="fr shop-shu color-99">|</div>
+        <div class="al-sell color-99 fr">已售 {{ goodsDetail.sale_number }}</div>
+      </div>
+      <div class="text">
+        <div class="tit color-8">{{ goodsDetail.name }}</div>
+        <div class="con color-8">
+          {{ goodsDetail.describe }}
+        </div>
+      </div>
+      <div class="kong"></div>
+      <div class="other">
+        <div class="fare color-99">
+          运费<span class=" fare-many color-8">满88元包邮</span>
+        </div>
+        <div class="fare color-99">
+          说明
+          <img class="tick" src="/wx/static/images/commodity_description@2x.png" alt="">
+          <span class="color-8">正品保证</span>
+          <img class="tick" src="/wx/static/images/commodity_description@2x.png" alt="">
+          <span class="color-8">7天保价</span>
+        </div>
+      </div>
+      <div class="kong" style="height: 1.01rem;"></div>
+    </div>
+    <!--详情页-->
+    <div v-if="clickDetails" class="micro-details mescroll-touch">
+      <div class="about-price">
+        <div v-html="goodsDetail.details">
+        </div>
+      </div>
+      <div style="height: 1.01rem;"></div>
+    </div>
+    <!--评价页-->
+    <div id="mescroll" class="mescroll comment-list" v-show="clickComments">
+      <div class="micro-comment">
+        <div class="user-comment">
+          <div class="service-evaluate-tab">
+            <div class="tab-change">
+              <div class="fl p1 map right-j" v-for="item in optionList"
+                   :class="selected == item.id ? 'selected':'cancel-selected'" @click="option(item)">
+                {{item.name}}({{item.num}})
+              </div>
+            </div>
+          </div>
+          <div v-for="(item,outerIndex) in review" class="list">
+            <div class="user clearfix">
+              <div class="img fl"><img @click="imgPreview(outerIndex,0,'openHeadImg')" src="" v-lazy="item.head_image"
+                                       :preview="outerIndex" class="openHeadImg"></div>
+              <div class="user-name fl color-8">{{ item.username }}</div>
+              <div class="time fr">评论于: {{ timestamp(item.created_at) }}</div>
+            </div>
+            <div class="user-evaluate color-8">{{ item.evaluate }}</div>
+            <div class="user-goods" v-if="item.photos.length>0">
+              <img @click="imgPreview(outerIndex,index,'openImgs')" v-for="(t,index) in item.photos"
+                   :preview="outerIndex"
+                   class="openImgs" src="" v-lazy="t">
+            </div>
+            <div class="spe clearfix" v-for="i in item.shop_goods">
+              <div class="con fl font-4 color-99">已选:{{ i.name }}</div>
+              <!--<div class="com fr"><img src="images/eventdetails_comments.png" alt=""></div>-->
+              <!--<div class="zan fr "><img
+                  :src="item.is_support==1 ? 'images/eventdetails_like_red.png' : 'images/eventdetails_like_grey.png'"
+                  @click="pointPraise(item)"><span class="color-1">{{ item.support }}</span>
+              </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-if="!isShow">
+    商品已下架
+    <img src="/wx/static/images/blank_no_goods.png" alt="">
+  </div>
+  <!--底部按钮-->
+  <div class="decision fl" v-if="goodsDetail.status==20">
+    <div class="goods-status">商品已下架</div>
+    <div class="situation fl">
+      <a class="add-cart">加入购物车</a>
+    </div>
+    <div class="situation fl">
+      <a class="active">立即购买</a>
+    </div>
+  </div>
+  <div class="decision fl" v-if="goodsDetail.status==10">
+    <div class="situation fl">
+      <a class="add-cart" @click="openCart">加入购物车</a>
+    </div>
+    <div class="situation fl">
+      <a class="active" @click="showSubmit">立即购买</a>
+    </div>
+  </div>
+  <!--弹出窗口加入购物车-->
+  <div v-if="cartShow">
+    <div class="choice-popup">
+      <div class="pop">
+        <div class="topbar"></div>
+        <div class="top clearfix">
+          <div class="top-img fl">
+            <img :src="goodsDetail.cover_photo">
+          </div>
+          <div class="con fl">
+            <div class="tit color-8">{{ goodsDetail.name }}</div>
+            <div class="many color-h">￥{{ current_price }}</div>
+          </div>
+          <div class="close">
+            <img src="/wx/static/images/choose_category_close@2x.png" @click="closeShow">
+          </div>
+        </div>
+        <div class="classic clearfix">
+          <div class="type color-8">分类</div>
+          <div class="classify-list">
+            <div class="classify-item color-99" :class="{'select-type' : choice==item.id }"
+                 v-for="item in goodsDetail.shop_property" @click="chooseType(item)" v-if="item.status==10">
+              {{item.tag_name}}
+            </div>
+            <div class="classify-item color-99 no-sale" :class="{'select-type' : choice==item.id }"
+                 v-for="item in goodsDetail.shop_property" @click="chooseType(item)" v-if="item.status==20">
+              {{item.tag_name}}
+            </div>
+          </div>
+        </div>
+        <div class="num clearfix">
+          <div class="word fl color-8">数量</div>
+          <div class="add fr"><img
+            :src="this.number<this.maxNum ? '/wx/static/images/Product_shopping_cart_plus@2x.png' : '/wx/static/images/submit_order_plus@2x.png'"
+            @click="addQuantity"></div>
+          <div class="much fr color-8">{{ number }}</div>
+          <div class="reduce fr"><img
+            :src="this.number<2 ? '/wx/static/images/Product_shopping_cart_less_grey@2x.png' : '/wx/static/images/Product_shopping_cart_less@2x.png'"
+            @click="reduceQuantity"></div>
+        </div>
+        <div class="sure clearfix">
+          <div class="situation fl">
+            <a class="la-add-cart" @click="addGoods">确定</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--立即购买弹出窗口选择分类-->
+  <div v-if="chooseShow">
+    <link rel="import" href="submit-choose-type.html?__inline">
+  </div>
+  <!--弹出窗口填写订单信息-->
+  <div v-if="orderShow">
+    <link rel="import" href="submit-order.html?__inline">
+  </div>
+  <!--弹出窗口地址选择-->
+  <div v-if="isAddress">
+    <link rel="import" href="choose-address.html?__inline">
+  </div>
+</div>
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3
+  });
+  var goodsId = http.getQuery('goods_id');
+  var vm = new Vue({
+    el: '#goods',
+    data: {
+      mescroll: null,
+      goodsDetail: '',
+      code: '',
+      review: [],
+      cartShow: false,
+      orderShow: false,
+      clickProducts: true,
+      clickDetails: false,
+      clickComments: false,
+      number: 1,
+      showPriceDetails: false,
+      defaultAddress: {},
+      addressList: [],
+      isAddress: false,
+      remark: '',
+      map: 1,
+      selected: 1,
+      score: '',
+      choice: false, // 商品分类默认不选
+      choiceId: '',
+      chooseShow: false,
+      maxNum: '',
+      allSum: 0,
+      goodsSum: 0,
+      mediumSum: 0,
+      badSum: 0,
+      photosSum: 0,
+      current_price: '',
+      // 构造付款参数
+      payType: {
+        orderId: '', // 设置需要付款的id
+        money: '', // 设置需要付款的金额
+        type: '' // 设置家政服务付款类型为 payType = domestic
+      },
+      bannerImg: []
+    },
+    computed: {
+      optionList: function () {
+        return [{
+          name: '全部',
+          id: 1,
+          num: this.allSum,
+          photos: 0
+        }, {
+          name: '好评',
+          id: 2,
+          num: this.goodsSum,
+          score: 80
+        }, {
+          name: '中评',
+          id: 3,
+          num: this.mediumSum,
+          score: 40
+        }, {
+          name: '差评',
+          id: 4,
+          num: this.badSum,
+          score: 20
+        }, {
+          name: '有图',
+          id: 5,
+          num: this.photosSum,
+          photos: 1
+        }]
+      },
+      isShow: function () {
+        var isShow = true;
+        if(this.goodsDetail){
+          return isShow
+        } else{
+          return !isShow
+        }
+      }
+    },
+    methods: {
+      // 返回上一页
+      back: function () {
+        tools.goBack();
+      },
+      // 进入商品购物车，并记住页面
+      toCart: function () {
+        window.location.href = 'shopping-cart.html';
+      },
+      bannerScroll: function () {
+        var mySwiper = new Swiper('#banner-container', {
+          direction: 'horizontal',
+          loop: false,
+          speed: 500,
+          autoplay: 3000,
+          // 用户操作 swiper 之后，是否禁止 autoplay 。默认为 true：停止。
+          autoplayDisableOnInteraction: false,
+          // 如果需要分页器
+          pagination: '.swiper-pagination'
+        })
+      },
+      // 判断当前商品是否已收藏
+      isCollect: function () {
+        var _this = this;
+        http.get('shop-collect/is-collect', {goods_id: goodsId}, function (data) {
+          _this.code = data
+        })
+      },
+      // 收藏
+      collect: function () {
+        var _this = this;
+        http.post('shop-collect/add-or-cancel', {goods_id: goodsId}, function (data) {
+          tools.alert(data.msg, 'success');
+          _this.code = data.code;
+        })
+      },
+      // 获取商品详情
+      getDetail: function () {
+        var _this = this;
+        http.get('shop-goods/view', {
+          id: goodsId,
+          expand: 'shop_property'
+        }, function (data) {
+          if (data) {
+            _this.goodsDetail = data;
+            if (data.photos && data.photos.length > 0) {
+              _this.bannerImg = data.photos;
+              stores.setGoodsBanner(data.photos);
+            }
+            _this.$nextTick(function () {
+              _this.bannerScroll();
+              _this.meScroll();
+            });
+          } else {
+            tools.alert('商品已下架', 'waring');
+          }
+        });
+      },
+      addQuantity: function () {
+        if (this.maxNum != '') {
+          this.number += 1;
+          if (this.number > this.maxNum) {
+            this.number = this.maxNum;
+            tools.alert('商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('请先选择一个商品分类', 'warning');
+        }
+      },
+      reduceQuantity: function () {
+        this.number -= 1;
+        if (this.number < 1) {
+          this.number = 1;
+          tools.alert('商品数量不能小于1', 'warning');
+        }
+      },
+      // 打开加入购物车窗口
+      openCart: function () {
+        this.cartShow = true;
+        this.current_price = this.goodsDetail.price;
+      },
+      // 选择商品分类
+      chooseType: function (item) {
+        if (item.status == 10) {
+          if (item.quantity > 0) {
+            this.choice = item.id;
+            this.current_price = item.sale_price;
+            this.choiceId = item.id;
+            this.maxNum = item.quantity;
+          } else {
+            tools.alert('该商品库存不足', 'warning');
+          }
+        } else {
+          tools.alert('商品已下架', 'warning');
+        }
+      },
+      // 加入购物车
+      addGoods: function () {
+        var _this = this;
+        if (!_this.choiceId) {
+          tools.alert('请选择一个商品分类加入购物车', 'warning');
+        } else {
+          http.post('shop-cart/add', {property_id: _this.choiceId, number: _this.number}, function (data) {
+            tools.alert(data, 'success');
+            _this.closeShow();
+          });
+        }
+      },
+      // 关闭加入购物车窗口
+      closeShow: function () {
+        this.cartShow = false;
+        this.chooseShow = false;
+        this.choice = false;
+        this.choiceId = '';
+        this.number = 1;
+        this.maxNum = '';
+      },
+      // 顶部按钮切换
+      // 显示商品详情
+      showDetails: function () {
+        this.clickDetails = true;
+        this.clickProducts = false;
+        this.clickComments = false;
+      },
+      // 显示商品评论
+      showComments: function () {
+        this.clickComments = true;
+        this.clickDetails = false;
+        this.clickProducts = false;
+        this.getSum();
+        this.mescroll.resetUpScroll();
+      },
+      // 显示该商品信息
+      showProducts: function () {
+        this.clickComments = false;
+        this.clickDetails = false;
+        this.clickProducts = true;
+//        window.location.reload();
+        this.getDetail();
+        this.mescroll.removeEmpty();
+        $('.mescroll-downwarp').remove();
+        $('.mescroll-upwarp').remove();
+      },
+      // 是否显示价格明细
+      isShowDetails: function () {
+        this.showPriceDetails = !this.showPriceDetails;
+      },
+      // 显示立即下单选择商品分类
+      showSubmit: function () {
+        this.chooseShow = true;
+        this.current_price = this.goodsDetail.price;
+      },
+      // 弹出立即下单窗口
+      openOrder: function () {
+        if (this.choiceId) {
+          this.chooseShow = false;
+          this.orderShow = true;
+          this.getDefaultAddress();
+        } else {
+          tools.alert('请先选择商品分类', 'warning');
+        }
+      },
+      // 获取默认地址,若获取不到则进入增加地址页面
+      getDefaultAddress: function () {
+        http.get('user-address/get-default', {expand: 'address'},
+          function (data) {
+            vm.defaultAddress = data;
+          },
+          function (data) {
+            if (data.status === 422) {
+              tools.confirm("请先添加收货地址", 'warning', false, function () {
+                window.location.href = '../personal-center/add-address.html';
+              });
+            }
+          })
+      },
+      // 打开地址选择窗口
+      showAddressList: function () {
+        this.isAddress = true;
+        this.getAddressList();
+      },
+      // 获取我的地址列表
+      getAddressList: function () {
+        http.get('user-address/list', {
+          expand: 'address'
+        }, function (data) {
+          vm.addressList = data.items
+        })
+      },
+      // 选择下单地址
+      selectAddress: function (item) {
+        this.defaultAddress.address = item.address;
+        this.defaultAddress.id = item.id;
+        this.isAddress = false;
+      },
+      // 提交订单
+      submit: function () {
+        var _this = this;
+        http.post('shop-order/buy-now', {
+          property_id: _this.choiceId,
+          address_id: _this.defaultAddress.id,
+          quantity: _this.number,
+          remark: _this.remark
+        }, function (data) {
+          _this.closeOrderShow();
+          // 存储订单参数
+          _this.payType.orderId = data.shop_order_id;
+          _this.payType.money = data.pay_money;
+          _this.payType.type = 'goods';
+          stores.setValue('payType', _this.payType);
+          // 如果是微信浏览器直接发起微信公众号支付
+          if (tools.isWeChatBroswer()) {
+            tools.weChatPublicNumberPay();
+          } else {
+            window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+          }
+        })
+      },
+      // 关闭立即下单界面
+      closeOrderShow: function () {
+        this.orderShow = false;
+        this.choiceId = '';
+        this.choice = false;
+        this.number = 1;
+        this.maxNum = '';
+      },
+      // 格式化时间
+      timestamp: function (item) {
+        return tools.timestamp(item)
+      },
+      // 评论点赞
+      /* pointPraise: function (item) {
+       this.point = true;
+       var _this = this;
+       http.post('my-evaluate/my-goods-support', {evaluate_id: item.id}, function (data) {
+       if (data.data.type === 'error') {
+       alert("您已经点过赞啦！");
+       }
+       _this.getData();
+       });
+       },*/
+      /*getGoodsEvaluate: function () {
+       var _this  = this;
+       http.get('shop-goods-evaluate/list', {goodsId: goodsId, expand: 'support,user,goods,is_support'}, function (data) {
+       _this.review = data.data
+       });
+       },*/
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        if (_this.clickComments) {
+          if (_this.selected == 1) {
+            http.get('shop-goods/evaluate-list', {
+              per_page: page.size,
+              page: page.num,
+              goods_id: goodsId,
+              has_photos: 0,
+              expand: 'shop_goods'
+            }, function (data) {
+              // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+              _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+              // 设置列表数据
+              _this.setListData(data, page.num, true);
+            }, function () {
+              // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+              _this.mescroll.endErr();
+            })
+          } else if (_this.selected == 5) {
+            http.get('shop-goods/evaluate-list', {
+              per_page: page.size,
+              page: page.num,
+              goods_id: goodsId,
+              has_photos: 1,
+              expand: 'shop_goods'
+            }, function (data) {
+              // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+              _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+              // 设置列表数据
+              _this.setListData(data, page.num, true);
+            }, function () {
+              // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+              _this.mescroll.endErr();
+            })
+          } else {
+            http.get('shop-goods/evaluate-list', {
+              per_page: page.size,
+              page: page.num,
+              goods_id: goodsId,
+              score: _this.score,
+              expand: 'shop_goods'
+            }, function (data) {
+              // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+              _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+              // 设置列表数据
+              _this.setListData(data, page.num, true);
+            }, function () {
+              // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+              _this.mescroll.endErr();
+            })
+          }
+        }
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        if (isAppend && pageNum == 1) {
+          this.review = data.items;
+        } else if (isAppend && pageNum > 1) {
+          this.review = this.review.concat(data.items);
+        }
+      },
+      option: function (item) {
+        this.selected = item.id;
+        this.score = item.score;
+        this.mescroll.resetUpScroll();
+      },
+      // 统计评价数量
+      getSum: function () {
+        var _this = this;
+        http.get('shop-goods/evaluate-sum', {goods_id: goodsId}, function (data) {
+          _this.evaluateSum = data;
+          _this.allSum = data.all_sum;
+          _this.goodsSum = data.goods_sum;
+          _this.mediumSum = data.medium_sum;
+          _this.badSum = data.bad_sum;
+          _this.photosSum = data.photos_sum;
+        })
+      },
+      // 图片预览
+      imgPreview: function (outerIndex, index, bindClass) {
+        tools.openPhotoSwipe(outerIndex, index, bindClass);
+      },
+      meScroll: function (_this, emptyIcon, empty) {
+        _this = this;
+        emptyIcon = '/wx/static/images/blank_no_service@2x.png';
+        empty = {
+          warpId: "mescroll",
+          icon: emptyIcon,
+          tip: "",
+          btntext: ""
+        }
+        tools.myScroll(_this, false, false, true, false, empty);
+      }
+    },
+    mounted: function () {
+      this.getDetail();
+      this.bannerImg = stores.getGoodsBanner();
+      if (stores.getAccessToken()) {
+        this.isCollect();
+      }
+    }
+  })
+</script>

@@ -1,0 +1,276 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+
+<div id="move-detail" class="move-detail" v-cloak>
+  <div :class="{'bg':isShow==true}" class="set-top">
+    <template v-if="isShow">
+      <img @click="back" src="/wx/static/images/service_details_back_two@2x%202.png" class="fl set-back">
+      <img @click="" src="/wx/static/images/service_details_message_two@2x.png" class="fr message">
+      <!--<img @click="" src="/wx/static/images/service_details_shopping_cart_two@2x%202.png" class="fr shopping-cart">-->
+    </template>
+    <template v-else>
+      <img @click="back" src="/wx/static/images/service_details_back@2x.png" class="fl set-back">
+      <img @click="" src="/wx/static/images/service_details_message@2x.png" class="fr message">
+      <!--<img @click="" src="/wx/static/images/service_details_shopping_cart@2x.png" class="fr shopping-cart">-->
+    </template>
+  </div>
+  <div class="move-banner">
+    <div class="banner-list">
+      <div id="banner-container" class="swiper-container">
+        <div class="swiper-wrapper">
+          <div v-for="(itemPhoto,index) in lifeServiceDetail.photos" class="swiper-slide textaling">
+            <a href="javascript:void(0);">
+              <img @click="imgPreview(0,index,'openImgs')" :preview="0" class="openImgs"
+                   :src="itemPhoto ? itemPhoto : '/wx/static/images/shop_loading@2x.png'" alt="活动">
+            </a>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+  <div class="move-info">
+    <div class="info-detail">
+      <div class="title">{{ lifeServiceDetail.name }}</div>
+      <div class="discount">
+        <div class="fl p1 promotion">促销可用</div>
+        <div class="fl p1 coupon">优惠卷可用</div>
+      </div>
+      <div class="money">
+        <span class="money-number">¥{{ lifeServiceDetail.sale_price }}</span>
+        <span class="single">/次</span>
+      </div>
+      <div class="lever-info">
+        <div class="fl lever" v-if="lifeServiceDetail.stars">
+          <img v-for="val in star[lifeServiceDetail.stars].options" :src="val" alt="评价">
+        </div>
+        <div class="fl p1 lever-number">{{ lifeServiceDetail.stars }}</div>
+        <div class="fl liner"></div>
+        <div class="fl p1 sold">已售{{ lifeServiceDetail.sale_volume }}</div>
+        <div class="fr p1 praise-rate">好评率{{ lifeServiceDetail.praise_rate * 100 }}%</div>
+      </div>
+    </div>
+    <div class="service-label">
+      <div class="list-detail">
+        <div class="fl label-list"><img src="/wx/static/images/service_details_money@2x.png" alt="服务标签">无额外收费</div>
+        <div class="fl label-list"><img src="/wx/static/images/service_details_return@2x.png" alt="服务标签">爽约退全款</div>
+        <div class="fl label-list"><img src="/wx/static/images/service_details_unqualified@2x.png" alt="服务标签">不合格重服务
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="service-content">
+    <div class="service-title">服务内容</div>
+    <div class="content-list">
+      <div class="content-detail">
+        <div v-html="lifeServiceDetail.details" class="content-text">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ordering-information">
+    <div class="service-title">预定须知</div>
+    <div class="content-list">
+      <div class="content-detail">
+        <div class="content-text">
+          <p>{{ lifeServiceDetail.prompt }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-evaluate">
+    <div class="evaluate-head">
+      <div class="fl title">用户评价</div>
+      <div class="fl number">({{ evaluateSum.all_sum }})</div>
+    </div>
+    <div class="evaluate-detail">
+      <div v-if="outerIndex == 0" v-for="(item,outerIndex) in lifeServiceEvaluate" class="evaluate-list">
+        <div class="user-img">
+          <img @click="imgPreview(outerIndex,0,'openHeadImg')" v-lazy="item.head_image" src="" alt="用户头像"
+               :preview="outerIndex" class="openHeadImg">
+        </div>
+        <div class="user-info">
+          <div class="p1 fl user-name">{{ item.username }}</div>
+          <div class="fr time">{{ setDate(item.created_at) }}</div>
+        </div>
+        <div class="lever-detail">
+          <div class="fl lever-title">评分</div>
+          <div class="fl lever" v-if="item.stars">
+            <img v-for="val in star[item.stars].options" :src="val" alt="评价">
+          </div>
+        </div>
+        <div class="evaluate-text">
+          <div class="info-detail">{{ item.evaluate }}</div>
+          <div class="evaluate-img" v-if="item.photos">
+            <img @click="imgPreview(outerIndex,index,'openImgs')" v-for="(val,index) in item.photos" class="fl openImgs"
+                 v-lazy="val"
+                 src="" alt="用户评论图片" :preview="outerIndex">
+          </div>
+        </div>
+      </div>
+
+      <div class="see-more">
+        <div @click="jumpEvaluate" class="see-more-buttom">
+          查看全部评价
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="appointment">
+    <div class="appointment-list">
+      <!--<div class="fl customer-service">-->
+      <!--<img src="/wx/static/images/service_details_contact@2x.png" alt="联系客服">-->
+      <!--<p>联系客服</p>-->
+      <!--</div>-->
+      <div class="fl life-collection">
+        <img @click="myCollection"
+             :src="this.collection==1 ? '/wx/static/images/service_details_collection_green@2x.png' : '/wx/static/images/service_details_collection_grey@2x.png'"
+             alt="收藏">
+        <p>{{ this.collection==1 ? '已收藏' : '收藏' }}</p>
+      </div>
+      <!--<div class="fl shopping-cart">-->
+      <!--<img src="/wx/static/images/service_details_shopping_cart_grey@2x.png" alt="加入购物车">-->
+      <!--<p>加入购物车</p>-->
+      <!--</div>-->
+      <div @click="jumpImmediateReservation" class="fr immediate-reservation">立即预约</div>
+    </div>
+  </div>
+</div>
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#move-detail',
+    data: {
+      bannerHeight: '',
+      isShow: false,
+      lifeServiceDetail: {},
+      lifeServiceEvaluate: [],
+      evaluateSum: {},
+      collection: ''
+    },
+    computed: {
+      star: function () {
+        return tools.starLever.star;
+      }
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      jumpEvaluate: function () {
+        window.location.href = window.location.origin + '/wx/life-service/service-evaluate.html?id=' + http.getQuery('id');
+      },
+      bannerScroll: function () {
+        var mySwiper = new Swiper('#banner-container', {
+          direction: 'horizontal',
+          loop: false,
+          speed: 500,
+          autoplay: 2000,
+          // 用户操作 swiper 之后，是否禁止 autoplay 。默认为 true：停止。
+          autoplayDisableOnInteraction: false,
+          // 如果需要分页器
+          pagination: '.swiper-pagination',
+          // paginationType : 'custom',
+          // 如果需要前进后退按钮
+          nextButton: '.swiper-button-next',
+          prevButton: '.swiper-button-prev'
+          // 如果需要滚动条
+          // scrollbar: '.swiper-scrollbar',
+        })
+      },
+      // 判断滚动高度变换顶部效果
+      judgeScrollHeight: function () {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        var bannerId = document.getElementById('banner-container');
+        this.bannerHeight = bannerId.offsetHeight;
+        if (scrollTop > this.bannerHeight) {
+          this.isShow = true;
+        } else {
+          this.isShow = false;
+        }
+      },
+      // 获取生活服务详情
+      getLifeServiceDetail: function () {
+        var vm = this;
+        http.get('life-goods/view', {
+          id: http.getQuery('id'),
+          fields: 'name,photos,sale_price,prompt,details,sale_number,sale_volume',
+          expand: 'stars,praise_rate'
+        }, function (data) {
+          vm.lifeServiceDetail = data;
+          vm.$nextTick(function () {
+            vm.bannerScroll();
+          });
+        })
+      },
+      // 获取生活服务评价
+      getLifeServiceEvaluate: function () {
+        var vm = this;
+        http.get('life-goods/evaluate-list', {
+          goods_id: http.getQuery('id'),
+          fields: 'id,username,head_image,evaluate,photos,created_at,goods_id',
+          expand: 'stars'
+        }, function (data) {
+          vm.lifeServiceEvaluate = data.items;
+        })
+      },
+      setDate: function (timestamp) {
+        return tools.timestamp(timestamp);
+      },
+      // 获取生活服务评价数量
+      getEvaluateSum: function () {
+        var vm = this;
+        http.get('life-goods/evaluate-sum', {
+          goods_id: http.getQuery('id')
+        }, function (data) {
+          vm.evaluateSum = data;
+        })
+      },
+      // 是否收藏
+      isCollection: function () {
+        var vm = this;
+        http.get('life-collect/is-collect', {
+          goods_id: http.getQuery('id')
+        }, function (data) {
+          vm.collection = data;
+        })
+      },
+      // 添加或者取消收藏
+      myCollection: function () {
+        var vm = this;
+        http.post('life-collect/add-or-cancel', {
+          goods_id: http.getQuery('id')
+        }, function (data) {
+          tools.alert(data.msg, 'success');
+          vm.collection = data.code;
+        })
+      },
+      // 预约详情
+      jumpImmediateReservation: function () {
+        window.location.href = window.location.origin + '/wx/life-service/immediate-reservation.html?id=' + http.getQuery('id');
+      },
+      // 图片预览
+      imgPreview: function (outerIndex, index, bindClass) {
+        tools.openPhotoSwipe(outerIndex, index, bindClass);
+      }
+    },
+    mounted: function () {
+      this.getLifeServiceDetail();
+      if (stores.getAccessToken()) {
+        this.isCollection();
+      }
+      this.getEvaluateSum();
+      this.getLifeServiceEvaluate();
+      window.addEventListener('scroll', this.judgeScrollHeight)
+    }
+  });
+</script>
+
+

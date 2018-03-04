@@ -1,0 +1,116 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="my-address" id="address" v-cloak>
+  <div class="set">
+    <div class="set-on color-8">地址管理</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+  </div>
+  <div id="mescroll" class="mescroll main-address">
+    <div>
+      <div class="delivery" v-for="item in addressList">
+        <div class="top-kong"></div>
+        <div class="address-list">
+          <div class="box">
+            <div class="contact clearfix">
+              <div class="name fl color-8 font-3">收货人：{{ item.contacts }}</div>
+              <div class="phone fr color-8 font-3">{{ item.cellphone }}</div>
+            </div>
+            <div class="address color-8">收货地址：{{ item.address }}</div>
+          </div>
+          <div class="situation">
+            <div class="sit-img fl">
+              <img
+                :src="item.is_default ? '/wx/static/images/address_chose@2x.png' : '/wx/static/images/address_no_chose@2x.png'"
+                @click="chooseDefault(item)">
+            </div>
+            <div class="de-address fl font-4" :class="item.is_default ? 'color-2': 'color-8'">
+              {{ item.is_default ? '默认地址' : '设为默认地址' }}
+            </div>
+            <div class="delete color-8 fr font-4" @click="deleteAddress(item)">删除</div>
+            <div class="del-img fr"><img src="/wx/static/images/address_del@2x.png" alt=""></div>
+            <div class="edit color-8 fr font-4" @click="editAddress(item)">编辑</div>
+            <div class="edit-img fr"><img src="/wx/static/images/address_edit@2x.png" alt=""></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="delivery-footer">
+    <a class="color-main" @click="addAddress">新增收货地址</a>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#address',
+    data: {
+      mescroll: null,
+      addressList: []
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      addAddress: function () {
+        window.location.href = 'add-address.html';
+      },
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        http.get('user-address/list', {
+          per_page: page.size,
+          page: page.num,
+          expand: 'address,provinceName,cityName,areaName'
+        }, function (data) {
+          // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+          // 设置列表数据
+          _this.setListData(data, page.num, true);
+        }, function () {
+          // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endErr();
+        });
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        if (isAppend && pageNum == 1) {
+          this.addressList = data.items;
+        } else if (isAppend && pageNum > 1) {
+          this.addressList = this.addressList.concat(data.items);
+        }
+      },
+      // 修改默认地址
+      chooseDefault: function (item) {
+        if (item.is_default === 1) {
+          return
+        }
+        this.addressList.forEach(function (item) {
+          item.is_default = 0
+        });
+        item.is_default = 1;
+        http.post('user-address/update', {id: item.id, is_default: 1}, function () {
+        })
+      },
+      // 删除地址
+      deleteAddress: function (item) {
+        var vm = this;
+        if (confirm("是否确认删除改地址？")) {
+          http.post('user-address/delete', {id: item.id}, function (data) {
+            tools.alert(data);
+            vm.mescroll.resetUpScroll();
+          })
+        }
+      },
+      // 编辑地址
+      editAddress: function (item) {
+        stores.setAddressId(item.id);
+        window.location.href = 'edit-address.html';
+      },
+      meScroll: function (_this) {
+        _this = this;
+        tools.myScroll(_this);
+      }
+    },
+    mounted: function () {
+      this.meScroll();
+    }
+  })
+</script>

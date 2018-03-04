@@ -1,0 +1,121 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+
+<div id="benefit-life" class="benefit-life" v-cloak>
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="benefit-life-detail">
+    <div class="benefit-life-content" v-html="benefitLifeContent.content"></div>
+  </div>
+  <div class="benefit-life-submit">
+    <div class="fl need-pay">￥{{ benefitLifeContent.price }}元</div>
+    <div v-if="comparisonDate" @click="payMoney" class="fr pay-submit">立即付款</div>
+    <div v-else class="fr pay-submit-no">立即付款</div>
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#benefit-life',
+    data: {
+      navTitle: '',
+      // 构造付款参数
+      payType: {
+        orderId: '', // 设置需要付款的id
+        money: '', // 设置需要付款的金额
+        type: '' // 设置家政服务付款类型为 payType = domestic
+      },
+      benefitLifeContent: {},
+      startTime: '',
+      endTime: '',
+      title: ''
+    },
+    computed: {
+      // 计算活动是否失效
+      comparisonDate: function () {
+        if (this.startTime <= Date.parse(new Date()) / 1000 && Date.parse(new Date()) / 1000 <= this.endTime) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      // 检查惠生活支付状态
+      checkIsPay: function (trueCallback, falseCallback) {
+        http.post('pay/pay-success', {
+          recommend_order_id: stores.getPayOrderId()
+        }, function (data) {
+          if (data) {
+            trueCallback();
+          } else {
+            falseCallback();
+          }
+        });
+      },
+      payMoney: function () {
+        var vm = this;
+        // 判断是否登录
+        var accessToken = stores.getValue('accessToken');
+        if (!accessToken) {
+          tools.confirm('请先登录', 'warning', false, function () {
+            window.location.href = '/wx/login.html';
+          });
+          return false;
+        }
+        // 先下单
+        http.post('today-recommend-order/buy-now', {
+          recommend_id: http.getQuery('id')
+        }, function (data) {
+          // 下单后设置下单id放入缓存中，用于检查判断是否支付成功
+          stores.setPayOrderId(data.recommend_order_id);
+
+          vm.payType.orderId = data.recommend_order_id;
+          vm.payType.money = data.pay_money;
+          vm.payType.type = 'benefitLife';
+          stores.setValue('payType', vm.payType);
+          // 如果是微信浏览器直接发起微信公众号支付
+          if (tools.isWeChatBroswer()) {
+            tools.weChatPublicNumberPay();
+          } else {
+            window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+          }
+        })
+      },
+      getBenefitLifeContent: function () {
+        var vm = this;
+        http.get('today-recommend/view', {
+          id: http.getQuery('id')
+        }, function (data) {
+          vm.navTitle = data.title;
+          vm.benefitLifeContent = data;
+          vm.startTime = vm.benefitLifeContent.start_at;
+          vm.endTime = vm.benefitLifeContent.end_at;
+        })
+      }
+    },
+    mounted: function () {
+      var _this = this;
+      _this.getBenefitLifeContent();
+      var payStatus = stores.getPayStatus();
+      if (payStatus) {
+        tools.confirm('是否已经支付完成', 'warning', true, function () {
+          stores.setPayStatus(false);
+          _this.checkIsPay(function () {
+            stores.removePayOrderId();
+            setTimeout(function () {
+              tools.confirm('支付成功，啄木鸟客服会在两小时内与您联系，请保持电话畅通，谢谢！', 'success', false, function () {
+                window.location.href = window.location.origin + '/wx/pay-success.html';
+              })
+            }, 300)
+          }, function () {
+            tools.alert('暂未查询到您已支付完成，请再次确认', 'warning', 300);
+          });
+        }, function () {
+          stores.setPayStatus(false);
+        });
+      }
+    }
+  })
+</script>

@@ -1,0 +1,100 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="opinion" id="feedback">
+  <div class="set">
+    <div class="set-on color-8">意见反馈</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+    <div class="preserve color-2" @click="submit">提交</div>
+  </div>
+  <div class="opinion-con">
+    <textarea class="text-con" placeholder="把你想说的话告诉我们吧~" @input="descInput" v-model="con"></textarea>
+    <span class="con-total color-99" v-if="total<401">{{ total }}/400</span>
+    <span class="con-total color-h" v-if="total>400">反馈意见不能超过400字</span>
+
+    <div class="pic-list">
+      <div class="info-pic" v-for="(item,index) in images">
+        <img :src="item">
+        <div class="delete" v-if="images.length>0" @click="deleteImg(index)">
+          <img src="/wx/static/images/suggest_del@2x.png">
+        </div>
+      </div>
+      <div class="info-pic">
+        <label style="display: block">
+          <img src="/wx/static/images/suggest_picture@2x.png">
+          <input @change="addImg" type="file" accept="image/jpg,image/jpeg,image/png" hidden>
+        </label>
+      </div>
+
+    </div>
+  </div>
+  <div class="sign-name">
+    <span class="sign-phone color-8 font-3">联系方式</span>
+    <input class="sign-input" type="number" placeholder="选填，便于我们联系你" v-model="cellphone">
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#feedback',
+    data: {
+      total: 0,
+      images: [],
+      con: '',
+      cellphone: '',
+      form: {
+        '反馈意见': ''
+      }
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      descInput: function () {
+        this.total = this.con.length;
+      },
+      // 上传图片
+      addImg: function () {
+        var _this = this;
+        var file = event.target.files[0];
+        http.uploadFile('upload/upload-photos', {
+          prefix: 'avatar_url',
+          name: 'avatar',
+          'avatar[]': file
+        }, function (data) {
+          _this.images.push(data.filenames[0])
+        })
+      },
+      // 删除图片
+      deleteImg: function (index) {
+        this.images.splice(index,1);
+      },
+      submit: function () {
+        var _this = this;
+        if(!_this.con){
+          tools.alert('请填写反馈内容', 'warning');
+          return
+        }
+        if(_this.total>400){
+          tools.alert('字数超过限制', 'warning');
+          return
+        }
+        if(_this.images.length>8){
+          tools.alert('反馈图片不能超过8张', 'warning');
+          return
+        }
+        if(_this.cellphone && !/^1[0-9][0-9]{9}$/.test(_this.cellphone)){
+          tools.alert('手机号格式不正确', 'warning');
+          return
+        }
+        _this.form['反馈意见'] = _this.con;
+        http.post('basic/feedback', {
+          content: JSON.stringify(_this.form),
+          cellphone: _this.cellphone,
+          photos: _this.images.join(',')
+        }, function () {
+          tools.confirm('发表成功', 'success', false, function () {
+            tools.goBack();
+          });
+        })
+      }
+    }
+  })
+</script>

@@ -1,0 +1,185 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="personal" id="info" v-cloak>
+  <div class="set">
+    <div class="exit" @click="logout">
+      <div class="set-on color-4">退出</div>
+      <img src="/wx/static/images/mine_exit@2x.png" class="exit-on">
+    </div>
+  </div>
+  <div class="detail">
+    <div class="header">
+      <div class="head-url" @click="modifyInfo">
+        <img v-if="personalInfo.head_url" :src="personalInfo.head_url" class="head-image">
+        <img v-else src="/wx/static/images/default_avatar.png" class="head-image">
+      </div>
+      <div class="edit-data" @click="modifyInfo">
+        <img src="/wx/static/images/mine_arrow@2x.png">
+      </div>
+      <div class="info color-4">
+        {{ personalInfo.username }}
+        <img src="/wx/static/images/mine_level@2x.png">
+      </div>
+      <div class="score">
+        <span class="color-4 font-4">我的积分：</span>
+        <span class="color-6 font-4 integral">{{ personalInfo.sign_score }}分</span>
+      </div>
+      <div class="other">
+        <div class="my-sign" @click="turnToSign" style="margin: 0 auto; float: none; border-right: none">
+          <img src="/wx/static/images/mine_checkin@2x.png">
+          <div class="sign-data">
+            <div class="sign-name font-3 color-4">我的签到</div>
+            <div class="sign-total font-2 color-4" v-if="personalInfo.sign_day>0">已连续签到{{ personalInfo.sign_day }}天
+            </div>
+            <div class="sign-total font-2 color-4" v-if="personalInfo.sign_day==00">尚未开始签到</div>
+          </div>
+        </div>
+        <!--<div class="my-sign" style="border-right: none;" @click="turnToTwo">-->
+        <!--<img src="/wx/static/images/mine_coupon@2x.png">-->
+        <!--<div class="sign-data">-->
+        <!--<div class="sign-name font-3 color-4">我的优惠券</div>-->
+        <!--<div class="sign-total font-2 color-4">领取更多优惠</div>-->
+        <!--</div>-->
+        <!--</div>-->
+      </div>
+    </div>
+    <div class="list">
+      <div class="list-contain">
+        <!--<div class="list-item" @click="turnToOne">
+          <img src="/wx/static/images/mine_account@2x.png" class="order-image">
+          <div class="my-edit" style="border-top: none;">
+            <div class="order-menu">我的账户</div>
+            <img src="/wx/static/images/mine_right@2x.png" class="link">
+          </div>
+        </div>-->
+        <div class="list-item" @click="turnToCollect">
+          <img src="/wx/static/images/mine_join_collect@2x.png" class="order-image">
+          <div class="my-edit">
+            <div class="order-menu">我的收藏</div>
+            <img src="/wx/static/images/mine_right@2x.png" class="link">
+          </div>
+        </div>
+        <div class="list-item" @click="turnToView">
+          <img src="/wx/static/images/mine_evaluation@2x.png" class="order-image">
+          <div class="my-edit">
+            <div class="order-menu">我的评价</div>
+            <img src="/wx/static/images/mine_right@2x.png" class="link">
+          </div>
+        </div>
+        <div class="list-item" @click="addressList">
+          <img src="/wx/static/images/mine_adress@2x.png" class="order-image">
+          <div class="my-edit">
+            <div class="order-menu">地址管理</div>
+            <img src="/wx/static/images/arrow.png" class="link">
+          </div>
+        </div>
+        <div class="list-item top-up" @click="feedback">
+          <img src="/wx/static/images/mine_suggest@2x.png" class="order-image">
+          <div class="my-edit">
+            <div class="order-menu">意见反馈</div>
+            <img src="/wx/static/images/arrow.png" class="link">
+          </div>
+        </div>
+        <div class="list-item" @click="contact">
+          <img src="/wx/static/images/mine_contact@2x.png" class="order-image">
+          <div class="my-edit">
+            <div class="order-menu">联系我们</div>
+            <img src="/wx/static/images/arrow.png" class="link">
+          </div>
+        </div>
+        <div class="list-item" @click="joinUs">
+          <img src="/wx/static/images/mine_join@2x.png" class="order-image">
+          <div class="my-edit">
+            <div class="order-menu">加入蚕食</div>
+            <img src="/wx/static/images/arrow.png" class="link">
+          </div>
+        </div>
+        <!--<div @click="myShare" class="list-item" v-if="isShowShare != ''">-->
+        <!--<img src="/wx/static/images/mine_share.png" class="order-image">-->
+        <!--<div class="order-menu">我的分享</div>-->
+        <!--<img src="/wx/static/images/arrow.png" class="link">-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--footer-->
+<link rel="import" href="/wx/components/common/footer.html?__inline">
+<script>
+  new Vue({
+    el: '#info',
+    data: {
+      user: stores.getAccessToken(),
+      personalInfo: {},
+      isShowShare: ''
+    },
+    methods: {
+      modifyInfo: function () {
+        window.location.href = 'edit-personal.html';
+      },
+      turnToOne: function () {
+        window.location.href = 'my-money.html';
+      },
+      turnToTwo: function () {
+        window.location.href = 'my-coupon.html';
+      },
+      turnToSign: function () {
+        window.location.href = 'my-sign.html';
+      },
+      joinUs: function () {
+        window.location.href = 'join-zmn.html';
+      },
+      contact: function () {
+        window.location.href = 'contact-us.html';
+      },
+      feedback: function () {
+        window.location.href = 'opinion-feedback.html';
+      },
+      addressList: function () {
+        window.location.href = 'my-address-list.html';
+      },
+      turnToCollect: function () {
+        window.location.href = 'my-collect.html';
+      },
+      turnToView: function () {
+        window.location.href = 'my-view.html';
+      },
+      userLogin: function () {
+        if (!this.user) {
+          tools.confirm('请先登录', 'warning', false, function () {
+            window.location.href = '/wx/login.html'
+          });
+        } else {
+          this.getPersonalInfo();
+        }
+      },
+      logout: function () {
+        stores.logout();
+        http.post('login/logout', {
+          type: 20
+        }, function (data) {
+          tools.confirm(data, 'success', false, function () {
+            window.location.href = window.location.origin + "/wx/index.html";
+          });
+        })
+      },
+      getPersonalInfo: function () {
+        var vm = this;
+        http.get('user-center/self-data', {
+          expand: 'sign_day,whether_sign'
+        }, function (data) {
+          vm.personalInfo = data;
+        })
+      }
+      // 分享按钮是否显示
+      /*getShare: function () {
+       var _this = this;
+       http.get('activity/get-user-uuid', {}, function (data) {
+       _this.isShowShare = data;
+       })
+       }*/
+    },
+    mounted: function () {
+      this.getPersonalInfo();
+    }
+  })
+</script>

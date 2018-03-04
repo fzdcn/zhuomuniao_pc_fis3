@@ -1,0 +1,355 @@
+<link rel="import" href="/components/common/header.html?__inline">
+<!-- main主体内容 -->
+<div id="order" class="main" v-cloak>
+  <div class="mian_content">
+    <!--个人订单-->
+    <div class="personal-order">
+      <div class="my-order">
+        <h3 class="f18">我的订单</h3>
+        <div class="liner"></div>
+      </div>
+      <!--搜索-->
+      <div class="order-search">
+        <ul>
+          <li class="fl">
+            <span class="f12 c0">服务类型</span>
+            <select v-model.number="form.service_code" @change="orderSearch();" name="">
+              <option class="f12 c0" value="">全部</option>
+              <option v-for="(label, value) in serviceOptions" class="f12 c0" :value="value">{{ label }}</option>
+            </select>
+          </li>
+          <li class="fl">
+            <span class="f12 c0">下单状态</span>
+            <select v-model.number="form.pay_status" @change="orderSearch();" name="">
+              <option class="f12 c0" value="">不限</option>
+              <option class="f12 c0" :value="30">已支付</option>
+              <option class="f12 c0" :value="20">未支付</option>
+            </select>
+          </li>
+          <li class="fl">
+            <button @click="orderSearch" class="f12 c0 textaling" value="订单搜索">订单搜索</button>
+          </li>
+        </ul>
+      </div>
+      <!--订单列表-->
+      <template v-if="this.orderDate.length > 0">
+        <div v-for="item in orderDate" class="order-list clear">
+          <div class="housekeeping-name">
+            <dl>
+              <dt class="f12 c0 textl">{{ setDate(item.created_at) }}</dt>
+              <dd class="textaling">
+                <i><img src="/static/images/order-title.png" alt=""></i>
+                <span class="f12 caba987">{{ item.store_name }}</span>
+              </dd>
+              <dd class="textr">
+                <i class="f12">已付款¥</i>
+                <span class="f12">{{ item.all_pay }}元</span>
+              </dd>
+            </dl>
+          </div>
+          <div class="order-content">
+            <div v-if="item.service_code == 1001" class="fl order-type-img"><img src="/static/images/order-type1.png"
+                                                                                 alt="月嫂"></div>
+            <div v-if="item.service_code == 1002" class="fl order-type-img"><img src="/static/images/order-type2.png"
+                                                                                 alt="育婴师"></div>
+            <div v-if="item.service_code == 1003" class="fl order-type-img"><img src="/static/images/order-type3.png"
+                                                                                 alt="保姆"></div>
+            <div v-if="item.service_code == 1004" class="fl order-type-img"><img src="/static/images/order-type4.png"
+                                                                                 alt="保洁"></div>
+            <div v-if="item.service_code == 1005" class="fl order-type-img"><img src="/static/images/order-type5.png"
+                                                                                 alt="护工"></div>
+            <div v-if="item.service_code == 1006" class="fl order-type-img"><img src="/static/images/order-type6.png"
+                                                                                 alt="钟点工"></div>
+            <div class="fl order-introduce">
+              <h3 class="f14 c0">在线预约信息</h3>
+              <div class="introduce-list">
+                <p v-if="item.detail_json.门店名称" class="fl f14 c8288a2"><span class="caba987">门店名称：</span><span>{{ item.detail_json.门店名称}}</span>
+                </p>
+                <p v-if="item.detail_json.城市" class="fl f14 c8288a2"><span class="caba987">城市：</span><span>{{ item.detail_json.城市}}</span>
+                </p>
+                <p v-if="item.detail_json.区域" class="fl f14 c8288a2"><span class="caba987">区域：</span><span>{{ item.detail_json.区域}}</span>
+                </p>
+                <p v-if="item.detail_json.年龄" class="fl f14 c8288a2"><span class="caba987">年龄：</span><span>{{ item.detail_json.年龄}}</span>
+                </p>
+                <p v-if="item.detail_json.学历" class="fl f14 c8288a2"><span class="caba987">学历：</span><span>{{ item.detail_json.学历}}</span>
+                </p>
+                <p v-if="item.detail_json.星级" class="fl f14 c8288a2"><span class="caba987">星级：</span><span>{{ item.detail_json.星级}}</span>
+                </p>
+                <p v-if="item.detail_json.经验" class="fl f14 c8288a2"><span class="caba987">经验：</span><span>{{ item.detail_json.经验}}</span>
+                </p>
+                <p v-if="item.detail_json.宝宝年龄" class="fl f14 c8288a2"><span class="caba987">宝宝年龄：</span><span>{{ item.detail_json.宝宝年龄}}</span>
+                </p>
+                <p v-if="item.detail_json.宝宝性别" class="fl f14 c8288a2"><span class="caba987">宝宝性别：</span><span>{{ item.detail_json.宝宝性别}}</span>
+                </p>
+                <p v-if="item.detail_json.老人性别" class="fl f14 c8288a2"><span class="caba987">老人性别：</span><span>{{ item.detail_json.老人性别}}</span>
+                </p>
+                <p v-if="item.detail_json.曾请过育婴师" class="fl f14 c8288a2"><span class="caba987">曾请过育婴师：</span><span>{{ item.detail_json.曾请过育婴师}}</span>
+                </p>
+                <p v-if="item.detail_json.育婴师等级" class="fl f14 c8288a2"><span class="caba987">育婴师等级：</span><span>{{ item.detail_json.育婴师等级}}</span>
+                </p>
+                <p v-if="item.detail_json.服务选择" class="fl f14 c8288a2"><span class="caba987">服务选择：</span><span>{{ item.detail_json.服务选择}}</span>
+                </p>
+                <p v-if="item.detail_json.服务类别" class="fl f14 c8288a2"><span class="caba987">服务类别：</span><span>{{ item.detail_json.服务类别}}</span>
+                </p>
+                <p v-if="item.detail_json.指导价格" class="fl f14 c8288a2"><span class="caba987">指导价格：</span><span>{{ item.detail_json.指导价格}}</span>
+                </p>
+                <p v-if="item.detail_json.是否有宠物" class="fl f14 c8288a2"><span class="caba987">是否有宠物：</span><span
+                  v-for="value in item.detail_json.是否有宠物">{{ value }}</span></p>
+                <p v-if="item.detail_json.其它备注" class="fl f14 c8288a2"><span class="caba987">其它备注：</span><span>{{ item.detail_json.其它备注}}</span>
+                </p>
+                <p v-if="item.detail_json.是否做饭" class="fl f14 c8288a2"><span class="caba987">是否做饭：</span><span
+                  v-for="value in item.detail_json.是否做饭">{{ value }}</span></p>
+                <p v-if="item.detail_json.烧饭喜好" class="fl f14 c8288a2"><span class="caba987">烧饭喜好：</span><span
+                  v-for="value in item.detail_json.烧饭喜好">{{ value }}</span></p>
+                <p v-if="item.detail_json.服务频率" class="fl f14 c8288a2"><span class="caba987">服务频率：</span><span
+                  v-for="value in item.detail_json.服务频率">{{ value }}</span></p>
+                <p v-if="item.detail_json.淋浴房清洁" class="fl f14 c8288a2"><span class="caba987">淋浴房清洁：</span><span>{{ item.detail_json.淋浴房清洁}}</span>
+                </p>
+                <p v-if="item.detail_json.阳光房清洁" class="fl f14 c8288a2"><span class="caba987">阳光房清洁：</span><span
+                  v-for="value in item.detail_json.阳光房清洁">{{ value }}</span></p>
+                <p v-if="item.detail_json.服务时长" class="fl f14 c8288a2"><span class="caba987">服务时长：</span><span>{{ item.detail_json.服务时长}}小时</span>
+                </p>
+                <p v-if="item.detail_json.服务面积" class="fl f14 c8288a2"><span class="caba987">服务面积：</span><span>{{ item.detail_json.服务面积}}平方</span>
+                </p>
+                <p v-if="item.detail_json.阳光房面积" class="fl f14 c8288a2"><span class="caba987">阳光房面积：</span><span>{{ item.detail_json.阳光房面积}}</span>
+                </p>
+                <p v-if="item.detail_json.住宅种类" class="fl f14 c8288a2"><span class="caba987">住宅种类：</span><span>{{ item.detail_json.住宅种类}}</span>
+                </p>
+                <p v-if="item.detail_json.有无家具" class="fl f14 c8288a2"><span class="caba987">有无家具：</span><span>{{ item.detail_json.有无家具}}</span>
+                </p>
+                <p v-if="item.detail_json.清洁范围" class="fl f14 c8288a2"><span class="caba987">清洁范围：</span><span>{{ item.detail_json.清洁范围}}</span>
+                </p>
+                <p v-if="item.detail_json.地毯材质" class="fl f14 c8288a2"><span class="caba987">地毯材质：</span><span>{{ item.detail_json.地毯材质}}</span>
+                </p>
+                <p v-if="item.detail_json.蜡种类" class="fl f14 c8288a2"><span class="caba987">蜡种类：</span><span>{{ item.detail_json.蜡种类}}</span>
+                </p>
+                <p v-if="item.detail_json.房屋面积" class="fl f14 c8288a2"><span class="caba987">房屋面积：</span><span>{{ item.detail_json.房屋面积 }}</span>
+                </p>
+                <p v-if="item.detail_json.上门时间" class="fl f14 c8288a2"><span class="caba987">上门时间：</span><span>{{ item.detail_json.上门时间 }}</span>
+                </p>
+                <p v-if="item.detail_json.需要打鼻食" class="fl f14 c8288a2"><span class="caba987">需要打鼻食：</span><span>{{ item.detail_json.需要打鼻食}}</span>
+                </p>
+                <p v-if="item.detail_json.服务假期" class="fl f14 c8288a2"><span class="caba987">服务假期：</span><span>{{ item.detail_json.服务假期}}</span>
+                </p>
+                <p v-if="item.detail_json.月子周期" class="fl f14 c8288a2"><span class="caba987">月子周期：</span><span>{{ item.detail_json.月子周期}}</span>
+                </p>
+                <p v-if="item.detail_json.月嫂级别" class="fl f14 c8288a2"><span class="caba987">月嫂级别：</span><span>{{ item.detail_json.月嫂级别}}</span>
+                </p>
+                <p v-if="item.detail_json.有无传染病" class="fl f14 c8288a2"><span class="caba987">有无传染病：</span><span>{{ item.detail_json.有无传染病}}</span>
+                </p>
+                <p v-if="item.detail_json.其他需求" class="fl f14 c8288a2"><span class="caba987">其他需求：</span><span>{{ item.detail_json.其他需求}}</span>
+                </p>
+                <p v-if="item.detail_json.服务开始时间" class="fl f14 c8288a2"><span class="caba987">服务开始时间：</span><span>{{ item.detail_json.服务开始时间}}</span>
+                </p>
+                <p v-if="item.detail_json.服务结束时间" class="fl f14 c8288a2"><span class="caba987">服务结束时间：</span><span>{{ item.detail_json.服务结束时间}}</span>
+                </p>
+                <p v-if="item.detail_json.双胞胎经验" class="fl f14 c8288a2"><span class="caba987">双胞胎经验：</span><span>{{ item.detail_json.双胞胎经验}}</span>
+                </p>
+                <p v-if="item.detail_json.早产儿经验" class="fl f14 c8288a2"><span class="caba987">早产儿经验：</span><span>{{ item.detail_json.早产儿经验}}</span>
+                </p>
+                <p v-if="item.detail_json.预产期" class="fl f14 c8288a2"><span class="caba987">预产期：</span><span>{{ item.detail_json.预产期}}</span>
+                </p>
+              </div>
+            </div>
+            <div class="fl order-position">
+              <i><img src="/static/images/order-address.png" alt="地址"></i>
+              <div class="position-list">
+                <p><span class="order-contact-name f14 c8288a2">{{ item.user.username }}</span><span
+                  class="order-tel f14 c8288a2">{{ item.user.cellphone }}</span></p>
+                <p class="order-address f14 c8288a2">{{ item.address }}</p>
+              </div>
+            </div>
+            <div class="fl payment">
+              <div
+                v-if="(item.status == 10 || item.status == 20 || item.status == 25 || item.status == 27 || item.status == 30) && (item.pay_status != 20)"
+                class="payment-ok textaling">
+                <p class="f14 caba987">预约中</p>
+              </div>
+              <div v-if="item.pay_status != 20 && item.status == 40" class="payment-ok textaling">
+                <p class="f14 caba987">进行中</p>
+              </div>
+              <div v-if="item.pay_status != 20 && item.status == 45" class="payment-ok textaling">
+                <p class="f14 caba987">待评价</p>
+              </div>
+              <div v-if="item.pay_status != 20 && item.status == 50" class="payment-ok textaling">
+                <p class="f14 caba987">已完成</p>
+              </div>
+              <div v-if="item.pay_status == 20" class="payment-no textaling">
+                <p class="f14">待付款<span class="f12">{{ item.need_pay }}元</span></p>
+                <button @click="qrcode(item)" class="f14 caba987" value="立即支付">微信支付</button>
+                <button @click="Alipay(item)" class="f14 caba987" value="支付宝支付">支付宝支付</button>
+              </div>
+            </div>
+            <!--清除浮动-->
+            <div class="clear" style="padding:0px;"></div>
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="textaling clear" style="padding: 100px;"><img src="/static/images/nothing.png" alt="暂无"></div>
+      </template>
+      <!-- pageList -->
+      <div class="page">
+        <!--jquery分页-->
+        <!--<div class="page-bar"></div>-->
+        <!--vue分页-->
+        <div v-if="pageCount > 0" class="page-bar">
+          <ul>
+            <li v-if="cur>1"><a @click="cur--,pageClick()"><</a></li>
+            <li v-if="cur==1"><a class="banclick"><</a></li>
+            <li v-for="index in indexs" :class="{ 'active': cur == index}">
+              <a @click="btnClick(index)">{{ index }}</a>
+            </li>
+            <li v-if="cur!=pageCount"><a @click="cur++,pageClick()">></a></li>
+            <li v-if="cur == pageCount"><a class="banclick">></a></li>
+            <li><a>共<i>{{ pageCount }}</i>页</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--微信支付二维码-->
+  <div id="mask-cover"></div>
+  <div id="popBox">
+    <p @click="close()" id="popClose"></p>
+    <p class="zmn">啄木鸟家政为您服务</p>
+    <div id="qrcode"></div>
+    <p class="wx">亲！微信扫一扫哦！</p>
+  </div>
+</div>
+<script type="text/javascript">
+  // vue分页
+  var pageBar = new Vue({
+    el: '#order',
+    data: {
+      // 当前页码
+      cur: '',
+      // 总页数
+      pageCount: '',
+      serviceOptions: SERVICE_NAME,
+      form: {
+        service_code: '',
+        pay_status: '',
+        status: ''
+      },
+      orderDate: [],
+      return_url: '',
+    },
+    watch: {
+      cur: function (oldValue, newValue) {
+        // console.log(arguments);
+      }
+    },
+    methods: {
+      // 订单搜索
+      orderSearch: function () {
+        var vm = this;
+        http.get('order/list', {
+          service_code: vm.form.service_code,
+          pay_status: vm.form.pay_status,
+          per_page: 10,
+          page: vm.cur,
+          fields: 'service_code,detail_json,pay_status,id,created_at,status',
+          expand: 'address,services,user,all_pay,need_pay,store_name,detail_json,status',
+        }, function (data) {
+          vm.orderDate = data.items;
+          vm.pageCount = data.pagination.pageCount;
+          vm.cur = data.pagination.currentPage;
+          vm.$nextTick(function () {
+            judgeHeight.orderListHeight();
+          })
+        });
+      },
+      // 支付宝
+      Alipay: function (item) {
+        var vm = this;
+        http.post('pay/service-order', {
+          order_id: item.id,
+          pay_type: 20,
+          return_url: vm.return_url
+        }, function (data) {
+          http.payFormSubmit(data)
+        });
+      },
+      payment: function () {
+      },
+      setDate: function (timestamp) {
+        return tools.timestamp(timestamp)
+      },
+      // 页码点击事件
+      btnClick: function (data) {
+        if (data != this.cur) {
+          this.cur = data;
+          this.orderSearch();
+        }
+      },
+      pageClick: function () {
+        // console.log('现在在'+this.cur+'页');
+        this.orderSearch();
+      },
+      // 生成二维码
+      qrcode: function (item) {
+        document.getElementById('mask-cover').style.display = 'block';
+        document.getElementById('popBox').style.display = 'block';
+        document.getElementById('popClose').style.display = 'block';
+        // 获取二维码id
+        var getQrcode = document.getElementById('qrcode');
+        // New出一个二维码对象
+        getQrcode.innerHTML = '';
+        getQrcode.removeAttribute('title');
+        var qrcode = new QRCode(getQrcode, {
+          width: 200,
+          height: 200,
+          colorDark: '#14A83B',
+          colorLight: '#fff',
+        });
+        http.post('pay/service-order', {
+          order_id: item.id,
+          pay_type: 14
+        }, function (data) {
+          qrcode.makeCode(data);
+        });
+        judgeHeight.orderListHeight();
+      },
+      close: function () {
+        document.getElementById('qrcode').innerHTML = '';
+        document.getElementById('qrcode').removeAttribute('title');
+        document.getElementById('mask-cover').style.display = 'none';
+        document.getElementById('popBox').style.display = 'none';
+        this.orderSearch();
+      }
+
+    },
+    computed: {
+      indexs: function () {
+        var left = 1;
+        var right = this.pageCount;
+        var ar = [];
+        if (this.pageCount >= 5) {
+          if (this.cur > 3 && this.cur < this.pageCount - 2) {
+            left = this.cur - 2;
+            right = this.cur + 2;
+          } else {
+            if (this.cur <= 3) {
+              left = 1;
+              right = 5;
+            } else {
+              right = this.pageCount;
+              left = this.pageCount - 4;
+            }
+          }
+        }
+        while (left <= right) {
+          ar.push(left);
+          left++;
+        }
+        return ar;
+      }
+    },
+    mounted: function () {
+      this.return_url = window.location.origin + '/order.html';
+      this.orderSearch();
+    }
+  });
+</script>
+<link rel="import" href="/components/common/footer.html?__inline">

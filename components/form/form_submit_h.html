@@ -1,0 +1,1188 @@
+<!-- 城市选择 -->
+<div id="form-submit" class="cityTab" style="margin-top: 1rem;" v-cloak>
+
+  <div class="cityTab_content">
+    <div class="t-top" v-if="isShow">
+      <span class="">提示：您还没有登录，登录后才能下单，</span>
+      <a @click="turnToLogin">去登录</a>
+    </div>
+    <div class="cityList">
+      <div class="selectContainer">
+        <div v-if="storeName" class="row clearfix">
+          <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">门店名称</div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <a class="on">{{ storeName }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="row clearfix">
+          <div class="title"><img src="/wx/static/images/city.png" alt="">城市</div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <a href="javascript:void(0);" class="on">{{ cityName }}</a>
+              <a @click="changeCity" class="on" style="background:none;border: none;">【切换】</a>
+            </div>
+          </div>
+        </div>
+        <div class="row clearfix">
+          <div class="title"><img src="/wx/static/images/area.png" alt="">区域</div>
+          <div class="content clearfix showHeight">
+            <div class="contentInner">
+              <!--<a @click="form.ad_code=form.ad_code;regionName=regionName" :class="{on:form.ad_code==form.ad_code}"
+                 href="javascript:void(0);">不限</a>-->
+              <a v-for="item in areaList" @click="form.ad_code=item.ad_code;regionName=item.name"
+                 :class="{on:form.ad_code==item.ad_code}"
+                 href="javascript:void(0);">{{ item.name }}</a>
+              <!--<a @click="regionName='不限'" :class="{on:regionName=='不限'}"-->
+              <!--href="javascript:void(0);">不限</a>-->
+              <!--<a v-for="item in areaList" @click="regionName=item.name"-->
+              <!--:class="{on:regionName==item.name}"-->
+              <!--href="javascript:void(0);">{{ item.name }}</a>-->
+            </div>
+          </div>
+        </div>
+
+        <!--月嫂-->
+        <div v-if="form.service_code==1001">
+          <link rel="import" href="/components/reservation/service_form_1001.html?__inline">
+        </div>
+        <!--育婴师-->
+        <div v-if="form.service_code==1002">
+          <link rel="import" href="/components/reservation/service_form_1002.html?__inline">
+        </div>
+        <!--保姆-->
+        <div v-if="form.service_code==1003">
+          <link rel="import" href="/components/reservation/service_form_1003.html?__inline">
+        </div>
+        <!--护工-->
+        <div v-if="form.service_code==1004">
+          <link rel="import" href="/components/reservation/service_form_1004.html?__inline">
+        </div>
+        <!--保洁-->
+        <div v-if="form.service_code==1005">
+          <link rel="import" href="/components/reservation/service_form_1005.html?__inline">
+        </div>
+        <!--钟点工-->
+        <div v-if="form.service_code==1006">
+          <link rel="import" href="/components/reservation/service_form_1006.html?__inline">
+        </div>
+      </div>
+      <!-- 按钮提交 -->
+      <div class="order">
+        <button @click="submitForm" class="order_submit f20 cf">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  new Vue({
+    el: '#form-submit',
+    data: {
+      isHidden: true,
+      // 下单
+      commonFormAttributes: [
+        {
+          image: '/wx/static/images/birthday.png',
+          name: 'age',
+          label: '年龄',
+          options: ['不限', '35岁以下', '36~40岁', '41~45岁', '46~50岁', '50岁以上'],
+          selected: '不限'
+        },
+        {
+          image: '/wx/static/images/study.png',
+          name: 'education',
+          label: '学历',
+          options: ['不限', '小学', '初中', '高中', '中专', '大专', '本科及以上'],
+          selected: '不限'
+        },
+        /*{
+         name: 'star',
+         label: '星级',
+         options: ['不限', '一星', '二星', '三星', '四星', '五星'],
+         selected: '不限'
+         },
+         */
+        {
+          image: '/wx/static/images/service.png',
+          name: 'experience',
+          label: '经验',
+          options: ['不限', '1年以下', '1-2年', '3-5年', '6-8年', '8年以上'],
+          selected: '不限'
+        }
+      ],
+      accessToken: stores.getValue('accessToken'),
+      cityName: stores.getCityObj().name,
+      areaList: [],
+      // 门店名称
+      storeName: '',
+      // 区域
+      regionName: '不限',
+      selectTime: selectTime.options,
+      otherFormAttributes: {
+        1001: {
+          // 服务选择
+          serviceType: '',
+          // 服务类别
+          serviceCategory: '',
+          // 宝宝性别
+          babySex: '男',
+          // 月子周期
+          onfinementDate: '',
+          // 月嫂级别
+          level: '',
+          // 是否有宠物
+          pet: [],
+          // 宠物备注
+          petRemarks: '',
+          // psychologicalPrice:'不限',//心理价位
+          // 其他需求
+          told: '',
+          // 指导价格
+          maternityMatronPrice: '',
+          twinsExperience: false,
+          pretermBirthExperience: false,
+          serviceStartTime: '',
+          serviceEndTime: '',
+          dueDate: ''
+        },
+        1002: {
+          // 宝宝年龄
+          babyAge: '',
+          // 宝宝性别
+          babySex: '不限',
+          // 用过育婴师否
+          used: '',
+          // 育婴师等级
+          level: '',
+          // 是否有宠物
+          pet: [],
+          // 宠物备注
+          petRemarks: '',
+          // 心理价位
+          psychologicalPrice: '不限',
+          // 其他需求
+          told: '',
+          twinsExperience: false,
+          pretermBirthExperience: false,
+          serviceStartTime: '',
+          serviceEndTime: ''
+        },
+        1003: {
+          // 服务选择
+          serviceType: '',
+          // 服务类别
+          serviceCategory: '',
+          // 服务假期
+          holiday: '',
+          // 房屋面积
+          houseArea: '不限',
+          // 烧饭喜好
+          riceLike: [],
+          // 心理价位
+          nannyPrice: '',
+          // 是否有宠物
+          pet: [],
+          // 宠物备注
+          petRemarks: '',
+          serviceStartTime: '',
+          serviceEndTime: '',
+          // 其他需求
+          told: '',
+        },
+        1004: {
+          // 服务选择
+          serviceType: '',
+          // 服务类别
+          serviceCategory: '',
+          // 服务时间
+          serviceTime: '',
+          // 是否做饭
+          cook: [],
+          // 烧饭喜好
+          riceLike: [],
+          // 宝宝性别
+          elderlySex: '男',
+          // 是否需要打鼻食
+          nasalFeeding: false,
+          // 夜间陪护
+          nightEscort: false,
+          // 心理价位
+          nurseWorkerPrice: '',
+          serviceStartTime: '',
+          serviceEndTime: '',
+          // 是否有宠物
+          pet: [],
+          // 宠物备注
+          petRemarks: '',
+          // 有无传染病
+          contagion: '',
+          // 其他需求
+          told: ''
+        },
+        1005: {
+          // 服务选择
+          serviceType: ['开荒保洁'],
+          // 指导价格
+          cleanPrice: '',
+          // 服务时间
+          hours: '',
+          // 服务面积
+          area: '',
+          // 住宅种类
+          housingType: '',
+          // 有无家具
+          furniture: '',
+          // 清洁R范围
+          cleaningRange: '',
+          // 地毯材质
+          carpetMaterial: '',
+          // 蜡
+          wax: '',
+          // 淋浴房
+          showerRoom: '',
+          // 阳光房
+          sunRoom: [],
+          // 阳光房面积
+          sunRoomArea: '',
+          // 上门时间
+          visitingTime: '9:00',
+          // 开始日期
+          dueDate: '',
+          // 是否有宠物
+          pet: [],
+          // 宠物备注
+          petRemarks: '',
+          // serviceEndTime: '',
+          // 其他需求
+          told: '',
+          number: ''
+        },
+        1006: {
+          // 服务选择
+          serviceType: ['保洁'],
+          // 服务假期
+          // holiday: '',
+          // 房屋面积
+          houseArea: '不限',
+          // 烧饭喜好
+          riceLike: [],
+          // 服务频率
+          serviceFrequency: [],
+          // 服务时间
+          serviceTime: '',
+          // 指导价格
+          hourlyWorkerPrice: '',
+          visitingStartTime: '9:00',
+          visitingEndTime: '11:00',
+          // 是否有宠物
+          pet: [],
+          // 宠物备注
+          petRemarks: '',
+          // serviceStartTime: '',
+          // serviceEndTime: '',
+          // 其他需求
+          told: '',
+        }
+      },
+      form: {
+        service_code: http.getQuery('code'),
+        store_id: Number(http.getQuery('stores-detail')),
+        ad_code: stores.getCityObj().ad_code,
+        address_detail: '',
+        detail_json: '',
+        origin: 20
+      }
+    },
+    computed: {
+      // 计算保洁（钟点家务保洁）价格
+      /*cleanPrice: function () {
+       var price;
+       // 服务选择
+       var serviceType = this.otherFormAttributes[1005].serviceType;
+       // 服务时间
+       var hours = this.otherFormAttributes[1005].hours;
+       // 服务面积
+       var area = this.otherFormAttributes[1005].area;
+       // 阳光房面积
+       var sunRoomArea = this.otherFormAttributes[1005].sunRoomArea;
+       // 地毯材质
+       var carpetMaterial = this.otherFormAttributes[1005].carpetMaterial;
+       var sunRoom = this.otherFormAttributes[1005].sunRoom;
+       if (serviceType == '钟点家务保洁') {
+       // 50元/小时
+       var hoursPrice = 50;
+       if (hours.replace(/[^0-9]+/g, '').replace(/\b(0+)/gi, "") == '') {
+       this.otherFormAttributes[1005].hours = '';
+       return false;
+       }
+       price = Number(hours) * hoursPrice;
+       this.otherFormAttributes[1005].cleanPrice = price;
+       return price;
+       } else if (serviceType == '日常专业保洁') {
+       // 60平方以内300元
+       var withinPrice = 300;
+       // 超出部分6元/平方
+       var exceedPrice = 6;
+       if (area.replace(/[^0-9]+/g, '').replace(/\b(0+)/gi, "") == '') {
+       this.otherFormAttributes[1005].area = '';
+       return false;
+       } else if (Number(area) <= 60) {
+       price = withinPrice;
+       } else if (Number(area) > 60) {
+       price = (Number(area) - 60) * exceedPrice + withinPrice;
+       }
+       this.otherFormAttributes[1005].cleanPrice = price;
+       return price;
+       } else if (serviceType == '开荒专业保洁') {
+       var withinType = {
+       // 60平方以内450元，
+       priceOne: 450,
+       // 60平方以内400元
+       priceTwo: 400,
+       // 150平方以内2000元
+       priceThree: 2000,
+       // 150平方以内1600元
+       priceFour: 1600,
+       };
+       var exceedType = {
+       // 超出部分7元/平方
+       priceOne: 7,
+       // 超出部分6元/平方
+       priceTwo: 6,
+       // 超出部分12元/平方
+       priceThree: 12,
+       // 超出部分10元/平方
+       priceFour: 10,
+       }
+       // 住宅种类
+       var housingType = this.otherFormAttributes[1005].housingType;
+       // 有无家具
+       var furniture = this.otherFormAttributes[1005].furniture;
+       if (area.replace(/[^0-9]+/g, '').replace(/\b(0+)/gi, "") == '') {
+       this.otherFormAttributes[1005].area = '';
+       return false;
+       }
+       if (housingType == '普通住宅' && furniture == '有家具') {
+       if (Number(area) <= 60) {
+       price = withinType.priceOne;
+       } else if (Number(area) > 60) {
+       price = withinType.priceOne + (area - 60) * exceedType.priceOne;
+       }
+       } else if (housingType == '普通住宅' && furniture == '无家具') {
+       if (Number(area) <= 60) {
+       price = withinType.priceTwo;
+       } else if (Number(area) > 60) {
+       price = withinType.priceTwo + (area - 60) * exceedType.priceTwo;
+       }
+       } else if (housingType == '别墅' && furniture == '有家具') {
+       if (Number(area) <= 150) {
+       price = withinType.priceThree;
+       } else if (Number(area) > 150) {
+       price = withinType.priceThree + (area - 150) * exceedType.priceThree;
+       }
+       } else if (housingType == '别墅' && furniture == '无家具') {
+       if (Number(area) <= 150) {
+       price = withinType.priceFour;
+       } else if (Number(area) > 150) {
+       price = withinType.priceFour + (area - 150) * exceedType.priceFour;
+       }
+       }
+       this.otherFormAttributes[1005].cleanPrice = price;
+       return price;
+       } else if (serviceType == '地毯清洁') {
+       var cleaningRangeType = {
+       // 100平方以内1100元，
+       priceOne: 1100,
+       // 100平方以内900元
+       priceTwo: 900,
+       // 100平方以内1000元
+       priceThree: 1000,
+       // 100平方以内800元
+       priceFour: 800,
+       };
+       var cleaningRangePrice = {
+       // 超出部分8元/平方
+       priceOne: 8,
+       // 超出部分6元/平方
+       priceTwo: 6,
+       // 超出部分7元/平方
+       priceThree: 7,
+       // 超出部分5元/平方
+       priceFour: 5,
+       }
+       // 清洁范围
+       var cleaningRange = this.otherFormAttributes[1005].cleaningRange;
+       if (area.replace(/[^0-9]+/g, '').replace(/\b(0+)/gi, "") == '') {
+       this.otherFormAttributes[1005].area = '';
+       return false;
+       }
+       if (cleaningRange == '整屋清洁') {
+       if (Number(area) <= 100 && carpetMaterial == '羊毛') {
+       price = cleaningRangeType.priceOne;
+       } else if (Number(area) > 100 && carpetMaterial == '羊毛') {
+       price = cleaningRangeType.priceOne + (area - 100) * cleaningRangePrice.priceOne;
+       } else if (Number(area) <= 100 && carpetMaterial == '普通') {
+       price = cleaningRangeType.priceTwo;
+       } else if (Number(area) > 100 && carpetMaterial == '普通') {
+       price = cleaningRangeType.priceTwo + (area - 100) * cleaningRangePrice.priceTwo;
+       }
+       } else if (cleaningRange == '可视范围清洁') {
+       if (Number(area) <= 100 && carpetMaterial == '羊毛') {
+       price = cleaningRangeType.priceThree;
+       } else if (Number(area) > 100 && carpetMaterial == '羊毛') {
+       price = cleaningRangeType.priceThree + (area - 100) * cleaningRangePrice.priceThree;
+       } else if (Number(area) <= 100 && carpetMaterial == '普通') {
+       price = cleaningRangeType.priceFour;
+       } else if (Number(area) > 100 && carpetMaterial == '普通') {
+       price = cleaningRangeType.priceFour + (area - 100) * cleaningRangePrice.priceFour;
+       }
+       }
+       this.otherFormAttributes[1005].cleanPrice = price;
+       return price;
+       } else if (serviceType == '地板打蜡') {
+       var waxType = {
+       // 60平方以内280元，
+       priceOne: 280,
+       // 60平方以内500元
+       priceTwo: 500,
+       };
+       var waxPrice = {
+       // 超出部分4元/平方
+       priceOne: 4,
+       // 超出部分7元/平方
+       priceTwo: 7,
+       }
+       // 蜡种类
+       var wax = this.otherFormAttributes[1005].wax;
+       if (area.replace(/[^0-9]+/g, '').replace(/\b(0+)/gi, "") == '') {
+       this.otherFormAttributes[1005].area = '';
+       return false;
+       }
+       if (wax == '液体蜡') {
+       if (Number(area) <= 60) {
+       price = waxType.priceOne;
+       } else if (Number(area) > 60) {
+       price = waxType.priceOne + (area - 60) * waxPrice.priceOne;
+       }
+       } else if (wax == '固体蜡') {
+       if (Number(area) <= 60) {
+       price = waxType.priceTwo;
+       } else if (Number(area) > 60) {
+       price = waxType.priceOne + (area - 60) * waxPrice.priceTwo;
+       }
+       }
+       this.otherFormAttributes[1005].cleanPrice = price;
+       return price;
+       } else if (serviceType == '专业擦玻璃') {
+       // 淋浴房清洁
+       var showerRoom = this.otherFormAttributes[1005].showerRoom;
+       var glassType = {
+       // 100平方以内300元，
+       priceOne: 300,
+       };
+       var glassPrice = {
+       // 超出部分7元/平方
+       priceOne: 7,
+       };
+       // 淋浴房清洁价格
+       var showerRoomPrice = 30;
+       // 阳光房面积价格
+       var sunRoomAreaPrice = 12;
+       if (area.replace(/[^0-9]+/g, '').replace(/\b(0+)/gi, "") == '') {
+       this.otherFormAttributes[1005].area = '';
+       }
+       if (sunRoom.length > 0) {
+       if (sunRoomArea.replace(/[^0-9]+/g, '').replace(/\b(0+)/gi, "") == '') {
+       this.otherFormAttributes[1005].sunRoomArea = '';
+       }
+       }
+       if (!area) {
+       if (Number(area) > 0 && Number(area) <= 100 && showerRoom && sunRoomArea) {
+       price = glassType.priceOne + showerRoom * showerRoomPrice + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 0 && Number(area) <= 100 && showerRoom) {
+       price = glassType.priceOne + showerRoom * showerRoomPrice
+       } else if (Number(area) > 0 && Number(area) <= 100 && sunRoomArea) {
+       price = glassType.priceOne + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 0 && Number(area) <= 100) {
+       price = glassType.priceOne;
+       } else if (Number(area) > 100 && showerRoom && sunRoomArea) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne + showerRoom * showerRoomPrice + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 100 && showerRoom) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne + showerRoom * showerRoomPrice;
+       } else if (Number(area) > 100 && sunRoomArea) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 100) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne;
+       } else if (showerRoom && sunRoomArea) {
+       price = showerRoom * showerRoomPrice + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (showerRoom) {
+       price = showerRoom * showerRoomPrice;
+       } else if (sunRoomArea) {
+       price = Number(sunRoomArea) * sunRoomAreaPrice;
+       }
+       } else {
+       if (Number(area) > 0 && Number(area) <= 100 && showerRoom && sunRoomArea) {
+       price = glassType.priceOne + showerRoom * showerRoomPrice + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 0 && Number(area) <= 100 && showerRoom) {
+       price = glassType.priceOne + showerRoom * showerRoomPrice
+       } else if (Number(area) > 0 && Number(area) <= 100 && sunRoomArea) {
+       price = glassType.priceOne + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 0 && Number(area) <= 100) {
+       price = glassType.priceOne;
+       } else if (Number(area) > 100 && showerRoom && sunRoomArea) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne + showerRoom * showerRoomPrice + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 100 && showerRoom) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne + showerRoom * showerRoomPrice;
+       } else if (Number(area) > 100 && sunRoomArea) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (Number(area) > 100) {
+       price = glassType.priceOne + Number(area - 100) * glassPrice.priceOne;
+       } else if (showerRoom && sunRoomArea) {
+       price = showerRoom * showerRoomPrice + Number(sunRoomArea) * sunRoomAreaPrice;
+       } else if (showerRoom) {
+       price = showerRoom * showerRoomPrice;
+       } else if (sunRoomArea) {
+       price = Number(sunRoomArea) * sunRoomAreaPrice;
+       }
+       }
+       this.otherFormAttributes[1005].cleanPrice = price;
+       return price;
+       } else if (serviceType == '企业保洁面议') {
+       price = '';
+       this.otherFormAttributes[1005].cleanPrice = price;
+       return price;
+       }
+       },*/
+
+      // 计算护工价格
+      nurseWorkerPrice: function () {
+        var price;
+        // 服务选择
+        var serviceType = this.otherFormAttributes[1004].serviceType;
+        // 服务时间
+        var serviceTime = this.otherFormAttributes[1004].serviceTime;
+        // 服务类别
+        var serviceCategory = this.otherFormAttributes[1004].serviceCategory;
+        // 夜间陪护
+        var nightEscort = this.otherFormAttributes[1004].nightEscort;
+        // 夜间陪护价格
+        var nightEscortPrice = 20;
+        if (serviceType) {
+          if (serviceTime == '八小时一对一' && serviceCategory == '半自理' && nightEscort) {
+            price = 170 + nightEscortPrice;
+          } else if (serviceTime == '八小时一对一' && serviceCategory == '半自理') {
+            price = 170;
+          } else if (serviceTime == '八小时一对一' && serviceCategory == '不能自理' && nightEscort) {
+            price = 200 + nightEscortPrice;
+          } else if (serviceTime == '八小时一对一' && serviceCategory == '不能自理') {
+            price = 200;
+          } else if (serviceTime == '八小时一对多' && serviceCategory == '半自理' && nightEscort) {
+            price = 110 + nightEscortPrice;
+          } else if (serviceTime == '八小时一对多' && serviceCategory == '半自理') {
+            price = 110;
+          } else if (serviceTime == '八小时一对多' && serviceCategory == '不能自理' && nightEscort) {
+            price = 140 + nightEscortPrice;
+          } else if (serviceTime == '八小时一对多' && serviceCategory == '不能自理') {
+            price = 140;
+          } else if (serviceTime == '24小时一对一' && serviceCategory == '半自理') {
+            price = 260;
+          } else if (serviceTime == '24小时一对一' && serviceCategory == '不能自理') {
+            price = 300;
+          } else if (serviceTime == '24小时一对多' && serviceCategory == '半自理') {
+            price = 180;
+          } else if (serviceTime == '24小时一对多' && serviceCategory == '不能自理') {
+            price = 210;
+          }
+        }
+        this.otherFormAttributes[1004].nurseWorkerPrice = price;
+        return price;
+      },
+
+      // 计算保姆价格
+      nannyPrice: function () {
+        var price;
+        // 服务选择
+        var serviceType = this.otherFormAttributes[1003].serviceType;
+        // 服务类别
+        var serviceCategory = this.otherFormAttributes[1003].serviceCategory;
+        // 服务假期
+        var holiday = this.otherFormAttributes[1003].holiday;
+        if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+做饭' && holiday == '双休') {
+          price = "3500-4500";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+做饭' && holiday == '单休') {
+          price = "3800-4800";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+小孩' && holiday == '双休1-4岁') {
+          price = "3800-4800";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+小孩' && holiday == '双休4-10岁') {
+          price = "3600-4600";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+小孩' && holiday == '单休1-4岁') {
+          price = "4200-5200";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+小孩' && holiday == '单休4-10岁') {
+          price = "3800-4800";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+照顾老人（能自理）' && holiday == '双休') {
+          price = "3500-4500";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+照顾老人（能自理）' && holiday == '单休') {
+          price = "3800-4800";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+照顾老人（不能自理）' && holiday == '双休') {
+          price = "4200-5200";
+        } else if (serviceType == '非住家保姆（白班8小时）' && serviceCategory == '家务+照顾老人（不能自理）' && holiday == '单休') {
+          price = "4500-5500";
+        } else if (serviceType == '住家保姆' && serviceCategory == '家务+做饭' && holiday == '单休') {
+          price = "3700-4700";
+        } else if (serviceType == '住家保姆' && serviceCategory == '家务+小孩' && holiday == '单休1-4岁') {
+          price = "4600-5600";
+        } else if (serviceType == '住家保姆' && serviceCategory == '家务+小孩' && holiday == '单休4-10岁') {
+          price = "4200-5200";
+        } else if (serviceType == '住家保姆' && serviceCategory == '家务+照顾老人（能自理）' && holiday == '月休2天') {
+          price = "4500-5500";
+        } else if (serviceType == '住家保姆' && serviceCategory == '家务+照顾老人（不能自理）' && holiday == '月休2天') {
+          price = "5200-6200";
+        } else if (serviceType == '住家保姆' && serviceCategory == '家务+照顾老人（能自理）' && holiday == '月休4天') {
+          price = "4200-5200";
+        } else if (serviceType == '住家保姆' && serviceCategory == '家务+照顾老人（不能自理）' && holiday == '月休4天') {
+          price = "4900-5900";
+        }
+        this.otherFormAttributes[1003].nannyPrice = price;
+        return price;
+      },
+
+      // 计算育婴师价格
+      nurseryTeacherPrice: function () {
+        var price;
+        var startPrice;
+        var endPrice;
+        // 月嫂级别
+        var level = this.otherFormAttributes[1002].level;
+        // 双胞胎经验
+        var twinsExperience = this.otherFormAttributes[1002].twinsExperience;
+        // 双胞胎经验价格
+        var twinsExperiencePrice = 800;
+        if (level == "初级" && twinsExperience) {
+          startPrice = 4000 + twinsExperiencePrice;
+          endPrice = 4699 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "初级") {
+          price = "4000-4699";
+        } else if (level == "中级" && twinsExperience) {
+          startPrice = 4700 + twinsExperiencePrice;
+          endPrice = 5399 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "中级") {
+          price = "4700-5399";
+        } else if (level == "高级" && twinsExperience) {
+          startPrice = 5400 + twinsExperiencePrice;
+          endPrice = 6099 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "高级") {
+          price = "5400-6099";
+        } else if (level == "特级" && twinsExperience) {
+          startPrice = 6100 + twinsExperiencePrice;
+          endPrice = 6799 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "特级") {
+          price = "6100-6799";
+        } else if (level == "金牌" && twinsExperience) {
+          startPrice = 6800 + twinsExperiencePrice;
+          endPrice = 7500 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "金牌") {
+          price = "6800-7500";
+        }
+        this.otherFormAttributes[1002].nurseryTeacherPrice = price;
+        return price;
+      },
+      // 计算月嫂价格
+      maternityMatronPrice: function () {
+        var price;
+        var startPrice;
+        var endPrice;
+        // 月嫂级别
+        var level = this.otherFormAttributes[1001].level;
+        // 双胞胎经验
+        var twinsExperience = this.otherFormAttributes[1001].twinsExperience;
+        // 双胞胎经验价格
+        var twinsExperiencePrice = 1500;
+        if (level == "初级" && twinsExperience) {
+          startPrice = 6800 + twinsExperiencePrice;
+          endPrice = 7000 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "初级") {
+          price = "6800-7000";
+        } else if (level == "中级" && twinsExperience) {
+          startPrice = 8800 + twinsExperiencePrice;
+          endPrice = 9000 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "中级") {
+          price = "8800-9000";
+        } else if (level == "高级" && twinsExperience) {
+          startPrice = 10800 + twinsExperiencePrice;
+          endPrice = 11000 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "高级") {
+          price = "10800-11000";
+        } else if (level == "特级" && twinsExperience) {
+          startPrice = 13800 + twinsExperiencePrice;
+          endPrice = 14000 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "特级") {
+          price = "13800-14000";
+        } else if (level == "金牌" && twinsExperience) {
+          startPrice = 16800 + twinsExperiencePrice;
+          endPrice = 17000 + twinsExperiencePrice;
+          price = startPrice + "-" + endPrice;
+        } else if (level == "金牌") {
+          price = "16800-17000";
+        }
+        this.otherFormAttributes[1001].maternityMatronPrice = price;
+        return price;
+      },
+      // 计算钟点工上门结束时间
+      endTime: function () {
+        var time;
+        // 上门开始时间
+        var visitingStartTime = this.otherFormAttributes[1006].visitingStartTime;
+        // 服务时间
+        var serviceTime = this.otherFormAttributes[1006].serviceTime;
+        // 小时
+        var visitingHours = Number(visitingStartTime.split(":")[0]);
+        // 分钟
+        var visitingMinute = visitingStartTime.split(":")[1];
+        time = visitingHours + Number(serviceTime);
+        if (time == 24) {
+          time = 00;
+        } else if (time == 25) {
+          time = 01;
+        } else if (time == 26) {
+          time = 02;
+        } else if (time == 27) {
+          time = 03;
+        } else if (time == 28) {
+          time = 04;
+        }
+        return time + ":" + visitingMinute;
+      },
+      // 计算钟点工价格
+      hourlyWorkerPrice: function () {
+        var price;
+        // 服务频率
+        var serviceFrequency = this.otherFormAttributes[1006].serviceFrequency.length;
+        // 服务时间
+        var serviceTime = this.otherFormAttributes[1006].serviceTime;
+        // 服务类别
+        var serviceType = this.otherFormAttributes[1006].serviceType;
+        // 做饭另加100元
+        var ricePrice = 100;
+        if (serviceFrequency == 1 && serviceTime == '2' && serviceType[1] == '烧饭') {
+          price = 500 + ricePrice;
+        } else if (serviceFrequency == 1 && serviceTime == '2') {
+          price = 500;
+        } else if (serviceFrequency == 2 && serviceTime == '2' && serviceType[1] == '烧饭') {
+          price = 700 + ricePrice;
+        } else if (serviceFrequency == 2 && serviceTime == '2') {
+          price = 700;
+        } else if (serviceFrequency == 3 && serviceTime == '2' && serviceType[1] == '烧饭') {
+          price = 900 + ricePrice;
+        } else if (serviceFrequency == 3 && serviceTime == '2') {
+          price = 900;
+        } else if (serviceFrequency == 4 && serviceTime == '2' && serviceType[1] == '烧饭') {
+          price = 1100 + ricePrice;
+        } else if (serviceFrequency == 4 && serviceTime == '2') {
+          price = 1100;
+        } else if (serviceFrequency == 5 && serviceTime == '2' && serviceType[1] == '烧饭') {
+          price = 1300 + ricePrice;
+        } else if (serviceFrequency == 5 && serviceTime == '2') {
+          price = 1300;
+        } else if (serviceFrequency == 6 && serviceTime == '2' && serviceType[1] == '烧饭') {
+          price = 1500 + ricePrice;
+        } else if (serviceFrequency == 6 && serviceTime == '2') {
+          price = 1500;
+        } else if (serviceFrequency == 7 && serviceTime == '2' && serviceType[1] == '烧饭') {
+          price = 1750 + ricePrice;
+        } else if (serviceFrequency == 7 && serviceTime == '2') {
+          price = 1750;
+        } else if (serviceFrequency == 1 && serviceTime == '3' && serviceType[1] == '烧饭') {
+          price = 600 + ricePrice;
+        } else if (serviceFrequency == 1 && serviceTime == '3') {
+          price = 600;
+        } else if (serviceFrequency == 2 && serviceTime == '3' && serviceType[1] == '烧饭') {
+          price = 900 + ricePrice;
+        } else if (serviceFrequency == 2 && serviceTime == '3') {
+          price = 900;
+        } else if (serviceFrequency == 3 && serviceTime == '3' && serviceType[1] == '烧饭') {
+          price = 1200 + ricePrice;
+        } else if (serviceFrequency == 3 && serviceTime == '3') {
+          price = 1200;
+        } else if (serviceFrequency == 4 && serviceTime == '3' && serviceType[1] == '烧饭') {
+          price = 1400 + ricePrice;
+        } else if (serviceFrequency == 4 && serviceTime == '3') {
+          price = 1400;
+        } else if (serviceFrequency == 5 && serviceTime == '3' && serviceType[1] == '烧饭') {
+          price = 1800 + ricePrice;
+        } else if (serviceFrequency == 5 && serviceTime == '3') {
+          price = 1800;
+        } else if (serviceFrequency == 6 && serviceTime == '3' && serviceType[1] == '烧饭') {
+          price = 2000 + ricePrice;
+        } else if (serviceFrequency == 6 && serviceTime == '3') {
+          price = 2000;
+        } else if (serviceFrequency == 7 && serviceTime == '3' && serviceType[1] == '烧饭') {
+          price = 2350 + ricePrice;
+        } else if (serviceFrequency == 7 && serviceTime == '3') {
+          price = 2350;
+        } else if (serviceFrequency == 1 && serviceTime == '4' && serviceType[1] == '烧饭') {
+          price = 700 + ricePrice;
+        } else if (serviceFrequency == 1 && serviceTime == '4') {
+          price = 700;
+        } else if (serviceFrequency == 2 && serviceTime == '4' && serviceType[1] == '烧饭') {
+          price = 1150 + ricePrice;
+        } else if (serviceFrequency == 2 && serviceTime == '4') {
+          price = 1150;
+        } else if (serviceFrequency == 3 && serviceTime == '4' && serviceType[1] == '烧饭') {
+          price = 1500 + ricePrice;
+        } else if (serviceFrequency == 3 && serviceTime == '4') {
+          price = 1500;
+        } else if (serviceFrequency == 4 && serviceTime == '4' && serviceType[1] == '烧饭') {
+          price = 1750 + ricePrice;
+        } else if (serviceFrequency == 4 && serviceTime == '4') {
+          price = 1750;
+        } else if (serviceFrequency == 5 && serviceTime == '4' && serviceType[1] == '烧饭') {
+          price = 2200 + ricePrice;
+        } else if (serviceFrequency == 5 && serviceTime == '4') {
+          price = 2200;
+        } else if (serviceFrequency == 6 && serviceTime == '4' && serviceType[1] == '烧饭') {
+          price = 2500 + ricePrice;
+        } else if (serviceFrequency == 6 && serviceTime == '4') {
+          price = 2500;
+        } else if (serviceFrequency == 7 && serviceTime == '4' && serviceType[1] == '烧饭') {
+          price = 2900 + ricePrice;
+        } else if (serviceFrequency == 7 && serviceTime == '4') {
+          price = 2900;
+        } else if (serviceFrequency == 1 && serviceTime == '5' && serviceType[1] == '烧饭') {
+          price = 800 + ricePrice;
+        } else if (serviceFrequency == 1 && serviceTime == '5') {
+          price = 800;
+        } else if (serviceFrequency == 2 && serviceTime == '5' && serviceType[1] == '烧饭') {
+          price = 1300 + ricePrice;
+        } else if (serviceFrequency == 2 && serviceTime == '5') {
+          price = 1300;
+        } else if (serviceFrequency == 3 && serviceTime == '5' && serviceType[1] == '烧饭') {
+          price = 1700 + ricePrice;
+        } else if (serviceFrequency == 3 && serviceTime == '5') {
+          price = 1700;
+        } else if (serviceFrequency == 4 && serviceTime == '5' && serviceType[1] == '烧饭') {
+          price = 2100 + ricePrice;
+        } else if (serviceFrequency == 4 && serviceTime == '5') {
+          price = 2100;
+        } else if (serviceFrequency == 5 && serviceTime == '5' && serviceType[1] == '烧饭') {
+          price = 2600 + ricePrice;
+        } else if (serviceFrequency == 5 && serviceTime == '5') {
+          price = 2600;
+        } else if (serviceFrequency == 6 && serviceTime == '5' && serviceType[1] == '烧饭') {
+          price = 2900 + ricePrice;
+        } else if (serviceFrequency == 6 && serviceTime == '5') {
+          price = 2900;
+        } else if (serviceFrequency == 7 && serviceTime == '5' && serviceType[1] == '烧饭') {
+          price = 3400 + ricePrice;
+        } else if (serviceFrequency == 7 && serviceTime == '5') {
+          price = 3400;
+        }
+        this.otherFormAttributes[1006].hourlyWorkerPrice = price;
+        return price;
+      },
+      // 判断是否登陆
+      isShow: function () {
+        var isShow = true;
+        if (!stores.getValue('accessToken')) {
+          return isShow
+        }
+        else {
+          return !isShow
+        }
+      }
+    },
+    methods: {
+      // 下单
+      submitForm: function () {
+        if (!stores.getValue('accessToken')) {
+          redirect.remember();
+          tools.confirm('请先登录', false, true, function () {
+            window.location.href = 'login.html';
+          }, function () {
+          });
+          return false;
+        }
+        this.dateSelected();
+        var formDetail = {};
+        $.each(this.commonFormAttributes, function (index, item) {
+          formDetail[item.label] = item.selected
+        });
+        var specialRequirements = this.otherFormAttributes[this.form.service_code];
+        switch (this.form.service_code) {
+          case '1001':
+            formDetail['门店名称'] = this.storeName;
+            formDetail['城市'] = this.cityName;
+            formDetail['区域'] = this.regionName;
+            formDetail['服务选择'] = specialRequirements.serviceType;
+            formDetail['服务类别'] = specialRequirements.serviceCategory;
+            formDetail['宝宝性别'] = specialRequirements.babySex;
+            formDetail['月子周期'] = specialRequirements.onfinementDate;
+            formDetail['月嫂级别'] = specialRequirements.level;
+            formDetail['是否有宠物'] = specialRequirements.pet;
+            formDetail['其它备注'] = specialRequirements.petRemarks;
+            formDetail['指导价格'] = specialRequirements.maternityMatronPrice;
+            formDetail['其他需求'] = specialRequirements.told;
+            formDetail['服务开始时间'] = specialRequirements.serviceStartTime;
+            formDetail['服务结束时间'] = specialRequirements.serviceEndTime;
+            formDetail['双胞胎经验'] = specialRequirements.twinsExperience ? '需要' : '不需要';
+            formDetail['早产儿经验'] = specialRequirements.pretermBirthExperience ? '需要' : '不需要';
+            formDetail['预产期'] = specialRequirements.dueDate;
+            break;
+          case '1002':
+            formDetail['门店名称'] = this.storeName;
+            formDetail['城市'] = this.cityName;
+            formDetail['区域'] = this.regionName;
+            formDetail['宝宝年龄'] = specialRequirements.babyAge;
+            formDetail['宝宝性别'] = specialRequirements.babySex;
+            formDetail['用过育婴师否'] = specialRequirements.used;
+            formDetail['育婴师等级'] = specialRequirements.level;
+            formDetail['是否有宠物'] = specialRequirements.pet;
+            formDetail['其它备注'] = specialRequirements.petRemarks;
+            formDetail['指导价格'] = specialRequirements.nurseryTeacherPrice;
+            formDetail['其他需求'] = specialRequirements.told;
+            formDetail['服务开始时间'] = specialRequirements.serviceStartTime;
+            formDetail['服务结束时间'] = specialRequirements.serviceEndTime;
+            formDetail['双胞胎经验'] = specialRequirements.twinsExperience ? '需要' : '不需要';
+            formDetail['早产儿经验'] = specialRequirements.pretermBirthExperience ? '需要' : '不需要';
+            break;
+          case '1003':
+            formDetail['门店名称'] = this.storeName;
+            formDetail['城市'] = this.cityName;
+            formDetail['区域'] = this.regionName;
+            formDetail['服务选择'] = specialRequirements.serviceType;
+            formDetail['服务类别'] = specialRequirements.serviceCategory;
+            formDetail['服务假期'] = specialRequirements.holiday;
+            formDetail['房屋面积'] = specialRequirements.houseArea;
+            formDetail['烧饭喜好'] = specialRequirements.riceLike;
+            formDetail['指导价格'] = specialRequirements.nannyPrice;
+            formDetail['是否有宠物'] = specialRequirements.pet;
+            formDetail['其它备注'] = specialRequirements.petRemarks;
+            formDetail['其他需求'] = specialRequirements.told;
+            formDetail['服务开始时间'] = specialRequirements.serviceStartTime;
+            formDetail['服务结束时间'] = specialRequirements.serviceEndTime;
+            break;
+          case '1004':
+            formDetail['门店名称'] = this.storeName;
+            formDetail['城市'] = this.cityName;
+            formDetail['区域'] = this.regionName;
+            formDetail['服务选择'] = specialRequirements.serviceType;
+            formDetail['服务时间'] = specialRequirements.serviceTime;
+            formDetail['服务类别'] = specialRequirements.serviceCategory;
+            formDetail['是否做饭'] = specialRequirements.cook;
+            formDetail['烧饭喜好'] = specialRequirements.riceLike;
+            formDetail['老人性别'] = specialRequirements.elderlySex;
+            formDetail['需要打鼻食'] = specialRequirements.nasalFeeding ? '需要' : '不需要';
+            formDetail['夜间陪护'] = specialRequirements.nightEscort ? '需要' : '不需要';
+            formDetail['是否有宠物'] = specialRequirements.pet;
+            formDetail['其它备注'] = specialRequirements.petRemarks;
+            formDetail['指导价格'] = specialRequirements.nurseWorkerPrice;
+            formDetail['有无传染病'] = specialRequirements.contagion;
+            formDetail['其他需求'] = specialRequirements.told;
+            formDetail['服务开始时间'] = specialRequirements.serviceStartTime;
+            formDetail['服务结束时间'] = specialRequirements.serviceEndTime;
+            break;
+          case '1005':
+            formDetail['门店名称'] = this.storeName;
+            formDetail['城市'] = this.cityName;
+            formDetail['区域'] = this.regionName;
+            formDetail['服务选择'] = specialRequirements.serviceType;
+            /*if (this.otherFormAttributes[1005].serviceType == '钟点家务保洁') {
+             formDetail['服务时长'] = specialRequirements.hours;
+             formDetail['指导价格'] = specialRequirements.cleanPrice;
+             } else if (this.otherFormAttributes[1005].serviceType == '日常专业保洁') {
+             formDetail['服务面积'] = specialRequirements.area;
+             formDetail['指导价格'] = specialRequirements.cleanPrice;
+             } else if (this.otherFormAttributes[1005].serviceType == '开荒专业保洁') {
+             formDetail['住宅种类'] = specialRequirements.housingType;
+             formDetail['有无家具'] = specialRequirements.furniture;
+             formDetail['服务面积'] = specialRequirements.area;
+             formDetail['指导价格'] = specialRequirements.cleanPrice;
+             } else if (this.otherFormAttributes[1005].serviceType == '地毯清洁') {
+             formDetail['清洁范围'] = specialRequirements.cleaningRange;
+             formDetail['服务面积'] = specialRequirements.area;
+             formDetail['地毯材质'] = specialRequirements.carpetMaterial;
+             formDetail['指导价格'] = specialRequirements.cleanPrice;
+             } else if (this.otherFormAttributes[1005].serviceType == '地板打蜡') {
+             formDetail['蜡种类'] = specialRequirements.wax;
+             formDetail['服务面积'] = specialRequirements.area;
+             formDetail['指导价格'] = specialRequirements.cleanPrice;
+             } else if (this.otherFormAttributes[1005].serviceType == '专业擦玻璃') {
+             formDetail['服务面积'] = specialRequirements.area;
+             formDetail['淋浴房清洁'] = specialRequirements.showerRoom;
+             formDetail['阳光房清洁'] = specialRequirements.sunRoom;
+             formDetail['阳光房面积'] = specialRequirements.sunRoomArea;
+             formDetail['指导价格'] = specialRequirements.cleanPrice;
+             } else if (this.otherFormAttributes[1005].serviceType == '企业保洁面议') {
+             formDetail['指导价格'] = 0;
+             }*/
+            formDetail['上门时间'] = specialRequirements.visitingTime;
+            formDetail['是否有宠物'] = specialRequirements.pet;
+            formDetail['其它备注'] = specialRequirements.petRemarks;
+            formDetail['其他需求'] = specialRequirements.told;
+            formDetail['服务开始时间'] = specialRequirements.dueDate;
+            // formDetail['服务结束时间'] = specialRequirements.serviceEndTime;
+            break;
+          case '1006':
+            formDetail['门店名称'] = this.storeName;
+            formDetail['城市'] = this.cityName;
+            formDetail['区域'] = this.regionName;
+            formDetail['服务选择'] = specialRequirements.serviceType;
+            formDetail['烧饭喜好'] = specialRequirements.riceLike;
+            formDetail['房屋面积'] = specialRequirements.houseArea;
+            formDetail['服务频率'] = specialRequirements.serviceFrequency;
+            formDetail['服务时长'] = specialRequirements.serviceTime;
+            formDetail['指导价格'] = specialRequirements.hourlyWorkerPrice;
+            formDetail['是否有宠物'] = specialRequirements.pet;
+            formDetail['其它备注'] = specialRequirements.petRemarks;
+            formDetail['其他需求'] = specialRequirements.told;
+            formDetail['服务开始时间'] = specialRequirements.visitingStartTime;
+            formDetail['服务结束时间'] = specialRequirements.visitingEndTime;
+            // formDetail['服务开始时间'] = specialRequirements.serviceStartTime;
+            // formDetail['服务结束时间'] = specialRequirements.serviceEndTime;
+            break;
+          default:
+            tools.alert('未知服务类型，下单失败', 'error');
+            return false;
+            break;
+        }
+        this.formDetailValidate(formDetail);
+      },
+      getAreaList: function () {
+        var vm = this;
+        http.get('area/areas', {
+          city_code: stores.getCityObj().ad_code
+        }, function (data) {
+          vm.areaList = data;
+        })
+      },
+      changeCity: function () {
+        window.location.href = window.location.origin + '/wx/city.html';
+      },
+      // 日期选择
+      dateSelected: function () {
+        var vm = this.otherFormAttributes[this.form.service_code];
+        var inpstart = $.trim($("#inpstart").val());
+        var inpend = $.trim($("#inpend").val());
+        var dueDate = $.trim($("#date").val());
+        vm.serviceStartTime = inpstart;
+        vm.serviceEndTime = inpend;
+        vm.dueDate = dueDate;
+      },
+      // 判断表单值是否为空再下单
+      formDetailValidate: function (formDetail) {
+        var f = false;
+        $.each(formDetail, function (key, val) {
+          if (!$.trim(val)) {
+            if (key == "门店名称") {
+              return true;
+            } else if (key == "其他需求") {
+              return true;
+            } else if (key == "其它备注") {
+              return true;
+            } else if (key == "烧饭喜好") {
+              return true;
+            } else if (key == "是否做饭") {
+              return true;
+            } else if (key == "是否有宠物") {
+              return true;
+            }
+            /*else if (key == "有无传染病") {
+             return true;
+             } else if (key == "淋浴房清洁") {
+             return true;
+             } else if (key == "阳光房清洁") {
+             return true;
+             } else if (key == "阳光房面积") {
+             return true;
+             }*/
+            else if (key == "指导价格") {
+              return true;
+            }
+            if (key == "服务时长") {
+              tools.alert('服务时长不能为空或者格式错误', 'warning');
+              return f = false;
+              return false;
+            }
+            /*if (key == "服务面积") {
+             tools.alert('服务面积不能为空或者格式错误', 'warning');
+             return f = false;
+             return false;
+             }*/
+            tools.alert(key + '不能为空', 'warning');
+            return f = false;
+          } else {
+            f = true;
+          }
+        });
+        if (f) {
+          /*if (formDetail['阳光房清洁'] != '' && formDetail['阳光房面积'] == '') {
+           tools.alert('阳光房面积不能为空或者格式错误', 'warning');
+           return false
+           }*/
+          if ($.trim(this.form.address_detail) == "") {
+            tools.alert('详细地址不能为空', 'warning');
+            return false;
+          }
+          this.submitFormSuccess(formDetail);
+        }
+      },
+      submitFormSuccess: function (formDetail) {
+        this.form.detail_json = JSON.stringify(formDetail);
+        http.post('order/simple', this.form, function () {
+          tools.confirm('感谢您选择啄木鸟家政，客服会在2小时之内与您联系，请您保持电话畅通，耐心等待！', 'success', false, function () {
+            if (window.location.href.toLowerCase().indexOf("wx") > 0) {
+              window.location.href = window.location.origin + "/wx/order-list/order-list.html";
+            } else {
+              window.location.href = window.location.origin + "/order.html";
+            }
+          })
+        })
+      },
+      // 附近门店详情
+      getStoreDetail: function (storeId) {
+        var vm = this;
+        http.get('store/view', {
+          id: storeId,
+          fields: 'name',
+          expand: 'address'
+        }, function (data) {
+          vm.storeName = data.name;
+        })
+      },
+      tabToggle: function () {
+        $(".tabToggle").toggleClass("up");
+        $(".houseKeepingToggle").slideToggle(500);
+      },
+      // 未登录页面跳转
+      turnToLogin: function () {
+        redirect.remember();
+        window.location.href = 'login.html';
+      }
+    },
+    mounted: function () {
+      var storeId = http.getQuery("stores-detail");
+      this.getAreaList();
+      if (storeId) {
+        this.getStoreDetail(storeId);
+      }
+    }
+  })
+  $('#date').jeDate({
+    isinitVal: true,
+    initDate: [{hh: 10, mm: 00, ss: 00}, false],
+    format: 'YYYY-MM-DD',
+    minDate: "2014-06-16",
+    maxDate: '2099-06-16' // 最大日期
+  });
+</script>

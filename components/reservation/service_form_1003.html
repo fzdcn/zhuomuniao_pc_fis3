@@ -1,0 +1,259 @@
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/ser_choice.png" alt="">服务选择</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a
+        @click="otherFormAttributes[1003].serviceType='非住家保姆（白班8小时）';otherFormAttributes[1003].serviceCategory='';otherFormAttributes[1003].holiday=''"
+        :class="{on:otherFormAttributes[1003].serviceType=='非住家保姆（白班8小时）'}"
+        href="javascript:void(0);">非住家保姆（白班8小时）</a>
+
+      <a
+        @click="otherFormAttributes[1003].serviceType='住家保姆';otherFormAttributes[1003].serviceCategory='';otherFormAttributes[1003].holiday=''"
+        :class="{on:otherFormAttributes[1003].serviceType=='住家保姆'}"
+        href="javascript:void(0);">住家保姆</a>
+    </div>
+  </div>
+</div>
+
+<div v-if="otherFormAttributes[1003].serviceType" class="row clearfix">
+  <div class="title"><img src="/wx/static/images/service_content.png" alt="">服务类别</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1003].serviceCategory='家务+做饭';otherFormAttributes[1003].holiday=''"
+         :class="{on:otherFormAttributes[1003].serviceCategory=='家务+做饭'}"
+         href="javascript:void(0);">家务+做饭</a>
+
+      <a @click="otherFormAttributes[1003].serviceCategory='家务+小孩';otherFormAttributes[1003].holiday=''"
+         :class="{on:otherFormAttributes[1003].serviceCategory=='家务+小孩'}"
+         href="javascript:void(0);">家务+小孩</a>
+
+      <a @click="otherFormAttributes[1003].serviceCategory='家务+照顾老人（能自理）';otherFormAttributes[1003].holiday=''"
+         :class="{on:otherFormAttributes[1003].serviceCategory=='家务+照顾老人（能自理）'}"
+         href="javascript:void(0);">家务+照顾老人（能自理）</a>
+
+      <a @click="otherFormAttributes[1003].serviceCategory='家务+照顾老人（不能自理）';otherFormAttributes[1003].holiday=''"
+         :class="{on:otherFormAttributes[1003].serviceCategory=='家务+照顾老人（不能自理）'}"
+         href="javascript:void(0);">家务+照顾老人（不能自理）</a>
+    </div>
+  </div>
+</div>
+
+<!--假期-->
+<div v-if="otherFormAttributes[1003].serviceCategory" class="row clearfix">
+  <div class="title"><img src="/wx/static/images/service_frequency.png" alt="">服务假期</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <template v-if="otherFormAttributes[1003].serviceType=='非住家保姆（白班8小时）'">
+        <a v-if="otherFormAttributes[1003].serviceCategory=='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='双休1-4岁'"
+           :class="{on:otherFormAttributes[1003].holiday=='双休1-4岁'}"
+           href="javascript:void(0);">双休1-4岁</a>
+
+        <a v-if="otherFormAttributes[1003].serviceCategory=='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='双休4-10岁'"
+           :class="{on:otherFormAttributes[1003].holiday=='双休4-10岁'}"
+           href="javascript:void(0);">双休4-10岁</a>
+
+        <a v-if="otherFormAttributes[1003].serviceCategory=='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='单休1-4岁'"
+           :class="{on:otherFormAttributes[1003].holiday=='单休1-4岁'}"
+           href="javascript:void(0);">单休1-4岁</a>
+
+        <a v-if="otherFormAttributes[1003].serviceCategory=='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='单休4-10岁'"
+           :class="{on:otherFormAttributes[1003].holiday=='单休4-10岁'}"
+           href="javascript:void(0);">单休4-10岁</a>
+
+        <a v-if="otherFormAttributes[1003].serviceCategory!='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='双休'"
+           :class="{on:otherFormAttributes[1003].holiday=='双休'}"
+           href="javascript:void(0);">双休</a>
+
+        <a v-if="otherFormAttributes[1003].serviceCategory!='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='单休'"
+           :class="{on:otherFormAttributes[1003].holiday=='单休'}"
+           href="javascript:void(0);">单休</a>
+      </template>
+
+      <template v-if="otherFormAttributes[1003].serviceType=='住家保姆'">
+        <a v-if="otherFormAttributes[1003].serviceCategory=='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='单休1-4岁'"
+           :class="{on:otherFormAttributes[1003].holiday=='单休1-4岁'}"
+           href="javascript:void(0);">单休1-4岁</a>
+
+        <a v-if="otherFormAttributes[1003].serviceCategory=='家务+小孩'"
+           @click="otherFormAttributes[1003].holiday='单休4-10岁'"
+           :class="{on:otherFormAttributes[1003].holiday=='单休4-10岁'}"
+           href="javascript:void(0);">单休4-10岁</a>
+
+        <a v-if="otherFormAttributes[1003].serviceCategory=='家务+做饭'"
+           @click="otherFormAttributes[1003].holiday='单休'"
+           :class="{on:otherFormAttributes[1003].holiday=='单休'}"
+           href="javascript:void(0);">单休</a>
+
+        <a
+          v-if="otherFormAttributes[1003].serviceCategory=='家务+照顾老人（能自理）' || otherFormAttributes[1003].serviceCategory=='家务+照顾老人（不能自理）'"
+          @click="otherFormAttributes[1003].holiday='月休2天'"
+          :class="{on:otherFormAttributes[1003].holiday=='月休2天'}"
+          href="javascript:void(0);">月休2天</a>
+
+        <a
+          v-if="otherFormAttributes[1003].serviceCategory=='家务+照顾老人（能自理）' || otherFormAttributes[1003].serviceCategory=='家务+照顾老人（不能自理）'"
+          @click="otherFormAttributes[1003].holiday='月休4天'"
+          :class="{on:otherFormAttributes[1003].holiday=='月休4天'}"
+          href="javascript:void(0);">月休4天</a>
+      </template>
+    </div>
+  </div>
+</div>
+
+<div v-if="otherFormAttributes[1003].holiday" class="row clearfix">
+  <div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a class="on" href="javascript:void(0);">{{ nannyPrice }}</a>
+      <a style="border: none;" href="javascript:void(0);">
+        <p class="f16 cccc">*元/月</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/taste_like.png" alt="">烧饭喜好</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1003].riceLike" value="正常" type="checkbox"/>
+          正常
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1003].riceLike" value="偏甜" type="checkbox"/>
+          偏甜
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1003].riceLike" value="偏辣" type="checkbox"/>
+          偏辣
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/house_area.png" alt="">房屋面积</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1003].houseArea='不限'"
+         :class="{on:otherFormAttributes[1003].houseArea=='不限'}"
+         href="javascript:void(0);">不限</a>
+      <a @click="otherFormAttributes[1003].houseArea='80以下'"
+         :class="{on:otherFormAttributes[1003].houseArea=='80以下'}"
+         href="javascript:void(0);">80以下</a>
+      <a @click="otherFormAttributes[1003].houseArea='80-120'"
+         :class="{on:otherFormAttributes[1003].houseArea=='80-120'}"
+         href="javascript:void(0);">80-120</a>
+      <a @click="otherFormAttributes[1003].houseArea='120-150'"
+         :class="{on:otherFormAttributes[1003].houseArea=='120-150'}"
+         href="javascript:void(0);">120-150</a>
+      <a @click="otherFormAttributes[1003].houseArea='150-200'"
+         :class="{on:otherFormAttributes[1003].houseArea=='150-200'}"
+         href="javascript:void(0);">150-200</a>
+      <a @click="otherFormAttributes[1003].houseArea='200以上'"
+         :class="{on:otherFormAttributes[1003].houseArea=='200以上'}"
+         href="javascript:void(0);">200以上</a>
+      <!--<a href="javascript:void(0);">-->
+      <!--<p class="f16 cccc">*按平方计算</p>-->
+      <!--</a>-->
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/home_time.png" alt="">服务时间</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;" href="javascript:void(0);">
+        <label for="inpstart">开始日期
+          <input class="f16 c666" id="inpstart" type="text" placeholder="开始时间" readonly>
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label for="inpend">结束日期
+          <input class="f16 c666" id="inpend" type="text" placeholder="结束时间" readonly>
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!--地址-->
+<div v-if="form.service_code">
+  <link rel="import" href="/components/reservation/service_address.html?__inline">
+</div>
+
+<div @click="tabToggle();" class="tabToggle">其它可选</div>
+<div class="houseKeepingToggle hide">
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/pet.png" alt="">是否有宠物</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1003].pet" value="大型犬" type="checkbox"/>
+            大型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1003].pet" value="小型犬" type="checkbox"/>
+            小型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1003].pet" value="猫" type="checkbox"/>
+            猫
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1003].pet" value="其它" type="checkbox"/>
+            其它
+          </label>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其它备注</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1003].petRemarks"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其他需求</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1003].told"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="requirement">家政员要求</div>
+  <div v-if="form.service_code">
+    <link rel="import" href="/components/reservation/common-form-attributes.html?__inline">
+  </div>
+</div>

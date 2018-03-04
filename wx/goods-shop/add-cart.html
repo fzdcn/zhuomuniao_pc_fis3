@@ -1,0 +1,36 @@
+<!--加入购物车-->
+<div class="choice-popup" v-cloak>
+  <div class="pop">
+    <div class="topbar"></div>
+    <div class="top clearfix">
+      <div class="top-img fl">
+        <img :src="photo">
+      </div>
+      <div class="con fl">
+        <div class="tit color-8">{{ currentName }}</div>
+        <div class="many color-h">￥{{ currentPrice }}</div>
+      </div>
+      <div class="close">
+        <img src="/wx/static/images/choose_category_close@2x.png" @click="closeShow">
+      </div>
+    </div>
+    <div class="classic clearfix">
+      <div class="type color-8">分类</div>
+      <div class="classify-list">
+        <div class="classify-item color-99" :class="{'select-type' : choice==item.id }" v-for="item in propertyList" @click="chooseType(item)" v-if="item.status==10">{{item.tag_name}}</div>
+        <div class="classify-item color-99 no-sale" :class="{'select-type' : choice==item.id }" v-for="item in propertyList" @click="chooseType(item)" v-if="item.status==20">{{item.tag_name}}</div>
+      </div>
+    </div>
+    <div class="num clearfix">
+      <div class="word fl color-8">数量</div>
+      <div class="add fr"><img :src="this.number<this.maxNum ? '/wx/static/images/Product_shopping_cart_plus@2x.png' : '/wx/static/images/submit_order_plus@2x.png'" @click="addQuantity"></div>
+      <div class="much fr color-8">{{ number }}</div>
+      <div class="reduce fr"><img :src="this.number<2 ? '/wx/static/images/Product_shopping_cart_less_grey@2x.png' : '/wx/static/images/Product_shopping_cart_less@2x.png'" @click="reduceQuantity"></div>
+    </div>
+    <div class="sure clearfix">
+      <div class="situation fl">
+        <a class="la-add-cart" @click="addGoods">确定</a>
+      </div>
+    </div>
+  </div>
+</div>

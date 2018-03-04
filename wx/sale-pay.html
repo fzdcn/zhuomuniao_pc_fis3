@@ -1,0 +1,153 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="pay-sale" id="pay" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">啄木鸟家政服务</div>
+    <img @click="back" src="/wx/static/images/back.png" class="setback">
+  </div>
+  <div class="selectContainer" style="padding-top: 0.88rem;padding-bottom: 1.01rem;">
+    <!--保洁-->
+    <div class="row clearfix">
+      <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">服务类型</div>
+      <div class="service-data">保洁</div>
+    </div>
+    <div class="row clearfix">
+      <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">服务时长</div>
+      <div class="service-data">2小时</div>
+    </div>
+    <div class="row clearfix">
+      <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">指导价格</div>
+      <div class="service-data">50</div>
+    </div>
+    <!--地址-->
+    <div class="row clearfix">
+      <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">具体地址：</div>
+      <div class="content clearfix showHeight">
+        <div class="contentInner">
+          <a style="border: none;">
+            <div class="region_address">
+              <input class="f16 c666" v-model="address_detail" type="text" name="address" placeholder="请填写具体服务地址">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="title"><img src="/wx/static/images/mobile-bg.png" alt="">付款方式：</div>
+      <div class="pay-type">
+        <div class="list-pop" @click="choosePay(item)" v-for="item in payStyle">
+          <img :src="item.payType == active ? '/wx/static/images/payment_selected.png' : '/wx/static/images/payment_normal.png'"
+               class="pop-img">
+          <img :src="item.img" class="payBg">
+          <div class="pop-style wei">{{ item.name }}</div>
+        </div>
+        <div class="pay color-4 font-1" @click="pay">付款</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#pay',
+    data: {
+      address_detail: '',
+      payStyle: [
+        {
+          payType: 12,
+          img: '/wx/static/images/weixin.png',
+          name: '微信'
+        },
+        {
+          payType: 21,
+          img: '/wx/static/images/zhifubao.png',
+          name: '支付宝'
+        }
+      ],
+      active: false,
+      isActive: false,
+      active: '',
+      money: '',
+      orderId: '',
+      return_url:'',
+    },
+    methods: {
+      // 设置列表数据
+      back: function () {
+        window.history.go(-1);
+      },
+      choosePay: function (item) {
+        this.active = item.payType
+      },
+      judgmentBrowser:function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+            return true;
+        }else{
+            return false;
+        }
+      },
+      pay: function () {
+        var vm = this;
+        var accessToken = stores.getValue('accessToken');
+        if(!accessToken){
+          redirect.remember();
+          tools.confirm('请先登录', 'warning', function () {
+            window.location.href = '/wx/login.html';
+          });
+          return false;
+        }else if(!this.address_detail){
+          tools.alert('服务地址不能为空', 'warning');
+            return false;
+          }else if (!vm.active) {
+          tools.alert('请选择付款方式', 'warning');
+            return false;
+        }else if(vm.judgmentBrowser()){
+          tools.alert('当前不支持微信浏览器支付，请点击右上方使用外部浏览器打开！', 'warning');
+            return false;
+        }else{
+          http.post('activity/order',{
+            token: accessToken,
+            ad_code: 320501,
+            address: vm.address_detail,
+            activity_type:10
+          },function (data) {
+              vm.orderId = data.id;
+            if (vm.active == 12) {
+              http.post('activity-pay/service-order', {
+                activity_order_id: vm.orderId,
+                pay_type: vm.active
+              }, function (data) {
+                var jumpUrl = data;
+                window.location.href = jumpUrl;
+              });
+            }
+            else if (vm.active == 21) {
+              var form = document.createElement('form')
+              document.body.appendChild(form)
+              form.method = 'post'
+              form.action = http.baseUrl + 'activity-pay/service-order'
+              var input = document.createElement('input')
+              input.setAttribute('name', 'activity_order_id')
+              input.setAttribute('type', 'hidden')
+              input.setAttribute('value', vm.orderId)
+              form.appendChild(input)
+              input = document.createElement('input')
+              input.setAttribute('name', 'pay_type')
+              input.setAttribute('type', 'hidden')
+              input.setAttribute('value', 21)
+              form.appendChild(input)
+              input = document.createElement('input')
+              input.setAttribute('name', 'return_url')
+              input.setAttribute('type', 'hidden')
+              input.setAttribute('value', vm.return_url)
+              form.appendChild(input)
+              form.submit()
+            }
+          });
+        }
+      }
+    },
+      mounted:function () {
+          this.return_url = window.location.origin + '/wx/pay-success.html';
+      }
+  })
+</script>

@@ -1,0 +1,59 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="join-us" id="join">
+  <div class="set">
+    <div class="set-on color-8">加入蚕食</div>
+    <img src="/wx/static/images/back_black@2x.png" class="setback" @click="back">
+    <div class="preserve color-2" @click="submit">提交</div>
+  </div>
+  <div class="sign-up">
+    <div class="sign-name">
+      <span class="sign-phone color-8 font-3 spacing">姓名</span>
+      <input class="sign-input" type="text" placeholder="请输入姓名" v-model="name">
+    </div>
+    <div class="sign-name">
+      <span class="sign-phone color-8 font-3">联系电话</span>
+      <input class="sign-input" type="number" placeholder="请输入联系电话" v-model="phone">
+    </div>
+  </div>
+  <div class="sign-con">
+    <span class="color-8 font-3 cc spacing">内容</span>
+    <textarea class="text-con" placeholder="请填写加入蚕食的理由" v-model="con"></textarea>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#join',
+    data: {
+      name: '',
+      phone: '',
+      con: ''
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      submit: function () {
+        var _this = this;
+        if (!_this.name) {
+          tools.alert('姓名不能为空', 'warning');
+        } else if (!_this.phone) {
+          tools.alert('联系电话不能为空', 'warning');
+        } else if (!/^1[0-9][0-9]{9}$/.test(_this.phone)) {
+          tools.alert('手机号格式不正确', 'warning');
+        } else if (!_this.con) {
+          tools.alert('内容不能为空', 'warning');
+        } else {
+          http.post('basic/join-us', {
+            name: _this.name,
+            cellphone: _this.phone,
+            content: _this.con
+          }, function (data) {
+            tools.confirm(data, 'success', false, function () {
+              tools.goBack();
+            })
+          })
+        }
+      }
+    }
+  })
+</script>

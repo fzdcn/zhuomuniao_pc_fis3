@@ -1,0 +1,287 @@
+<!-- 附近门店 -->
+<div id="nearbyStores" class="nearbyStores" v-cloak>
+  <div class="nearbyStores_content">
+    <h3 class="f36 c545454 textaling">选择附近门店进行服务</h3>
+    <!-- showMap -->
+    <div class="storesMap">
+      <div class="storesMap_content">
+        <dl>
+          <dt>
+            <!-- 预约服务map -->
+          <div id="map">
+            <div id="allmap1">
+
+              <!--高德地图-->
+              <template v-if="!form.service_storesDetail">
+                <div id="container"></div>
+                <div class="button-group">
+                  <input type="button" class="button" value="默认样式" id="add0" @click='addCluster(0)'/>
+                  <input type="button" class="button" value="自定义图标" id="add1" @click='addCluster(1)'/>
+                  <input type="button" class="button" value="完全自定义" id="add2" @click='addCluster(2)'/>
+                </div>
+                <div id="myPageTop">
+                  <table>
+                    <tr>
+                      <td>
+                        <label>按关键字搜索：</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="text" placeholder="请输入关键字进行搜索" id="tipinput">
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div id="panel"></div>
+              </template>
+
+              <!--附近门店详情-->
+              <template v-if="form.service_storesDetail && storeDetail">
+                <div class="top_img">
+                  <img :src="storeDetail.photos[0] ? storeDetail.photos[0] : '/static/images/stores-default.png'">
+                </div>
+                <div class="stores_intro">
+                  <h3 class="f20 c0">{{ storeDetail.name }}</h3>
+                  <div class="detail_intro">
+                    <p class="f16 c545454">{{ storeDetail.description }}</p>
+                  </div>
+                  <div class="stores_contact">
+                    <ul>
+                      <li class="fl tel_left">
+                        <dl>
+                          <dt class="fl"><img src="/static/images/02门店_07.png"></dt>
+                          <dd class="fr">
+                            <h3 class="f20 c0">电话</h3>
+                            <p class="f16 c545454">{{ storeDetail.telephone }}</p>
+                            <!--<p class="f16 c545454">{{ storeDetail.telephone }}</p>-->
+                          </dd>
+                        </dl>
+                      </li>
+                      <li class="fr addres_right">
+                        <dl>
+                          <dt class="fl"><img src="/static/images/02门店_09.png"></dt>
+                          <dd class="fr">
+                            <h3 class="f20 c0">地址</h3>
+                            <p class="f16 c545454">{{ storeDetail.address }}</p>
+                          </dd>
+                        </dl>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+          </dt>
+
+          <link rel="import" href="/components/reservation/store-list.html?__inline">
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var name;
+  var telephone;
+  var address_detail;
+  new Vue({
+    el: '#nearbyStores',
+    data: {
+      // 地图经纬度
+      points: [],
+      markers: [],
+      count: '',
+      map: {},
+      cluster: '',
+      auto: {},
+      placeSearch: {},
+      name: '',
+      poi: {},
+      // 附近门店
+      storeList: [],
+      // 门店详情
+      storeDetail: null,
+      form: {
+        service_code: http.getQuery('code'),
+        service_storesDetail: http.getQuery('stores-detail'),
+        ad_code: '',
+        detail_json: ''
+      }
+    },
+    methods: {
+      // 获取地图经纬度
+      getMapPoints: function () {
+        var vm = this;
+        http.get('store/store-location', {
+          ad_code: stores.getCityObj().ad_code,
+        }, function (data) {
+          vm.points = data;
+          vm.getMapList();
+        })
+      },
+      // 地图详情列表
+      getMapList: function () {
+        this.map = new AMap.Map("container", {
+          resizeEnable: true,
+          center: [105, 34],
+          zoom: 4
+        });
+        for (var i = 0; i < this.points.length; i += 1) {
+          name = this.points[i].name;
+          telephone = this.points[i].telephone;
+          address_detail = this.points[i].address_detail;
+          this.markers.push(new AMap.Marker({
+            position: this.points[i]['lnglat'],
+            content: '<div onclick="showMapDetail(this);" class="amap_lib_placeSearch_poi"></div>',
+            offset: new AMap.Pixel(-15, -15)
+          }));
+          this.markers[i].setTitle(name);
+          // label默认蓝框白底左上角显示，样式className为：amap-marker-label
+          this.markers[i].setLabel({
+            // 修改label相对于maker的位置
+            offset: new AMap.Pixel(-140, 20),
+            content: '<div style="position: absolute; bottom: 45px; left: 16px;">' +
+            '<div>' +
+            '<div class="info">' +
+            '<div class="info-top">' +
+            '<div>' + name + '</div>' +
+            '<img onclick="closeFox(this);" src="http://webapi.amap.com/images/close2.gif">' +
+            '</div>' +
+            '<div class="info-middle">地址：' + address_detail + '</div>' +
+            '<div class="info-telephone">电话：' + telephone + '</div>' +
+            '<div class="info-bottom" style="position: relative; top: 0px; margin: 0px auto;">' +
+            '<img src="http://webapi.amap.com/images/sharp.png"></div>' +
+            '</div>' +
+            '</div>' +
+            '</div>'
+          });
+        }
+        this.count = this.markers.length;
+        this.addCluster(2);
+      },
+      // 自定义样式
+      addCluster: function (tag) {
+        if (this.cluster) {
+          this.cluster.setMap(null);
+        }
+        // 完全自定义
+        if (tag == 2) {
+          this.cluster = new AMap.MarkerClusterer(this.map, this.markers, {
+            gridSize: 80,
+            renderCluserMarker: this.renderCluserMarker,
+          });
+          // 自定义图标
+        } else if (tag == 1) {
+          var sts = [{
+            url: "http://a.amap.com/jsapi_demos/static/images/blue.png",
+            size: new AMap.Size(32, 32),
+            offset: new AMap.Pixel(-16, -16)
+          }, {
+            url: "http://a.amap.com/jsapi_demos/static/images/green.png",
+            size: new AMap.Size(32, 32),
+            offset: new AMap.Pixel(-16, -16)
+          }, {
+            url: "http://a.amap.com/jsapi_demos/static/images/orange.png",
+            size: new AMap.Size(36, 36),
+            offset: new AMap.Pixel(-18, -18)
+          }, {
+            url: "http://a.amap.com/jsapi_demos/static/images/red.png",
+            size: new AMap.Size(48, 48),
+            offset: new AMap.Pixel(-24, -24)
+          }, {
+            url: "http://a.amap.com/jsapi_demos/static/images/darkRed.png",
+            size: new AMap.Size(48, 48),
+            offset: new AMap.Pixel(-24, -24)
+          }];
+          this.cluster = new AMap.MarkerClusterer(this.map, this.markers, {
+            styles: sts,
+            gridSize: 80
+          });
+          // 默认样式
+        } else {
+          this.cluster = new AMap.MarkerClusterer(this.map, this.markers, {gridSize: 80});
+        }
+      },
+      // maker样式
+      renderCluserMarker: function (context) {
+        var factor = Math.pow(context.count / this.count, 1 / 18)
+        var div = document.createElement('div');
+        var Hue = 180 - factor * 180;
+        var bgColor = 'hsla(' + Hue + ',100%,50%,0.7)';
+        var fontColor = 'hsla(' + Hue + ',100%,20%,1)';
+        var borderColor = 'hsla(' + Hue + ',100%,40%,1)';
+        var shadowColor = 'hsla(' + Hue + ',100%,50%,1)';
+        div.style.backgroundColor = bgColor
+        var size = Math.round(30 + Math.pow(context.count / this.count, 1 / 5) * 20);
+        div.style.width = div.style.height = size + 'px';
+        div.style.border = 'solid 1px ' + borderColor;
+        div.style.borderRadius = size / 2 + 'px';
+        div.style.boxShadow = '0 0 1px ' + shadowColor;
+        div.innerHTML = context.count;
+        div.style.lineHeight = size + 'px';
+        div.style.color = fontColor;
+        div.style.fontSize = '14px';
+        div.style.textAlign = 'center';
+        context.marker.setOffset(new AMap.Pixel(-size / 2, -size / 2));
+        context.marker.setContent(div);
+      },
+      // 地图位置搜索
+      select: function (event) {
+        this.auto = new AMap.Autocomplete({input: "tipinput"});
+        // 构造地点查询类
+        this.placeSearch = new AMap.PlaceSearch({
+          map: this.map
+        });
+        // 注册监听，当选中某条记录时会触发
+        AMap.event.addListener(this.auto, "select", this.select);
+        if (event) {
+          this.placeSearch.setCity(event.poi.adcode);
+          this.placeSearch.search(event.poi.name);
+        } else {
+        }
+      },
+      // 附近门店
+      getStoreList: function () {
+        var vm = this;
+        http.get('store/list', {
+          ad_code: stores.getCityObj().ad_code,
+          fields: 'id,name,telephone,description',
+          expand: 'address'
+        }, function (data) {
+          vm.storeList = data.items;
+        })
+      },
+      // 附近门店详情
+      getStoreDetail: function (storeId) {
+        var vm = this;
+        http.get('store/view', {
+          id: storeId,
+          fields: 'name,telephone,description,address,photos',
+          expand: 'address'
+        }, function (data) {
+          vm.storeDetail = data;
+        })
+      }
+    },
+    mounted: function () {
+      var storeId = http.getQuery("stores-detail");
+      this.getStoreList();
+      if (storeId) {
+        this.getStoreDetail(storeId);
+      } else {
+        this.getMapPoints();
+        this.select(event);
+      }
+    }
+  })
+  function showMapDetail(self) {
+    $(".amap-marker-label").css("white-space", "normal");
+    $(self).parents(".amap-marker-content").siblings(".amap-marker-label").find(".info").show();
+  };
+  function closeFox(self) {
+    $(self).parents(".info").hide();
+  }
+</script>
+

@@ -1,0 +1,70 @@
+<!--footer-->
+<div id="foot" class="foot">
+  <div class="foot-list">
+    <ul>
+
+      <li class="fl textaling">
+        <a href="/wx/index.html">
+          <i class="shouye"></i>
+          <p class="f20rem fc-666">首页</p>
+        </a>
+      </li>
+      <li class="fl textaling">
+        <a href="/wx/store/stores.html">
+          <i class="stores"></i>
+          <p class="f20rem fc-666">门店</p>
+        </a>
+      </li>
+      <li class="fl textaling">
+        <a href="/wx/goods-shop/shop-home.html">
+          <i class="malls"></i>
+          <p class="f20rem fc-666">商城</p>
+        </a>
+      </li>
+      <li class="fl textaling">
+        <a href="/wx/order-list/order-list.html">
+          <i class="dingdan"></i>
+          <p class="f20rem fc-666">订单</p>
+        </a>
+      </li>
+      <li class="fl textaling">
+        <a href="/wx/personal-center/personal.html">
+          <i class="personal-center"></i>
+          <p class="f20rem fc-666">我的</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#foot',
+    data: {},
+    methods: {
+      commonNav: function () {
+        var url = location.href.toLowerCase();
+        var urlOrigin = window.location.origin.toLowerCase();
+        if (url.indexOf("index") >= 0 || url == urlOrigin + '/wx/') {
+          $(".foot-list li i:eq(0)").addClass("shouye-selected");
+          $(".foot-list li p:eq(0)").addClass("fc-00a84c");
+        } else if (url.indexOf("stores") >= 0) {
+          $(".foot-list li i:eq(1)").addClass("stores-selected");
+          $(".foot-list li p:eq(1)").addClass("fc-00a84c");
+        } else if (url.indexOf("shop-home") >= 0) {
+          $(".foot-list li i:eq(2)").addClass("malls-selected");
+          $(".foot-list li p:eq(2)").addClass("fc-00a84c");
+        } else if (url.indexOf("order-list") >= 0) {
+          $(".foot-list li i:eq(3)").addClass("dingdan-selected");
+          $(".foot-list li p:eq(3)").addClass("fc-00a84c");
+        } else if (url.indexOf("personal") >= 0) {
+          $(".foot-list li i:eq(4)").addClass("personal-center-selected");
+          $(".foot-list li p:eq(4)").addClass("fc-00a84c");
+        }
+      }
+    },
+    mounted: function () {
+      this.commonNav();
+    }
+  })
+</script>

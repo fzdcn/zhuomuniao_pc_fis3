@@ -1,0 +1,27 @@
+<!--商城更多列表-->
+<div class="shopCart">
+  <div v-for="item in goodsList" class="shop-detail" @click="toDetail(item)">
+    <div class="one-col fl">
+      <img class="shop-img" src="" v-lazy="item.cover_photo">
+      <div class="goods-status" v-if="item.status==20">已下架</div>
+    </div>
+    <div class="one-special fl">
+      <div class="lleft">
+        <div class="tit color-8">
+          {{ item.name }}
+        </div>
+        <div class="price clearfix">
+          <div class="fl">
+            <div class="now-price color-h">￥{{ item.price }}</div>
+            <div class="sold">已售 {{ item.sale_number }}</div>
+          </div>
+          <div class="cart fr">
+            <a @click="showCart(item)">
+              <img src="/wx/static/images/shop_shopping_cart_normal@2x.png">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

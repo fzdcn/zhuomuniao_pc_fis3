@@ -1,0 +1,291 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+<div class="orderDetail" id="detail" v-cloak>
+  <link rel="import" href="/wx/components/common/common-nav.html?__inline">
+  <div class="detail-info">
+    <div class="detail-address">
+      <div class="address-show">
+        <img src="/wx/static/images/address.png">
+        <div class="address">
+          <div class="right-info">
+            <div class="name color-1 font-1">{{ orderDetail.user.real_name }}</div>
+            <div class="phone font-3">{{ orderDetail.user.cellphone }}</div>
+            <div
+              v-if="(orderDetail.status==10 || orderDetail.status==20 || orderDetail.status==25 || orderDetail.status==27 || orderDetail.status==30) && (orderDetail.pay_status != 20)"
+              class="date">预约中
+            </div>
+            <div v-if="orderDetail.pay_status==20" class="date color-1 font-3">待付款</div>
+            <div v-if="orderDetail.pay_status!=20 && orderDetail.status==40" class="date color-1 font-3">进行中</div>
+            <div v-if="orderDetail.pay_status!=20 && orderDetail.status==45" class="date color-1 font-3">待评价</div>
+            <div v-if="orderDetail.pay_status!=20 && orderDetail.status==50" class="date color-1 font-3">已完成</div>
+          </div>
+          <div class="add">{{ orderDetail.address }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-order">
+      <div class="menu">
+        <div class="tittle font-3">在线预约<span class="point color-2">·</span>
+          <span class="color-2">{{orderDetail.services}}</span>
+        </div>
+        <div class="list-item font-3">
+          订单编号：<span class="con">{{ orderDetail.order_number }}</span>
+        </div>
+        <div class="list-item font-3">
+          订单状态：<span class="con">{{ orderDetail.status_name }}</span>
+        </div>
+        <div class="list-item font-3">
+          已支付：<span class="con">{{ orderDetail.all_pay }}元</span>
+        </div>
+        <div class="list-item font-3">
+          还需支付：<span class="con">{{ orderDetail.need_pay }}元</span>
+        </div>
+        <div class="list-item font-3">
+          城市：<span class="con">{{ orderDetail.city_name }}</span>
+        </div>
+        <div class="list-item font-3">
+          区域：<span class="con">{{ orderDetail.area_name }}</span>
+        </div>
+        <div class="list-item font-3">
+          具体地址：<span class="con">{{ orderDetail.address_detail }}</span>
+        </div>
+        <div class="list-item font-3">
+          下单时间：<span class="con">{{ setDate(orderDetail.created_at) }}</span>
+        </div>
+        <div class="list-item font-3">
+          服务时间：<span class="con">{{ setDate(orderDetail.service_time) }}</span>
+        </div>
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['城市']">-->
+        <!--城市：<span class="con">{{orderDetail.detail_json['城市']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['区域']">-->
+        <!--区域：<span class="con">{{orderDetail.detail_json['区域']}}</span>-->
+        <!--</div>-->
+        <!--<div v-if="orderDetail.detail_json['学历']" class="list-item font-3">-->
+        <!--学历：<span class="con">{{ orderDetail.detail_json['学历'] }}</span>-->
+        <!--</div>-->
+        <!--<div v-if="orderDetail.detail_json['年龄']" class="list-item font-3">-->
+        <!--年龄：<span class="con">{{ orderDetail.detail_json['年龄'] }}</span>-->
+        <!--</div>-->
+        <!--<div v-if="orderDetail.detail_json['经验']" class="list-item font-3">-->
+        <!--经验：<span class="con">{{ orderDetail.detail_json['经验'] }}</span>-->
+        <!--</div>-->
+        <!--<div v-if="orderDetail.detail_json['星级']" class="list-item font-3">-->
+        <!--星级：<span class="con">{{ orderDetail.detail_json['星级'] }}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['是否顺产']">-->
+        <!--是否顺产：<span class="con">{{orderDetail.detail_json['是否顺产']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务选择']">
+          服务选择：<span class="con">{{orderDetail.detail_json['服务选择']}}</span>
+        </div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务选择备注']">-->
+        <!--服务选择备注：<span class="con" v-for="item in orderDetail.detail_json['服务选择备注']">{{item}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务类别']">-->
+        <!--服务类别：<span class="con">{{orderDetail.detail_json['服务类别']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务类别备注']">-->
+        <!--服务类别备注：<span class="con" v-for="item in orderDetail.detail_json['服务类别备注']">{{item}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['需要打鼻食']">-->
+        <!--需要打鼻食：<span class="con">{{orderDetail.detail_json['需要打鼻食']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务假期']">-->
+        <!--服务假期：<span class="con">{{orderDetail.detail_json['服务假期']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['月嫂级别']">-->
+        <!--月嫂级别：<span class="con">{{orderDetail.detail_json['月嫂级别']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['有无传染病']">-->
+        <!--有无传染病：<span class="con">{{orderDetail.detail_json['有无传染病']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['月子周期']">-->
+        <!--月子周期：<span class="con">{{orderDetail.detail_json['月子周期']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['双胞胎经验']">-->
+        <!--双胞胎经验：<span class="con">{{orderDetail.detail_json['双胞胎经验']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['早产儿经验']">-->
+        <!--早产儿经验：<span class="con">{{orderDetail.detail_json['早产儿经验']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['预产期']">-->
+        <!--预产期：<span class="con">{{orderDetail.detail_json['预产期']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['宝宝年龄']">-->
+        <!--宝宝年龄：<span class="con">{{orderDetail.detail_json['宝宝年龄']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['宝宝性别']">-->
+        <!--宝宝性别：<span class="con">{{orderDetail.detail_json['宝宝性别']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['曾请过育婴师']">-->
+        <!--曾请过育婴师：<span class="con">{{orderDetail.detail_json['曾请过育婴师']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['育婴师等级']">-->
+        <!--育婴师等级：<span class="con">{{orderDetail.detail_json['育婴师等级']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务频率']">-->
+        <!--服务频率：<span class="con" v-for="item in orderDetail.detail_json['服务频率']">{{item}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['是否做饭']">-->
+        <!--是否做饭：<span class="con" v-for="item in orderDetail.detail_json['是否做饭']">{{item}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['烧饭喜好']">-->
+        <!--烧饭喜好：<span class="con" v-for="item in orderDetail.detail_json['烧饭喜好']">{{item}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['房屋面积']">-->
+        <!--房屋面积：<span class="con">{{orderDetail.detail_json['房屋面积']}}平方</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['指导价格']">-->
+        <!--指导价格：<span class="con">{{orderDetail.detail_json['指导价格']}}元</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['老人性别']">-->
+        <!--老人性别：<span class="con">{{orderDetail.detail_json['老人性别']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['是否有传染病']">-->
+        <!--是否有传染病：<span class="con">{{orderDetail.detail_json['是否有传染病']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['是否有传染病 备注']">-->
+        <!--是否有传染病 备注：<span class="con">{{orderDetail.detail_json['是否有传染病 备注']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务时长']">-->
+        <!--服务时长：<span class="con">{{orderDetail.detail_json['服务时长']}}小时</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务面积']">-->
+        <!--服务面积：<span class="con">{{orderDetail.detail_json['服务面积']}}平方</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['住宅种类']">-->
+        <!--住宅种类：<span class="con">{{orderDetail.detail_json['住宅种类']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['有无家具']">-->
+        <!--有无家具：<span class="con">{{orderDetail.detail_json['有无家具']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['清洁范围']">-->
+        <!--清洁范围：<span class="con">{{orderDetail.detail_json['清洁范围']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['地毯材质']">-->
+        <!--地毯材质：<span class="con">{{orderDetail.detail_json['地毯材质']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['蜡种类']">-->
+        <!--蜡种类：<span class="con">{{orderDetail.detail_json['蜡种类']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['阳光房清洁'] && orderDetail.detail_json['阳光房面积']">-->
+        <!--阳光房清洁：<span class="con" v-for="item in orderDetail.detail_json['阳光房清洁']">{{item}}</span></div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['阳光房面积']">-->
+        <!--阳光房面积：<span class="con">{{orderDetail.detail_json['阳光房面积']}}平方</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['淋浴房清洁']">-->
+        <!--淋浴房清洁：<span class="con">{{orderDetail.detail_json['淋浴房清洁']}}个</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['是否有宠物']">-->
+        <!--是否有宠物：<span class="con" v-for="item in orderDetail.detail_json['是否有宠物']">{{item}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['其它备注']">-->
+        <!--其它备注：<span class="con">{{orderDetail.detail_json['其它备注']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['其他可选']">-->
+        <!--其他可选：<span class="con" v-for="item in orderDetail.detail_json['其他可选']">{{item}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['其他需求']">-->
+        <!--其他需求：<span class="con">{{orderDetail.detail_json['其他需求']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务开始时间']">-->
+        <!--服务开始时间：<span class="con">{{orderDetail.detail_json['服务开始时间']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务结束时间']">-->
+        <!--服务结束时间：<span class="con">{{orderDetail.detail_json['服务结束时间']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['上门时间']">-->
+        <!--上门时间：<span class="con">{{orderDetail.detail_json['上门时间']}}</span>-->
+        <!--</div>-->
+        <!--<div class="list-item font-3" v-if="orderDetail.detail_json['服务地址']">
+          服务地址：<span class="con">{{orderDetail.detail_json['服务地址']}}</span>
+        </div>-->
+      </div>
+      <div v-if="orderDetail.store" class="store-detail font-3">
+        <div class="tittle font-3">服务门店</div>
+        <div class="coverPhoto">
+          <img
+            :src="orderDetail.store.cover_photo ? orderDetail.store.cover_photo : '/wx/static/images/store-cover.png'"
+            alt="服务门店封面"></div>
+        <div v-if="orderDetail.store.name" class="store-name color-3">{{ orderDetail.store.name }}</div>
+        <div class="contact-info color-3">电话：<span v-if="orderDetail.store.telephone" class="con">{{ orderDetail.store.telephone }}</span>
+        </div>
+        <div class="contact-info color-3">地址：<span v-if="orderDetail.store.address" class="con">{{ orderDetail.store.address }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-if="orderDetail.pay_status == 20" class="evaluation-submit">
+    <div class="fl need-pay">￥{{ orderDetail.need_pay}}元</div>
+    <div @click="payMoney" class="fr pay-submit">立即付款</div>
+  </div>
+  <div v-if="orderDetail.status == 45" class="evaluation-submit">
+    <div class="fr pay-submit" @click="toServiceEvaluate">立即评价</div>
+  </div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#detail',
+    data: {
+      navTitle: '家政订单详情',
+      // 构造付款参数
+      payType: {
+        orderId: '', // 设置需要付款的id
+        money: '', // 设置需要付款的金额
+        type: '' // 设置家政服务付款类型为 payType = domestic
+      },
+      orderDetail: {
+        "user": {
+          "real_name": ""
+        },
+        "detail_json": {
+          "城市": ""
+        },
+        "store": {
+          "cover_photo": ""
+        }
+      }
+    },
+    methods: {
+      payMoney: function () {
+        this.payType.orderId = this.orderDetail.id;
+        this.payType.money = this.orderDetail.need_pay;
+        this.payType.type = 'domestic';
+        stores.setValue('payType', this.payType);
+        // 如果是微信浏览器直接发起微信公众号支付
+        if (tools.isWeChatBroswer()) {
+          tools.weChatPublicNumberPay();
+        } else {
+          window.location.href = window.location.origin + '/wx/pay-money-choice.html';
+        }
+      },
+      getDetail: function () {
+        /*http.get('order/view', {
+         id: http.getQuery('id'),
+         expand: 'address,services,user,all_pay,need_pay,store_name,detail_json,store'
+         }, function (data) {
+         vm.orderDetail = data
+         })*/
+        http.get('clean-order/view', {
+          id: http.getQuery('id'),
+          expand: 'address,services,user,all_pay,need_pay,store_name,store,status_name,city_name,area_name'
+        }, function (data) {
+          vm.orderDetail = data
+        })
+      },
+      back: function () {
+        tools.goBack();
+      },
+      // 去添加服务评价
+      toServiceEvaluate: function () {
+        window.location.href = '/wx/evaluate/service-evaluate.html?service_order_id=' + this.orderDetail.id;
+      },
+      setDate: function (timestamp) {
+        return tools.timestamp(timestamp)
+      }
+    },
+    created: function () {
+      this.getDetail();
+    }
+  })
+</script>

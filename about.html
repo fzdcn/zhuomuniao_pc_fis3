@@ -1,0 +1,138 @@
+<link rel="import" href="/components/common/header.html?__inline">
+
+<!-- main主体内容 -->
+<div class="main" v-cloak>
+  <div class="main_content">
+    <!-- HeaderBanner -->
+    <div class="indexBanner">
+      <div class="headTop_bg">
+        <img src="/static/images/about_banner.png">
+      </div>
+    </div>
+    <div class="company">
+      <!-- tab -->
+      <div class="company_title">
+        <ul>
+          <li v-for="(item, index) in tabTitles" class="fl f18 c333 textaling"
+              :class="[({br14A83B:index==current}),({c14A83B:index==current})]" @click="current=index">
+            {{ item.title }}
+          </li>
+        </ul>
+      </div>
+      <!-- tab切换内容 -->
+      <div class="tab_content clear">
+        <!-- 公司简介 -->
+        <div v-if="index == 0" v-for="(item, index) in tabCotents" class="content_list" :class="{hide: index!=current}">
+          <p v-if="index == 0" class="f16 c333" v-for="(value, index) in item.options">{{ value }}</p>
+          <p v-if="index == 1" class="f16 c333" v-for="(value, index) in item.options">{{ value }}</p>
+          <img v-for="value in item.img" :src="value" style="margin:10px;" alt="">
+          <p v-if="index > 1" class="f16 c333" v-for="(value, index) in item.options">{{ value }}</p>
+        </div>
+        <div v-if="index == 1" v-for="(item, index) in tabCotents" class="content_list" :class="{hide: index!=current}">
+          <p v-if="index == 0" class="f16 c333" v-for="(value, index) in item.options">{{ value }}</p>
+          <!--<img v-for="value in item.img" :src="value" style="margin:10px;" alt="">-->
+          <p v-if="index > 0" class="f16 c333" v-for="(value, index) in item.options">{{ value }}</p>
+        </div>
+        <div v-if="index == 2" v-for="(item, index) in tabCotents" class="content_list" :class="{hide: index!=current}">
+          <div class="honor">
+            <ul>
+              <li v-for="(item,index) in tabHonor"
+                  :class="[(index == 0 ? 'fl' : 'fr'),({bg:index==honorCurrent}),({cf:index==honorCurrent})]"
+                  @click="honorCurrent = index" class="f16 textaling">{{ item.title }}
+              </li>
+            </ul>
+            <div v-for="(item,index) in honorImg" :class="{hide: index!=honorCurrent}" class="honor-img">
+              <p>{{ item.text }}</p>
+              <img v-for="value in item.img" :src="value" style="margin:10px;width: 280px;" alt="">
+            </div>
+          </div>
+        </div>
+        <div v-if="index == 3" v-for="(item, index) in tabCotents" class="content_list" :class="{hide: index!=current}">
+          <p v-if="index == 0" class="f16 c333" v-for="(value, index) in item.options">{{ value }}</p>
+          <img v-for="value in item.img" :src="value" style="margin:10px;width: 280px;" alt="">
+          <p v-if="index > 0" class="f16 c333" v-for="(value, index) in item.options">{{ value }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  new Vue({
+    el: '.main',
+    data: {
+      // 外面选项卡当前位置
+      current: 0,
+      // 里面选项卡当前位置
+      honorCurrent: 0,
+      // 外面选项卡title
+      tabTitles: [
+        {
+          title: '公司简介'
+        },
+        {
+          title: '发展历程'
+        },
+        {
+          title: '荣誉资质'
+        },
+        /*{
+         title: '银凤集团'
+         }*/
+      ],
+      // 外面选项卡内容
+      tabCotents: [
+        {
+          options: [
+            "苏州蚕食网络科技有限公司隶属于银凤科技集团，成立于2017年3月。蚕食网络是一家集智能生活服务、企业后勤保障、渠道销售、终端零售、广告传媒为一体的综合类科技服务公司。公司现有啄木鸟智能生活服务平台、蚕食商城、蚕食定制、啄木鸟保洁、闻啼鸟传媒等多个运营品牌。",
+            "公司秉承“专注品质、从心开始、服务大众、共享价值”的服务宗旨，结合互联网+线下实体门店的运营思路，通过自主开发的APP、微信小程序、H5等线上服务通道、方便快捷的服务体验",
+            "为了提高服务的时效性，为家政服务行业注入新理念，蚕食网络自主开发出服务门店管理系统。系统已实现跨区域资源整合，解决了现阶段家政行业内信息不互通、资源分布不均衡、行业安全度不高等问题。在未来，蚕食网络将在家庭服务行业不断探索不断创新，根据用户需求，实现定向供给，个性化定制，做中国智能生活服务的引领者。"
+          ],
+          img: ["/static/images/company_two.png","/static/images/company_one.png","/static/images/company_three.png"]
+        },
+        {
+          options: [
+            "2016年12月	啄木鸟生活服务项目在南京正式孵化，团队成立",
+            "2017年1月    策划、启动啄木鸟家政项目",
+            "2017年5月	经历5个月的努力，市场调研工作圆满结束",
+            "2017年5月    啄木鸟生活服务公司成立，同时吸纳第一笔资金300万",
+            "2017年5月    啄木鸟团队扩充至20人，2位国内知名集团高管加入",
+            "2017年6月	项目策划孵化圆满结束，拓展市场及各方渠道",
+            "2017年7月	苏州市家庭协会高度肯定与重视",
+            "2017年8月   公司搬迁至新地址，啄木鸟生活服务公司扬帆起航"
+          ],
+        },
+        {
+          options: [
+            "家政服务的宗旨是为了更好的匹配家政人员和雇主，让雇主下单跟简洁，方便，安全；同时也让家政人员得到保障（家政险，人身安全），让赋闲时间得到更为有效的利用。家政服务系统让单个的客户门店在单一做单中寻求到平台给予的帮助，不在是一个个门店去做这样的事情，而是让更多的家政门店联合、统一在一起，去共同做一件事情，原先出于费用考虑而没有做的推广，我们可以通过我们平台去进行宣传，线下社区活动进行推进，广告牌进行宣传，让推广产生的平台效应带领我们产生行业品牌效果。",
+            "家政人员是门店进行派遣，这需要合作的门店有责任意识、品牌意识。这就不是为了做业务而做业务，这里面包含着对客户的负责即社会责任在里面，合作我们本着以诚为本，以人为先的理念，让客户在享受我们提供的服务同时，全然不必去考虑任何的安全隐患问题（服务阿姨的征信系统）。",
+            "我们要做的事情不是去强制性改变，而是让我们树立的品牌形象去影响我们家政行业，进而规范行业的发展，我们就是借助家政行业在借助互联网+的推助作用达到这样的一个品牌行业效果"
+          ],
+          img: ["/static/images/company-introduce.png", "/static/images/company-introduce.png", "/static/images/company-introduce.png", "/static/images/company-introduce.png"]
+
+        },
+      ],
+      // 里面选项卡title
+      tabHonor: [
+        {
+          title: "经营资质"
+        }
+        , {
+          title: "企业荣誉"
+        }
+      ],
+      // 里面选项卡内容
+      honorImg: [
+        {
+          img: ["/static/images/qualifications_one.png","/static/images/qualifications_two.png","/static/images/qualifications_three.png"]
+        },
+        {
+          text: '苏州蚕食网络科技有限公司荣获江苏省家庭服务业协会会长单位、苏州市家庭服务行业协会会员单位等称号、并授予江苏省家庭服务业协会实训基地、江苏省家庭服务业协会专业信息化委员会等资质。',
+          img: ["/static/images/honor_one.png", "/static/images/honor_two.png", "/static/images/honor_three.png", "/static/images/honor_four.png"]
+        }
+      ]
+    }
+  })
+</script>
+
+<link rel="import" href="/components/common/footer.html?__inline">

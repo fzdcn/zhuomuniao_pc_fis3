@@ -1,0 +1,57 @@
+<div class="msg-popup" v-cloak>
+  <div class="pop">
+    <div class="top color-99">
+      请填写订单信息
+      <div class="top-img"><img src="/wx/static/images/submit_order_close@2x.png" @click="closeOrderShow"></div>
+    </div>
+    <div class="list list-address clearfix" @click="showAddressList">
+      <div class="tit fl color-8">收货地址</div>
+      <div class="more fr"><img src="/wx/static/images/submit_order_right@2x.png"></div>
+      <div class="explan fr color-8">{{defaultAddress.address}}</div>
+    </div>
+    <!--<div class="list clearfix">
+      <div class="tit fl color-8">数量</div>
+      <div class="add fr"><img :src="this.number<this.maxNum ? '/wx/static/images/Product_shopping_cart_plus@2x.png' : '/wx/static/images/submit_order_plus@2x.png'" @click="addQuantity"></div>
+      <div class="num fr color-8">{{ number }}</div>
+      <div class="reduce fr"><img :src="this.number<2 ? '/wx/static/images/Product_shopping_cart_less_grey@2x.png' : /wx/static/images/Product_shopping_cart_less@2x.png'" @click="reduceQuantity"></div>
+    </div>-->
+    <div class="list clearfix">
+      <div class="tit fl color-8">备注：</div>
+      <input type="text" placeholder="请填写需要商品的颜色、种类等信息" class="remarks" v-model="remark">
+    </div>
+    <div class="list clearfix">
+      <div class="tit fl color-8">运费</div>
+      <div class="spe fr color-8">快递：￥0</div>
+    </div>
+    <div class="list-spe clearfix">
+      <div class="col fl">
+        <div class="row color-8">应付总金额</div>
+        <div class="price-det clearfix" @click="isShowDetails">
+          <div class="tit color-9 fl">价格明细</div>
+          <div class="more fl"><img :src="!this.showPriceDetails ? '/wx/static/images/submit_order_down@2x.png' :'/wx/static/images/submit_order_up@2x.png'"></div>
+        </div>
+      </div>
+      <div class="pay-many fr">
+        <div class="all color-h">￥{{ Number(numeral(current_price*number).format('0.00')) }}</div>
+        <div class="yun color-9">含运费￥0</div>
+      </div>
+    </div>
+    <div class="summary" v-if="showPriceDetails">
+      <div class="sum-row clearfix">
+        <div class="tit color-8 fl">商品金额</div>
+        <div class="many fr color-1">￥{{ current_price }}</div>
+      </div>
+      <!--<div class="sum-row clearfix">
+        <div class="tit color-8 fl">促销优惠</div>
+        <div class="many fr color-1">-￥{{ goodsDetail.price-goodsDetail.real_price }}</div>
+      </div>-->
+      <div class="sum-row clearfix">
+        <div class="tit color-8 fl">运费</div>
+        <div class="many fr color-1">+￥0</div>
+      </div>
+    </div>
+    <div class="footer">
+      <a @click="submit">提交订单</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<link rel="import" href="/wx/components/common/header.html?__inline">
+
+<div id="moving-services" class="moving-services">
+  <div class="set">
+    <div class="set-on">生活服务</div>
+    <img @click="back" src="/wx/static/images/back_black@2x.png" class="set-back">
+    <!--<div class="more-service">更多服务</div>-->
+  </div>
+  <div id="mescroll" class="mescroll moving-services-infp">
+    <div class="moving-services-list">
+      <link rel="import" href="/wx/life-service/life-service-list.html?__inline">
+    </div>
+  </div>
+</div>
+
+<script>
+  Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/wx/static/images/product_list_loading@2x.png',
+    loading: '/wx/static/images/product_list_loading@2x.png',
+    attempt: 3
+  });
+  new Vue({
+    el: '#moving-services',
+    data: {
+      mescroll: null,
+      // 生活服务列表
+      lifeServiceList: [],
+      star: tools.starLever.star
+    },
+    methods: {
+      back: function () {
+        tools.goBack();
+      },
+      // 服务详情
+      jumpMoveDetail: function (item) {
+        window.location.href = window.location.origin + '/wx/life-service/move-detail.html?id=' + item.id;
+      },
+      // 定制服务
+      jumpCustomService: function () {
+        window.location.href = window.location.origin + '/wx/life-service/customized-service.html';
+      },
+      // 预约详情
+      jumpImmediateReservation: function (item) {
+        window.location.href = window.location.origin + '/wx/life-service/immediate-reservation.html?id=' + item.id;
+      },
+      // 上拉加载的回调 page = {num:1, size:10}; num 当前页 从1开始, size 每页数据条数
+      upCallback: function (page) {
+        var _this = this;
+        // 获取生活服务列表
+        http.get('life-goods/list', {
+          per_page: page.size,
+          page: page.num,
+          life_type_id: http.getQuery('id'),
+          fields: 'id,name,cover_photo,sale_number,score,sale_price',
+          expand: 'stars,praise_rate'
+        }, function (data) {
+          // 联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endSuccess(data.items.length);// 传参:数据的总数; mescroll 会自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+          // 设置列表数据
+          _this.setListData(data, page.num, true);
+        }, function () {
+          // 联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+          _this.mescroll.endErr();
+        });
+      },
+      // 设置列表数据
+      setListData: function (data, pageNum, isAppend) {
+        if (isAppend && pageNum == 1) {
+          this.lifeServiceList = data.items;
+        } else if (isAppend && pageNum > 1) {
+          this.lifeServiceList = this.lifeServiceList.concat(data.items);
+        }
+      },
+      meScroll: function (_this) {
+        _this = this;
+        tools.myScroll(_this);
+      }
+    },
+    mounted: function () {
+      this.meScroll();
+    }
+  })
+</script>

@@ -1,0 +1,121 @@
+<link rel="import" href="/components/common/header.html?__inline">
+<!-- mian主体内容 -->
+<div id="contact" class="main" v-cloak>
+  <div class="main_content">
+    <div class="contact_body">
+      <div class="contact_content clear">
+        <div class="contact_left fl">
+          <div class="contact_introduce">
+            <p class="p6">很荣幸，因为我们有您的关注。同时也恭喜您找到一家专业高效的家政网站，我们期待您的加入~</p>
+          </div>
+          <div class="contact_method">
+            <ul>
+              <li><span><img src="/static/images/tel.png"></span><a class="p1" href="tel:400-6868-580">400-6868-580</a>
+              </li>
+              <li><span><img src="/static/images/e-mail.png"></span><a class="p1" href="mailto:Service@zmnjz.net">Service@zmnjz.net</a>
+              </li>
+              <li><span><img src="/static/images/address.png"></span><a href="javascript:void(0);">苏州市工业园区君风生活广场唯华路5号3栋1102（电梯12F）</a>
+              </li>
+            </ul>
+          </div>
+          <div class="map_show">
+            <div class="map_detail">
+              <div id="map">
+                <div id="allmap"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact_right fr">
+          <div class="contact_title">
+            <h3>意见与反馈</h3>
+          </div>
+          <div class="problem">
+            <div class="per_info">
+              <dl>
+                <dt class="fl">
+                  <label class="c333 f16" style="margin-right: 30px;">*姓名</label>
+                  <input v-model.trim="name" class="c333 f14" type="text" name="name">
+                </dt>
+                <dd class="fr">
+                  <label class="c333 f16" style="margin-right: 6px;">*联系方式</label>
+                  <input v-model.trim="cellphone" class="c333 f14" type="text" name="contact">
+                </dd>
+              </dl>
+            </div>
+            <div class="per_info">
+              <dl>
+                <dt class="fl">
+                  <label class="c333 f16">*服务项目</label>
+                  <input v-model.trim="project" class="c333 f14" type="text" name="contact">
+                </dt>
+                <dd class="fr">
+                  <label class="c333 f16" style="margin-right: 6px;">*服务人员</label>
+                  <input v-model.trim="person" class="c333 f14" type="text" name="contact">
+                </dd>
+              </dl>
+            </div>
+            <div class="problem_submit">
+              <dl>
+                <dt class="fl"><label class="c333 f16">*意见反馈</label></dt>
+                <dd class="fr">
+                  <textarea v-model.trim="content" class="c333 f14"></textarea>
+                </dd>
+              </dl>
+            </div>
+            <div class="submit">
+              <button @click="submit" class="cf f14">提交</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 高德地图
+  $(function () {
+    gaoDeMap.newMap();
+  })
+  new Vue({
+    el: '#contact',
+    data: {
+      name: '',
+      cellphone: '',
+      project: '',
+      person: '',
+      content: ''
+    },
+    methods: {
+      submit: function () {
+        if (!this.name || !this.cellphone || !this.project || !this.person || !this.content) {
+          tools.pcAlert('* 为必填项', 'warning');
+          return false;
+        }
+        var vm = this;
+        http.post('basic/feedback', {
+          content: JSON.stringify({
+            '姓名': vm.name,
+            '服务项目': vm.project,
+            '服务人员': vm.person,
+            '意见反馈': vm.content
+          }),
+          cellphone: vm.cellphone,
+        }, function () {
+          tools.confirm('提交成功', 'success', false, function () {
+            vm.name = '';
+            vm.cellphone = '';
+            vm.project = '';
+            vm.person = '';
+            vm.content = '';
+          })
+        })
+      }
+    },
+    mounted: function () {
+    }
+  });
+</script>
+
+<link rel="import" href="/components/common/footer.html?__inline">

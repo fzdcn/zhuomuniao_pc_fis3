@@ -1,0 +1,148 @@
+<link rel="import" href="components/common/header.html?__inline">
+<div class="login" id="login" v-cloak>
+  <div class="set">
+    <div class="set-on color-1">登录</div>
+  </div>
+  <div class="wx-login">
+    <div class="top-logo"><img src="/wx/static/images/wx-logo.png"></div>
+    <div class="input-con">
+      <div class="loing-tab">
+        <ul>
+          <!--<li @click="currentIndex = index;" v-for="(item,index) in tab"-->
+          <!--:class="[{'fl': index == 0},{'fr': index == 1},{'selected-color': index == currentIndex},{'cancel-color': index != currentIndex}]">-->
+          <!--{{ item }}-->
+          <!--</li>-->
+          <li @click="currentIndex = index;" v-for="(item,index) in tab"
+              :class="[{'fr': index == 1},{'selected-color': index == currentIndex},{'cancel-color': index != currentIndex}]"
+              style="margin: auto;width: 100%;text-align: center;">
+            {{ item }}
+          </li>
+        </ul>
+        <!--<span class="liner"></span>-->
+      </div>
+      <template v-if="currentIndex == 0">
+        <div class="phone">
+          <input type="tel" placeholder="请输入手机号" class="input-style" v-model="form.phone">
+        </div>
+        <div class="phone">
+          <input type="password" placeholder="请输入密码" class="input-style" v-model="form.password">
+        </div>
+        <div class="forget"><a href="forget-password.html"> 忘记密码？</a></div>
+      </template>
+      <template v-else>
+        <div class="phone">
+          <input type="tel" placeholder="请输入手机号" class="input-style" v-model="form.phone">
+        </div>
+        <div class="number">
+          <input type="text" placeholder="请输入验证码" class="input-style" v-model="form.password">
+          <div class="yan" @click="sendCode">{{ sendSmsTime > 0 ? sendSmsTime : '发送验证码' }}</div>
+        </div>
+      </template>
+    </div>
+  </div>
+  <div class="but one" @click="submit">登录</div>
+  <div @click="goRegister" class="but two">注册</div>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#login',
+    data: {
+      form: {
+        phone: '',
+        password: '',
+      },
+      // tab: ['账号登录', '短信登录'],
+      tab: ['账号登录'],
+      currentIndex: 0,
+      sendSmsTime: 0,
+      sendSmsInterval: false
+    },
+    methods: {
+      submit: function () {
+        if (this.currentIndex == 0) {
+          if (this.verification()) {
+            this.passWordLogin();
+          }
+        } else {
+          if (this.verification()) {
+            this.codeLogin();
+          }
+        }
+      },
+      passWordLogin: function () {
+        http.post('login/index', {
+          cellphone: this.form.phone,
+          password: this.form.password,
+          type: tools.isWeChatBroswer() ? 25 : 20
+        }, function (data) {
+          stores.setUserObj(data);
+          tools.confirm('登录成功', 'success', false, function () {
+            tools.goBack();
+          });
+        })
+      },
+      codeLogin: function () {
+        http.post('login/captcha-index', {
+          cellphone: this.form.phone,
+          captcha: this.form.password,
+          type: tools.isWeChatBroswer() ? 25 : 20
+        }, function (data) {
+          stores.setUserObj(data);
+          tools.confirm('登录成功', 'success', false, function () {
+            tools.goBack();
+          });
+        })
+      },
+      // 发送验证码
+      sendCode: function () {
+        if (!this.form.phone) {
+          tools.alert('手机号不能为空', 'warning');
+          return false;
+        }
+        if (!/^1[3|4|5|7|8][0-9]{9}$/.test(this.form.phone)) {
+          tools.alert('手机格式不正确', 'warning');
+          return false;
+        }
+        http.post('login/fast-send-sms', {
+          cellphone: this.form.phone
+        }, function (data) {
+          vm.sendSmsTime = 60;
+          vm.sendSmsInterval = setInterval(function () {
+            vm.sendSmsTime--;
+            if (vm.sendSmsTime <= 0) {
+              clearInterval(vm.sendSmsInterval);
+            }
+          }, 1000);
+          tools.alert(data, 'success');
+        })
+      },
+      // 表单验证
+      verification: function () {
+        if (!this.form.phone) {
+          tools.alert('手机号不能为空', 'warning');
+          return false;
+        }
+        if (!/^1[3|4|5|7|8][0-9]{9}$/.test(this.form.phone)) {
+          tools.alert('手机格式不正确', 'warning');
+          return false;
+        }
+        if (!this.form.password) {
+          if (this.currentIndex == 0) {
+            tools.alert('密码不能为空', 'warning');
+            return false;
+          } else {
+            tools.alert('短信验证码不能为空', 'warning');
+            return false;
+          }
+        }
+        return true;
+      },
+      goRegister: function () {
+        window.location.href = window.location.origin + "/wx/register.html";
+      }
+    },
+    mounted: function () {
+
+    }
+  })
+</script>

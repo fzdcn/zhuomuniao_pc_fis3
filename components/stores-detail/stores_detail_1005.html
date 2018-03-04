@@ -1,0 +1,17 @@
+<div class="region_lever">
+  <ul>
+    <li v-for="item in otherFormAttributes[1005].formAttributes" class="fl">
+      <p class="p1">{{ item.label }}</p>
+      <select class="f16 c0" v-model="item.selected">
+        <option v-for="value in item.options" class="f16 c0" :value="value">{{ value }}</option>
+      </select>
+    </li>
+  </ul>
+</div>
+
+<div class="region_other clear">
+  <div class="other_select">
+    <i class="f36" style="color: red;">*</i>
+    <span class="f16 c0">其它可选</span>
+  </div>
+</div>

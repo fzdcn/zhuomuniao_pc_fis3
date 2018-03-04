@@ -1,0 +1,11 @@
+<!--搜索输入框-->
+<div class="search-content">
+  <div class="search-list">
+    <i class="search-img"></i>
+    <input v-model.trim="form.searchContent" class="search-input" type="text" name="search-content"
+           placeholder="请输入搜索关键字">
+    <img @click="back" src="/wx/static/images/back_black@2x.png">
+  </div>
+  <p v-if="form.searchContent" @click="search" class="cancel">搜索</p>
+  <p v-else @click="back" class="cancel">取消</p>
+</div>

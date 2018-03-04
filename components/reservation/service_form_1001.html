@@ -1,0 +1,224 @@
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/ser_choice.png" alt="">服务选择</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1001].serviceType='住家'"
+         :class="{on:otherFormAttributes[1001].serviceType=='住家'}"
+         href="javascript:void(0);">住家</a>
+      <a @click="otherFormAttributes[1001].serviceType='全日制'"
+         :class="{on:otherFormAttributes[1001].serviceType=='全日制'}"
+         href="javascript:void(0);">全日制</a>
+      <a @click="otherFormAttributes[1001].serviceType='医院24小时照料'"
+         :class="{on:otherFormAttributes[1001].serviceType=='医院24小时照料'}"
+         href="javascript:void(0);">医院24小时照料</a>
+      <a @click="otherFormAttributes[1001].serviceType='医院全日制'"
+         :class="{on:otherFormAttributes[1001].serviceType=='医院全日制'}"
+         href="javascript:void(0);">医院全日制</a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/ser_type.png" alt="">服务类别</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1001].serviceCategory='剖腹产'"
+         :class="{on:otherFormAttributes[1001].serviceCategory=='剖腹产'}"
+         href="javascript:void(0);">剖腹产</a>
+      <a @click="otherFormAttributes[1001].serviceCategory='顺产'"
+         :class="{on:otherFormAttributes[1001].serviceCategory=='顺产'}"
+         href="javascript:void(0);">顺产</a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/sex.png" alt="">宝宝性别</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1001].babySex='男'"
+         :class="{on:otherFormAttributes[1001].babySex=='男'}"
+         href="javascript:void(0);">男</a>
+      <a @click="otherFormAttributes[1001].babySex='女'"
+         :class="{on:otherFormAttributes[1001].babySex=='女'}"
+         href="javascript:void(0);">女</a>
+      <a @click="otherFormAttributes[1001].babySex='未知'"
+         :class="{on:otherFormAttributes[1001].babySex=='未知'}"
+         href="javascript:void(0);">未知</a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/zhu.png" alt="">月子周期</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1001].onfinementDate='30天'"
+         :class="{on:otherFormAttributes[1001].onfinementDate=='30天'}"
+         href="javascript:void(0);">30天</a>
+
+      <a @click="otherFormAttributes[1001].onfinementDate='50天'"
+         :class="{on:otherFormAttributes[1001].onfinementDate=='50天'}"
+         href="javascript:void(0);">50天</a>
+
+      <a href="javascript:void(0);" style="border: none;">
+        <label>预产期
+          <input class="f16 c666" id="date" type="text" placeholder="预产期" readonly>
+        </label>
+        <div id="result"></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/home_time.png" alt="">服务时间</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;" href="javascript:void(0);">
+        <label>开始日期
+          <input class="f16 c666" id="inpstart" type="text" placeholder="开始时间" readonly>
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>结束日期
+          <input class="f16 c666" id="inpend" type="text" placeholder="结束时间" readonly>
+        </label>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/level.png" alt="">月嫂级别</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a @click="otherFormAttributes[1001].level='初级'"
+         :class="{on:otherFormAttributes[1001].level=='初级'}"
+         href="javascript:void(0);">初级</a>
+
+      <a @click="otherFormAttributes[1001].level='中级'"
+         :class="{on:otherFormAttributes[1001].level=='中级'}"
+         href="javascript:void(0);">中级</a>
+
+      <a @click="otherFormAttributes[1001].level='高级'"
+         :class="{on:otherFormAttributes[1001].level=='高级'}"
+         href="javascript:void(0);">高级</a>
+
+      <a @click="otherFormAttributes[1001].level='特级'"
+         :class="{on:otherFormAttributes[1001].level=='特级'}"
+         href="javascript:void(0);">特级</a>
+
+      <a @click="otherFormAttributes[1001].level='金牌'"
+         :class="{on:otherFormAttributes[1001].level=='金牌'}"
+         href="javascript:void(0);">金牌</a>
+
+      <a style="border: none;" href="javascript:void(0);">
+        <p class="f16 cccc">*住家月嫂连续工作28天，如果特殊情况请提前告知</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div v-if="otherFormAttributes[1001].level" class="row clearfix">
+  <div class="title"><img src="/wx/static/images/charges.png" alt="">指导价格</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a class="on" href="javascript:void(0);">{{ maternityMatronPrice }}</a>
+      <a style="border: none;" href="javascript:void(0);">
+        <p class="f16 cccc">*元/月</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row clearfix">
+  <div class="title"><img src="/wx/static/images/other.png" alt="">其他可选</div>
+  <div class="content clearfix showHeight">
+    <div class="contentInner">
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1001].twinsExperience" name="twin" type="checkbox"/>
+          双胞胎经验
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <label>
+          <input class="f16 c666" v-model="otherFormAttributes[1001].pretermBirthExperience" name="premature"
+                 type="checkbox"/>
+          早产儿经验
+        </label>
+      </a>
+      <a style="border: none;" href="javascript:void(0);">
+        <p class="f16 cccc">*双胞胎月嫂服务对应级别另加1500元</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!--地址-->
+<div v-if="form.service_code">
+  <link rel="import" href="/components/reservation/service_address.html?__inline">
+</div>
+
+<div @click="tabToggle();" class="tabToggle">其它可选</div>
+<div class="houseKeepingToggle hide">
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/pet.png" alt="">是否有宠物</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1001].pet" value="大型犬" type="checkbox"/>
+            大型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1001].pet" value="小型犬" type="checkbox"/>
+            小型犬
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1001].pet" value="猫" type="checkbox"/>
+            猫
+          </label>
+        </a>
+        <a href="javascript:void(0);" style="border: none;">
+          <label>
+            <input class="f16 c666" v-model="otherFormAttributes[1001].pet" value="其它" type="checkbox"/>
+            其它
+          </label>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其它备注</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1001].petRemarks"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <div class="title"><img src="/wx/static/images/other.png" alt="">其他需求</div>
+    <div class="content clearfix showHeight">
+      <div class="contentInner">
+        <a style="border: none;">
+          <textarea class="f16 c666" v-model.trim="otherFormAttributes[1001].told"></textarea>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="requirement">家政员要求</div>
+  <div v-if="form.service_code">
+    <link rel="import" href="/components/reservation/common-form-attributes.html?__inline">
+  </div>
+</div>
+

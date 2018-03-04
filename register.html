@@ -1,0 +1,211 @@
+<link rel="import" href="/components/common/login_header.html?__inline">
+
+<!-- main主体内容 -->
+<div id="register" class="main">
+  <div class="main_content">
+    <!-- login -->
+    <div class="login_bg">
+      <div class="login_go">
+        <div class="login_mid" style="height: 475px;margin-top: -237.5px;">
+          <div class="login_logo">
+            <img src="/static/images/log_in_logo.png">
+          </div>
+          <div class="login_input">
+            <div class="user_login">
+              <!--<div class="user_tel textl">-->
+              <!--<label for="real_name" class="f14 c666">姓名</label>-->
+              <!--<input class="f14" v-model.trim="form.real_name" id="real_name" type="text" name="real_name"-->
+              <!--placeholder="请输入用户名">-->
+              <!--</div>-->
+              <div class="user_tel textl">
+                <label for="tel_input" class="f14 c666">手机号</label>
+                <input class="f14" v-model.trim="form.cellphone" id="tel_input" type="tel" name="user_tel"
+                       placeholder="请输入手机号">
+              </div>
+              <div class="messageNum textl">
+                <label for="messageNum_input" class="f14 c666">验证码</label>
+                <input class="f14" v-model.trim="form.verifyCode" id="messageNum_input" type="text" name="messageNum"
+                       placeholder="请输入短信验证码">
+                <button @click="sendSms" class="f14 cf">{{ sendSmsTime > 0 ? sendSmsTime : '获取验证码' }}</button>
+              </div>
+              <div class="user_tel textl">
+                <label for="password" class="f14 c666">密码</label>
+                <input class="f14" v-model.trim="form.password" id="password" type="password" name="password"
+                       placeholder="至少六位">
+              </div>
+              <!--<div class="user_tel textl">-->
+              <!--<label for="confirmPassword" class="f14 c666">确认密码</label>-->
+              <!--<input class="f14" v-model.trim="confirmPassword" id="confirmPassword" type="password"-->
+              <!--name="confirmPassword" placeholder="至少六位">-->
+              <!--</div>-->
+              <!--<div class="imgNum textl">-->
+              <!--<label for="imgNum_input" class="f14 c666">图形码</label>-->
+              <!--<input class="f14" v-model.trim="validate_code.inputValue" id="imgNum_input" type="text" name="imgNum"-->
+              <!--placeholder="请输入图形码">-->
+              <!--&lt;!&ndash;随机数加减判断值是否相等&ndash;&gt;-->
+              <!--&lt;!&ndash;<span class="img_num cf37746 f14 textaling">&ndash;&gt;-->
+              <!--&lt;!&ndash;{{ validate_code.attribute1 }}{{ validate_code.operate?'+':'-' }}{{ validate_code.attribute2 }}&ndash;&gt;-->
+              <!--&lt;!&ndash;</span>&ndash;&gt;-->
+              <!--&lt;!&ndash;<button @click="changeValidateCode" class="cf f14 btn_img">换一张</button>&ndash;&gt;-->
+              <!--<img @click="changeImgCode" :src="img" alt="图形码">-->
+              <!--</div>-->
+              <div class="btn_submit textaling">
+                <button @click="register" class="f20 cf">注册</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#register',
+    data: {
+      validate_code: {
+        attribute1: '',
+        attribute2: '',
+        operate: '',
+        inputValue: ''
+      },
+      sendSmsTime: 0,
+      sendSmsInterval: false,
+      confirmPassword: '',
+      form: {
+        // real_name: '',
+        cellphone: '',
+        password: '',
+        verifyCode: '',
+        type: 10
+      },
+      img: '',
+      uuid: ''
+    },
+    methods: {
+      //随机数加减判断值是否相等
+      /*
+       changeValidateCode: function () {
+       this.validate_code = {
+       attribute1: tools.getRandomNum(10, 99),
+       attribute2: tools.getRandomNum(10, 99),
+       operate: tools.getRandomNum(0, 1),
+       inputValue: ''
+       }
+       },
+       validateCode: function () {
+       var trueResult = -1;
+       if (this.validate_code.operate) {
+       trueResult = this.validate_code.attribute1 + this.validate_code.attribute2
+       } else {
+       trueResult = this.validate_code.attribute1 - this.validate_code.attribute2
+       }
+       return this.validate_code.inputValue == trueResult
+       },
+       */
+      changeImgCode: function () {
+        var num = this.getUuid();
+        this.uuid = num;
+        this.img = http.baseUrl + 'captcha/get?uuid=' + num;
+      },
+      sendSms: function () {
+        var vm = this;
+        if (!this.form.cellphone) {
+          tools.pcAlert('手机号不能为空', 'warning');
+          return false;
+        }
+        if (!/^1[0-9][0-9]{9}$/.test(this.form.cellphone)) {
+          tools.pcAlert('手机格式不正确', 'warning');
+          return false;
+        }
+        /*if (!this.validate_code.inputValue) {
+         tools.pcAlert('图片验证码不能为空', 'warning');
+         return false;
+         }*/
+        if (this.sendSmsTime <= 0) {
+          http.post('login/fast-send-sms', {
+            cellphone: vm.form.cellphone,
+            image_code: vm.validate_code.inputValue,
+            uuid: vm.uuid
+          }, function (data) {
+            vm.sendSmsTime = 60;
+            vm.sendSmsInterval = setInterval(function () {
+              vm.sendSmsTime--;
+              if (vm.sendSmsTime <= 0) {
+                clearInterval(vm.sendSmsInterval);
+              }
+            }, 1000);
+            tools.pcAlert(data, 'success');
+          })
+        }
+      },
+      register: function () {
+        if (this.verification() && this.sms()) {
+          http.post('login/register', this.form, function (data) {
+            tools.confirm('注册成功', 'success', false, function () {
+              window.location.href = window.location.origin + "/login.html";
+            })
+          })
+        }
+      },
+      // 表单验证
+      verification: function () {
+        /*if (!this.form.real_name) {
+         tools.pcAlert('用户名不能为空', 'warning');
+         return false;
+         }*/
+        if (!this.form.cellphone) {
+          tools.pcAlert('手机号不能为空', 'warning');
+          return false;
+        }
+        if (!/^1[0-9][0-9]{9}$/.test(this.form.cellphone)) {
+          tools.pcAlert('手机格式不正确', 'warning');
+          return false;
+        }
+        if (!this.form.password) {
+          tools.pcAlert('密码不能为空', 'warning');
+          return false;
+        }
+        if (this.form.password.length < 6) {
+          tools.pcAlert('密码长度小于六位', 'warning');
+          return false;
+        }
+        /*if (!this.confirmPassword) {
+         tools.pcAlert('确认密码不能为空', 'warning');
+         return false;
+         }
+         if (this.confirmPassword < 6) {
+         tools.pcAlert('确认密码长度小于六位', 'warning');
+         return false;
+         }
+         if (this.form.password != this.confirmPassword) {
+         tools.pcAlert('两次密码不一致', 'warning');
+         return false;
+         }
+         if (!this.validate_code.inputValue) {
+         tools.pcAlert('图形码不能为空', 'warning');
+         return false;
+         }*/
+        return true;
+      },
+      sms: function () {
+        if (!this.form.verifyCode) {
+          tools.pcAlert('验证码不能为空', 'warning');
+          return false;
+        }
+        return true;
+      },
+      getUuid: function () {
+        return Date.parse(new Date());
+      }
+    },
+    created: function () {
+      var num = this.getUuid();
+      this.uuid = num;
+      this.img = http.baseUrl + 'captcha/get?uuid=' + num;
+    }
+  })
+</script>
+
+<link rel="import" href="/components/common/footer.html?__inline">
